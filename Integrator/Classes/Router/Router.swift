@@ -5,7 +5,6 @@
 //
 //  Created by Eduardo Bocato on 01/02/19.
 //  Copyright © 2019 Eduardo Bocato. All rights reserved.
-//  OBS: Based on XRouter
 //
 
 import UIKit
@@ -54,7 +53,8 @@ public protocol RouterProtocol {
     ///   - url: And URL that can be parsed to a pre-define route
     ///   - animated: true or false, as the systems default
     ///   - completion: callback to identify if the navigation was successfull
-    func navigate(with url: URL, animated: Bool, completion: ((Error?) -> Void)?)
+    @discardableResult
+    func navigate(with url: URL, animated: Bool, completion: ((Error?) -> Void)?) -> Bool
 }
 
 public class Router: RouterProtocol {
@@ -116,8 +116,19 @@ public class Router: RouterProtocol {
     ///         This should be used as input for the application, or from a module to another...
     ///         Avoid using it for all the internal navigation flow, try to use enums on this case.
     ///
-    open func navigate(with url: URL, animated: Bool = true, completion: ((Error?) -> Void)?) {
-        
+    @discardableResult
+    open func navigate(with url: URL, animated: Bool = true, completion: ((Error?) -> Void)?) -> Bool {
+        do {
+            guard let route = try findMatchingRoute(for: url) else {
+                completion?(nil) // No matching route
+                return false
+            }
+            navigate(to: route, animated: animated, completion: completion)
+            return true
+        } catch {
+            completion?(error) // error finding the route
+        }
+        return false
     }
     
     // MARK: - Implementation
