@@ -129,13 +129,8 @@
 		E55B81F02204835600C0ED7B /* Integrator */ = {
 			isa = PBXGroup;
 			children = (
-				E55B821F2204836100C0ED7B /* Classes */,
-				E55B81F12204835600C0ED7B /* AppDelegate.swift */,
-				E55B81F32204835600C0ED7B /* ViewController.swift */,
-				E55B81F52204835600C0ED7B /* Main.storyboard */,
-				E55B81F82204835800C0ED7B /* Assets.xcassets */,
-				E55B81FA2204835800C0ED7B /* LaunchScreen.storyboard */,
-				E55B81FD2204835800C0ED7B /* Info.plist */,
+				E55B821F2204836100C0ED7B /* IntegratorLib */,
+				E55B82472208CAAE00C0ED7B /* Example */,
 			);
 			path = Integrator;
 			sourceTree = "<group>";
@@ -158,14 +153,14 @@
 			path = IntegratorUITests;
 			sourceTree = "<group>";
 		};
-		E55B821F2204836100C0ED7B /* Classes */ = {
+		E55B821F2204836100C0ED7B /* IntegratorLib */ = {
 			isa = PBXGroup;
 			children = (
 				E55B823B2205005200C0ED7B /* Extensions */,
 				E55B82232204838B00C0ED7B /* Router */,
 				E55B82222204838500C0ED7B /* Integrator */,
 			);
-			path = Classes;
+			path = IntegratorLib;
 			sourceTree = "<group>";
 		};
 		E55B82222204838500C0ED7B /* Integrator */ = {
@@ -211,6 +206,51 @@
 				E55B824222089A2400C0ED7B /* UIViewControllerExtensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		E55B82472208CAAE00C0ED7B /* Example */ = {
+			isa = PBXGroup;
+			children = (
+				E55B82482208CAC500C0ED7B /* Application */,
+				E55B82492208CACE00C0ED7B /* ViewControllers */,
+				E55B824A2208CADB00C0ED7B /* Storyboards */,
+				E55B824B2208CAF900C0ED7B /* SupportingFiles */,
+			);
+			path = Example;
+			sourceTree = "<group>";
+		};
+		E55B82482208CAC500C0ED7B /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				E55B81F12204835600C0ED7B /* AppDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		E55B82492208CACE00C0ED7B /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				E55B81F32204835600C0ED7B /* ViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		E55B824A2208CADB00C0ED7B /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				E55B81F52204835600C0ED7B /* Main.storyboard */,
+				E55B81FA2204835800C0ED7B /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		E55B824B2208CAF900C0ED7B /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				E55B81F82204835800C0ED7B /* Assets.xcassets */,
+				E55B81FD2204835800C0ED7B /* Info.plist */,
+			);
+			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -538,7 +578,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SZSQ274898;
-				INFOPLIST_FILE = Integrator/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Integrator/Example/SupportingFiles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -556,7 +596,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SZSQ274898;
-				INFOPLIST_FILE = Integrator/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Integrator/Example/SupportingFiles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
