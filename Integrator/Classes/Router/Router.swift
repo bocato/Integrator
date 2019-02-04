@@ -23,7 +23,7 @@ public protocol RouterProtocol {
     var tabBarControllerr: UITabBarController? { get }
     
     /// The routes for this router
-    var route: Route { get }
+    var routes: RouteProvider { get }
     
     /// Custom transition delegate
     var customTransitionDelegate: RouterCustomTransitionDelegate? { get set }
@@ -34,7 +34,7 @@ public protocol RouterProtocol {
     ///
     /// - Parameter rootViewController: the controller that marks the start of the flow
     ///   - route: the routes enum for this flow
-    init(rootViewController: UIViewController, route: Route)
+    init(rootViewController: UIViewController, routes: RouteProvider)
     
     // MARK: - Navigation Methods
   
@@ -44,7 +44,7 @@ public protocol RouterProtocol {
     ///   - route: an enum defining the possible routes
     ///   - animated: true or false, as the systems default
     ///   - completion: callback to identify if the navigation was successfull
-    func navigate(to route: Route, animated: Bool, completion: ((Error?) -> Void)?)
+    func navigate(to route: RouteProvider, animated: Bool, completion: ((Error?) -> Void)?)
     
     
     /// Navigate
@@ -75,18 +75,18 @@ public class Router: RouterProtocol {
     }
     
     /// The pre-defined routes
-    public let route: Route
+    public let routes: RouteProvider
     
     /// Custom transition delegate
     public weak var customTransitionDelegate: RouterCustomTransitionDelegate?
     
     /// Register url matcher group
-    private lazy var urlMatcherGroup: URLMatcher.Group? = route.registerURLs()
+    private lazy var urlMatcherGroup: URLMatcher.Group? = routes.registerURLs()
     
     // MARK: - Initialization
-    required public init(rootViewController: UIViewController, route: Route) {
+    required public init(rootViewController: UIViewController, routes: RouteProvider) {
         self.rootViewController = rootViewController
-        self.route = route
+        self.routes = routes
     }
  
     // MARK: - Navigation Methods
@@ -96,7 +96,7 @@ public class Router: RouterProtocol {
     /// - Note: Has no effect if the destination view controller is the view controller
     ///         or navigation controller you are presently on.
     ///
-    open func navigate(to route: Route, animated: Bool = true, completion: ((Error?) -> Void)? = nil) {
+    open func navigate(to route: RouteProvider, animated: Bool = true, completion: ((Error?) -> Void)? = nil) {
         prepareForNavigation(to: route, animated: animated, successHandler: { (source, destination) in
             self.performNavigation(from: source,
                                    to: destination,
@@ -142,7 +142,7 @@ public class Router: RouterProtocol {
     ///
     /// - Note: The completion block will not execute if we could not find a route
     ///
-    private func prepareForNavigation(to route: Route,
+    private func prepareForNavigation(to route: RouteProvider,
                                       animated: Bool,
                                       successHandler: @escaping (_ source: UIViewController, _ destination: UIViewController) -> Void,
                                       errorHandler: @escaping (Error) -> Void) {
@@ -233,7 +233,7 @@ public class Router: RouterProtocol {
     /// - Note: This method throws an error when the route is mapped
     ///         but the mapping fails.
     ///
-    private func findMatchingRoute(for url: URL) throws -> Route? {
+    private func findMatchingRoute(for url: URL) throws -> RouteProvider? {
         guard let urlMatcherGroup = urlMatcherGroup else { return nil }
         for urlMatcher in urlMatcherGroup.matchers {
             if let route = try urlMatcher.match(url: url) {

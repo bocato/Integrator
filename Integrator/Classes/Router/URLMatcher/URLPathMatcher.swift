@@ -17,26 +17,26 @@ public class URLPathMatcher {
     // MARK: - Properties
     
     /// Dynamic path patterns
-    private var dynamicPathPatterns = [PathPattern: ((MatchedURL) throws -> Route)]()
+    private var dynamicPathPatterns = [PathPattern: ((MatchedURL) throws -> RouteProvider)]()
     
     /// Simple path patterns
-    private var staticPathPatterns = [PathPattern: (() throws -> Route)]()
+    private var staticPathPatterns = [PathPattern: (() throws -> RouteProvider)]()
     
     // MARK: - Methods
     
     /// Map a path to a route
     /// - Note: With the `MatchedURL` passed as a parameter in the callback
-    public func map(_ pathPattern: PathPattern, _ route: @escaping (MatchedURL) throws -> Route) {
+    public func map(_ pathPattern: PathPattern, _ route: @escaping (MatchedURL) throws -> RouteProvider) {
         dynamicPathPatterns[pathPattern] = route
     }
     
     /// Map a path to a route
-    public func map(_ pathPattern: PathPattern, _ route: @escaping () throws -> Route) {
+    public func map(_ pathPattern: PathPattern, _ route: @escaping () throws -> RouteProvider) {
         staticPathPatterns[pathPattern] = route
     }
     
     /// Match a Route from a URL
-    internal func match(_ url: URL) throws -> Route? {
+    internal func match(_ url: URL) throws -> RouteProvider? {
     
         // Check for matches on all static paths
         for (pattern, route) in staticPathPatterns {

@@ -1,5 +1,5 @@
 //
-//  Route.swift
+//  RouteProvider.swift
 //  Integrator
 //
 //  Created by Eduardo Bocato on 01/02/19.
@@ -9,7 +9,7 @@
 
 import UIKit
 
-public protocol Route { // ENUM
+public protocol RouteProvider { // ENUM
     
     /// Route name
     var name: String { get }
@@ -43,7 +43,7 @@ public protocol Route { // ENUM
     
 }
 
-public extension Route {
+public extension RouteProvider {
     
     /// Route name, `login(username: String, password: String)` will become `login`
     public var name: String {

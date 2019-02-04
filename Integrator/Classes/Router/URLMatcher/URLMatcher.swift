@@ -59,7 +59,7 @@ public class URLMatcher {
     // MARK: - Implementation
     
     /// Match a URL to one of the paths, for any host.
-    internal func match(url: URL) throws -> Route? {
+    internal func match(url: URL) throws -> RouteProvider? {
         guard let host = url.host, hosts.contains(host) else {
             return nil
         }
