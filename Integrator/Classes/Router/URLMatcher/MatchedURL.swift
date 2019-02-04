@@ -15,7 +15,7 @@ import Foundation
  Used for shortcuts when mapping registered URLs routes.
  
  - Note: For use when handling routing parameters.
- - See: `RouteProvider.registerURLs(...)` // TODO: Change this documentation
+ - See: `Route.registerURLs(...)`
  */
 public class MatchedURL {
     

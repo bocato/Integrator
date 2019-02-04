@@ -91,8 +91,7 @@ public class Router: RouterProtocol {
  
     // MARK: - Navigation Methods
     
-    ///
-    /// Navigate to a Route, using the route
+    /// Navigate, using the route enum
     ///
     /// - Note: Has no effect if the destination view controller is the view controller
     ///         or navigation controller you are presently on.
@@ -109,12 +108,14 @@ public class Router: RouterProtocol {
         })
     }
     
-    /// <#Description#>
+    /// Navigate matching an URL to a pre-defined route
     ///
-    /// - Parameters:
-    ///   - url: <#url description#>
-    ///   - animated: <#animated description#>
-    ///   - completion: <#completion description#>
+    /// - Description: Open a URL to a route.
+    ///
+    /// - Note: Register your URL mappings in your `Route` by implementing the method `registerURLs`.
+    ///         This should be used as input for the application, or from a module to another...
+    ///         Avoid using it for all the internal navigation flow, try to use enums on this case.
+    ///
     open func navigate(with url: URL, animated: Bool = true, completion: ((Error?) -> Void)?) {
         
     }
