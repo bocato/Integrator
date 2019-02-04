@@ -4,6 +4,7 @@
 //
 //  Created by Eduardo Bocato on 01/02/19.
 //  Copyright © 2019 Eduardo Bocato. All rights reserved.
+//  OBS: Based on XRouter
 //
 
 import Foundation
@@ -90,16 +91,6 @@ extension RouterError: LocalizedError {
             The value that was received was \"\(stringValue)\", which could not be cast to `Int`.
             """
         }
-    }
-    
-    /// A localized message describing the reason for the failure.
-    public var failureReason: String? {
-        return errorDescription
-    }
-    
-    /// A localized message providing "help" text if the user requests help.
-    public var helpAnchor: String? {
-        return nil // Not implemented
     }
     
 }

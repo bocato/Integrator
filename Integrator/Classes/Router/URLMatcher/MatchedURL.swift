@@ -4,6 +4,7 @@
 //
 //  Created by Eduardo Bocato on 01/02/19.
 //  Copyright © 2019 Eduardo Bocato. All rights reserved.
+//  OBS: Based on XRouter
 //
 
 import Foundation
@@ -14,7 +15,7 @@ import Foundation
  Used for shortcuts when mapping registered URLs routes.
  
  - Note: For use when handling routing parameters.
- - See: `RouteProvider.registerURLs(...)`
+ - See: `RouteProvider.registerURLs(...)` // TODO: Change this documentation
  */
 public class MatchedURL {
     
@@ -24,16 +25,10 @@ public class MatchedURL {
     /// Query string parameter shortcuts
     private lazy var queryItems: [String: String] = {
         var queryItems = [String: String]()
-        
-        if let parts = URLComponents(url: rawURL, resolvingAgainstBaseURL: false),
-            let queryParts = parts.queryItems {
-            for queryPart in queryParts {
-                if let value = queryPart.value {
-                    queryItems[queryPart.name] = value
-                }
-            }
-        }
-        
+        URLComponents(url: rawURL, resolvingAgainstBaseURL: false)?
+            .queryItems?
+            .filter { $0.value != nil }
+            .forEach { queryItems[$0.name] = $0.value }
         return queryItems
     }()
     
@@ -50,22 +45,19 @@ public class MatchedURL {
     
     /// Retrieve a named parameter as a `String`
     public func param(_ name: String) throws -> String {
-        if let parameter = parameters[name] {
-            return parameter
+        guard let parameter = parameters[name] else {
+            throw RouterError.missingRequiredParameterWhileUnwrappingURLRoute(parameter: name)
         }
-        
-        throw RouterError.missingRequiredParameterWhileUnwrappingURLRoute(parameter: name)
+        return parameter
     }
     
     /// Retrieve a named parameter as an `Int`
     public func param(_ name: String) throws -> Int {
         let stringParam: String = try param(name)
-        
-        if let intParam = Int(stringParam) {
-            return intParam
+        guard let intParam = Int(stringParam) else {
+            throw RouterError.requiredIntegerParameterWasNotAnInteger(parameter: name, stringValue: stringParam)
         }
-        
-        throw RouterError.requiredIntegerParameterWasNotAnInteger(parameter: name, stringValue: stringParam)
+        return intParam
     }
     
     /// Retrieve a query string parameter as a `String`
@@ -75,11 +67,8 @@ public class MatchedURL {
     
     /// Retrieve a query string parameter as an `Int`
     public func query(_ name: String) -> Int? {
-        if let queryItem = queryItems[name] {
-            return Int(queryItem)
-        }
-        
-        return nil
+        guard let queryItem = queryItems[name] else { return nil }
+        return Int(queryItem)
     }
     
 }

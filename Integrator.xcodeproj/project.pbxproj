@@ -25,6 +25,11 @@
 		E55B82362204AB3A00C0ED7B /* PathPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82352204AB3A00C0ED7B /* PathPattern.swift */; };
 		E55B82382204AB6000C0ED7B /* PathPattern+Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82372204AB6000C0ED7B /* PathPattern+Component.swift */; };
 		E55B823A2204ABA100C0ED7B /* MatchedURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82392204ABA100C0ED7B /* MatchedURL.swift */; };
+		E55B823D2205006300C0ED7B /* CollectionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B823C2205006300C0ED7B /* CollectionExtensions.swift */; };
+		E55B823F220899BF00C0ED7B /* UINavigationControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B823E220899BF00C0ED7B /* UINavigationControllerExtensions.swift */; };
+		E55B8241220899E800C0ED7B /* UITabBarControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B8240220899E800C0ED7B /* UITabBarControllerExtensions.swift */; };
+		E55B824322089A2400C0ED7B /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B824222089A2400C0ED7B /* UIViewControllerExtensions.swift */; };
+		E55B82452208A9F100C0ED7B /* RouterCustomTransitionDelegateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82442208A9F100C0ED7B /* RouterCustomTransitionDelegateProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +74,11 @@
 		E55B82352204AB3A00C0ED7B /* PathPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathPattern.swift; sourceTree = "<group>"; };
 		E55B82372204AB6000C0ED7B /* PathPattern+Component.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PathPattern+Component.swift"; sourceTree = "<group>"; };
 		E55B82392204ABA100C0ED7B /* MatchedURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchedURL.swift; sourceTree = "<group>"; };
+		E55B823C2205006300C0ED7B /* CollectionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionExtensions.swift; sourceTree = "<group>"; };
+		E55B823E220899BF00C0ED7B /* UINavigationControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationControllerExtensions.swift; sourceTree = "<group>"; };
+		E55B8240220899E800C0ED7B /* UITabBarControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITabBarControllerExtensions.swift; sourceTree = "<group>"; };
+		E55B824222089A2400C0ED7B /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
+		E55B82442208A9F100C0ED7B /* RouterCustomTransitionDelegateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterCustomTransitionDelegateProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +161,7 @@
 		E55B821F2204836100C0ED7B /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				E55B823B2205005200C0ED7B /* Extensions */,
 				E55B82232204838B00C0ED7B /* Router */,
 				E55B82222204838500C0ED7B /* Integrator */,
 			);
@@ -173,6 +184,7 @@
 				E55B8228220487EA00C0ED7B /* RouteTransition.swift */,
 				E55B8224220483F500C0ED7B /* Router.swift */,
 				E55B8226220487AA00C0ED7B /* RouterError.swift */,
+				E55B82442208A9F100C0ED7B /* RouterCustomTransitionDelegateProtocol.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -188,6 +200,17 @@
 				E55B82392204ABA100C0ED7B /* MatchedURL.swift */,
 			);
 			path = URLMatcher;
+			sourceTree = "<group>";
+		};
+		E55B823B2205005200C0ED7B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				E55B823C2205006300C0ED7B /* CollectionExtensions.swift */,
+				E55B823E220899BF00C0ED7B /* UINavigationControllerExtensions.swift */,
+				E55B8240220899E800C0ED7B /* UITabBarControllerExtensions.swift */,
+				E55B824222089A2400C0ED7B /* UIViewControllerExtensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -322,14 +345,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				E55B8229220487EA00C0ED7B /* RouteTransition.swift in Sources */,
+				E55B824322089A2400C0ED7B /* UIViewControllerExtensions.swift in Sources */,
+				E55B823D2205006300C0ED7B /* CollectionExtensions.swift in Sources */,
 				E55B82342204AAFC00C0ED7B /* URLPathMatcher.swift in Sources */,
 				E55B8225220483F500C0ED7B /* Router.swift in Sources */,
 				E55B823A2204ABA100C0ED7B /* MatchedURL.swift in Sources */,
 				E55B81F42204835600C0ED7B /* ViewController.swift in Sources */,
 				E55B81F22204835600C0ED7B /* AppDelegate.swift in Sources */,
+				E55B8241220899E800C0ED7B /* UITabBarControllerExtensions.swift in Sources */,
 				E55B8227220487AA00C0ED7B /* RouterError.swift in Sources */,
 				E55B822B2204880800C0ED7B /* Route.swift in Sources */,
+				E55B82452208A9F100C0ED7B /* RouterCustomTransitionDelegateProtocol.swift in Sources */,
 				E55B82382204AB6000C0ED7B /* PathPattern+Component.swift in Sources */,
+				E55B823F220899BF00C0ED7B /* UINavigationControllerExtensions.swift in Sources */,
 				E55B82302204AA7B00C0ED7B /* URLMatcher.swift in Sources */,
 				E55B82362204AB3A00C0ED7B /* PathPattern.swift in Sources */,
 				E55B82322204AAC600C0ED7B /* URLMatcher+Group.swift in Sources */,

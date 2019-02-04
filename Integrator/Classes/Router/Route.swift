@@ -4,6 +4,7 @@
 //
 //  Created by Eduardo Bocato on 01/02/19.
 //  Copyright © 2019 Eduardo Bocato. All rights reserved.
+//  OBS: Based on XRouter
 //
 
 import UIKit
@@ -46,7 +47,7 @@ public extension Route {
     
     /// Route name, `login(username: String, password: String)` will become `login`
     public var name: String {
-        return String(describing: self).components(separatedBy: "(").first ?? "RouteName"
+        return String(describing: self).components(separatedBy: "(")[0]
     }
     
     /// Register URLs default

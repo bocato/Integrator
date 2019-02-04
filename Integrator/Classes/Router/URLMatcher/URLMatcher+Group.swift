@@ -4,6 +4,7 @@
 //
 //  Created by Eduardo Bocato on 01/02/19.
 //  Copyright © 2019 Eduardo Bocato. All rights reserved.
+//  OBS: Based on XRouter
 //
 
 import Foundation
@@ -20,13 +21,13 @@ public extension URLMatcher {
         
         /// Set a group of mapped paths for some hosts
         public static func group(_ hosts: [String],
-                                 _ mapPathsClosure: (URLPathMatcher) -> Void) -> URLMatcherGroup {
+                                 _ mapPathsClosure: MapPathsClosure) -> Group {
             return .init(matchers: [URLMatcher(hosts: hosts, mapPathsClosure)])
         }
         
         /// Set a group of mapped paths for a host
         public static func group(_ host: String,
-                                 _ mapPathsClosure: (URLPathMatcher) -> Void) -> URLMatcherGroup {
+                                 _ mapPathsClosure: MapPathsClosure) -> Group {
             return group([host], mapPathsClosure)
         }
         

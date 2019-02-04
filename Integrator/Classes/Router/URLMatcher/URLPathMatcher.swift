@@ -4,6 +4,7 @@
 //
 //  Created by Eduardo Bocato on 01/02/19.
 //  Copyright © 2019 Eduardo Bocato. All rights reserved.
+//  OBS: Based on XRouter
 //
 
 import Foundation
@@ -13,11 +14,15 @@ import Foundation
  */
 public class URLPathMatcher {
     
+    // MARK: - Properties
+    
     /// Dynamic path patterns
     private var dynamicPathPatterns = [PathPattern: ((MatchedURL) throws -> Route)]()
     
     /// Simple path patterns
     private var staticPathPatterns = [PathPattern: (() throws -> Route)]()
+    
+    // MARK: - Methods
     
     /// Map a path to a route
     /// - Note: With the `MatchedURL` passed as a parameter in the callback
@@ -32,6 +37,7 @@ public class URLPathMatcher {
     
     /// Match a Route from a URL
     internal func match(_ url: URL) throws -> Route? {
+    
         // Check for matches on all static paths
         for (pattern, route) in staticPathPatterns {
             if match(pattern, url) != nil {
