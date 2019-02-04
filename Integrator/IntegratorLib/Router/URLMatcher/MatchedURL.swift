@@ -19,6 +19,10 @@ import Foundation
  */
 public class MatchedURL {
     
+    //
+    // MARK: - Properties
+    //
+    
     /// Associated URL
     public let rawURL: URL
     
@@ -35,13 +39,19 @@ public class MatchedURL {
     /// Path parameters storage
     private let parameters: [String: String]
     
-    // MARK: - Methods
+    //
+    // MARK: - Initialization
+    //
     
     /// Initialiser
     init(for url: URL, namedParameters: [String: String]) {
         self.rawURL = url
         self.parameters = namedParameters
     }
+    
+    //
+    // MARK: - Methods
+    //
     
     /// Retrieve a named parameter as a `String`
     public func param(_ name: String) throws -> String {

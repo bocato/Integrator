@@ -14,7 +14,9 @@ import Foundation
  */
 public enum RouterError {
     
+    //
     // MARK: - Errors
+    //
     
     /// Used a custom transition but no custom transition delegate was set
     case missingCustomTransitionDelegate
@@ -36,7 +38,9 @@ public enum RouterError {
 
 extension RouterError: LocalizedError {
     
+    //
     // MARK: - LocalizedError
+    //
     
     /// A localized message describing what error occurred.
     public var errorDescription: String? {

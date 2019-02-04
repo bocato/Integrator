@@ -11,13 +11,19 @@ import UIKit
 
 public protocol RouteProvider { // ENUM
     
+    //
+    // MARK: - Properties
+    //
+    
     /// Route name
     var name: String { get }
     
     /// Transition type
     var transition: RouteTransition { get }
     
+    //
     // MARK: - Methods
+    //
     
     ///
     /// Prepare the route for transition and return the view controller

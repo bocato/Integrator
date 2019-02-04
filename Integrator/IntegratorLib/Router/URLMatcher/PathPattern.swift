@@ -25,7 +25,9 @@ import Foundation
  */
 public class PathPattern: ExpressibleByStringLiteral, Hashable {
     
+    //
     // MARK: - Properties
+    //
     
     /// Get the individual parts
     public lazy var components: [Component] = {
@@ -37,7 +39,9 @@ public class PathPattern: ExpressibleByStringLiteral, Hashable {
     /// Raw string value
     private let rawValue: String
     
+    //
     // MARK: - Methods
+    //
     
     ///
     /// Initialize with string literal
@@ -50,7 +54,9 @@ public class PathPattern: ExpressibleByStringLiteral, Hashable {
         rawValue = stringLiteral
     }
     
+    //
     // MARK: - Hashable
+    //
     
     /// Hashable
     public var hashValue: Int {
@@ -62,7 +68,9 @@ public class PathPattern: ExpressibleByStringLiteral, Hashable {
         return lhs.rawValue == rhs.rawValue
     }
     
+    //
     // MARK: - Implementation
+    //
     
     /// Get the `Component` for some string
     private func component(for string: String) -> Component {

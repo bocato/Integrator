@@ -14,7 +14,9 @@ import Foundation
  */
 public enum RouteTransition {
     
+    //
     // MARK: - Transitions
+    //
     
     ///
     /// Uses `UINavigationController(_:).pushViewController(_:animated:)`.
@@ -57,7 +59,9 @@ public enum RouteTransition {
 
 extension RouteTransition {
     
+    //
     // MARK: - Properties
+    //
     
     /// Transition name
     /// - Example: `.custom(identifier: "myTransition")` becomes "myTransition"
@@ -72,7 +76,9 @@ extension RouteTransition {
 
 extension RouteTransition: Equatable {
     
+    //
     // MARK: - Equatable
+    //
     
     /// Equatable (compares on `name`)
     public static func == (_ lhs: RouteTransition, _ rhs: RouteTransition) -> Bool {

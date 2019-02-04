@@ -14,7 +14,9 @@ import UIKit
  */
 public protocol RouterCustomTransitionDelegate: class {
     
+    //
     // MARK: - Delegate methods
+    //
     
     /// Perform a custom transition
     func performTransition(to viewController: UIViewController,

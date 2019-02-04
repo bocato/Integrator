@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		E55B81F22204835600C0ED7B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B81F12204835600C0ED7B /* AppDelegate.swift */; };
-		E55B81F42204835600C0ED7B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B81F32204835600C0ED7B /* ViewController.swift */; };
-		E55B81F72204835600C0ED7B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E55B81F52204835600C0ED7B /* Main.storyboard */; };
 		E55B81F92204835800C0ED7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E55B81F82204835800C0ED7B /* Assets.xcassets */; };
 		E55B81FC2204835800C0ED7B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E55B81FA2204835800C0ED7B /* LaunchScreen.storyboard */; };
 		E55B82072204835800C0ED7B /* IntegratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82062204835800C0ED7B /* IntegratorTests.swift */; };
@@ -30,6 +28,13 @@
 		E55B8241220899E800C0ED7B /* UITabBarControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B8240220899E800C0ED7B /* UITabBarControllerExtensions.swift */; };
 		E55B824322089A2400C0ED7B /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B824222089A2400C0ED7B /* UIViewControllerExtensions.swift */; };
 		E55B82452208A9F100C0ED7B /* RouterCustomTransitionDelegateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82442208A9F100C0ED7B /* RouterCustomTransitionDelegateProtocol.swift */; };
+		E55B82572208D52800C0ED7B /* AppRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82562208D52800C0ED7B /* AppRoutes.swift */; };
+		E55B825C2208D64D00C0ED7B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B825A2208D64D00C0ED7B /* LoginViewController.swift */; };
+		E55B825D2208D64D00C0ED7B /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E55B825B2208D64D00C0ED7B /* LoginViewController.xib */; };
+		E55B82602208D65C00C0ED7B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B825E2208D65C00C0ED7B /* HomeViewController.swift */; };
+		E55B82612208D65C00C0ED7B /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E55B825F2208D65C00C0ED7B /* HomeViewController.xib */; };
+		E55B82642208D66A00C0ED7B /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82622208D66A00C0ED7B /* ProfileViewController.swift */; };
+		E55B82652208D66A00C0ED7B /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E55B82632208D66A00C0ED7B /* ProfileViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,8 +57,6 @@
 /* Begin PBXFileReference section */
 		E55B81EE2204835600C0ED7B /* Integrator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Integrator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E55B81F12204835600C0ED7B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E55B81F32204835600C0ED7B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		E55B81F62204835600C0ED7B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E55B81F82204835800C0ED7B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E55B81FB2204835800C0ED7B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E55B81FD2204835800C0ED7B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -79,6 +82,13 @@
 		E55B8240220899E800C0ED7B /* UITabBarControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITabBarControllerExtensions.swift; sourceTree = "<group>"; };
 		E55B824222089A2400C0ED7B /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
 		E55B82442208A9F100C0ED7B /* RouterCustomTransitionDelegateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterCustomTransitionDelegateProtocol.swift; sourceTree = "<group>"; };
+		E55B82562208D52800C0ED7B /* AppRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRoutes.swift; sourceTree = "<group>"; };
+		E55B825A2208D64D00C0ED7B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		E55B825B2208D64D00C0ED7B /* LoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
+		E55B825E2208D65C00C0ED7B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		E55B825F2208D65C00C0ED7B /* HomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
+		E55B82622208D66A00C0ED7B /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		E55B82632208D66A00C0ED7B /* ProfileViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,7 +223,6 @@
 			children = (
 				E55B82482208CAC500C0ED7B /* Application */,
 				E55B82492208CACE00C0ED7B /* ViewControllers */,
-				E55B824A2208CADB00C0ED7B /* Storyboards */,
 				E55B824B2208CAF900C0ED7B /* SupportingFiles */,
 			);
 			path = Example;
@@ -223,6 +232,7 @@
 			isa = PBXGroup;
 			children = (
 				E55B81F12204835600C0ED7B /* AppDelegate.swift */,
+				E55B82562208D52800C0ED7B /* AppRoutes.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -230,23 +240,20 @@
 		E55B82492208CACE00C0ED7B /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				E55B81F32204835600C0ED7B /* ViewController.swift */,
+				E55B825A2208D64D00C0ED7B /* LoginViewController.swift */,
+				E55B825B2208D64D00C0ED7B /* LoginViewController.xib */,
+				E55B825E2208D65C00C0ED7B /* HomeViewController.swift */,
+				E55B825F2208D65C00C0ED7B /* HomeViewController.xib */,
+				E55B82622208D66A00C0ED7B /* ProfileViewController.swift */,
+				E55B82632208D66A00C0ED7B /* ProfileViewController.xib */,
 			);
 			path = ViewControllers;
-			sourceTree = "<group>";
-		};
-		E55B824A2208CADB00C0ED7B /* Storyboards */ = {
-			isa = PBXGroup;
-			children = (
-				E55B81F52204835600C0ED7B /* Main.storyboard */,
-				E55B81FA2204835800C0ED7B /* LaunchScreen.storyboard */,
-			);
-			path = Storyboards;
 			sourceTree = "<group>";
 		};
 		E55B824B2208CAF900C0ED7B /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
+				E55B81FA2204835800C0ED7B /* LaunchScreen.storyboard */,
 				E55B81F82204835800C0ED7B /* Assets.xcassets */,
 				E55B81FD2204835800C0ED7B /* Info.plist */,
 			);
@@ -359,7 +366,9 @@
 			files = (
 				E55B81FC2204835800C0ED7B /* LaunchScreen.storyboard in Resources */,
 				E55B81F92204835800C0ED7B /* Assets.xcassets in Resources */,
-				E55B81F72204835600C0ED7B /* Main.storyboard in Resources */,
+				E55B825D2208D64D00C0ED7B /* LoginViewController.xib in Resources */,
+				E55B82652208D66A00C0ED7B /* ProfileViewController.xib in Resources */,
+				E55B82612208D65C00C0ED7B /* HomeViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,18 +397,21 @@
 				E55B824322089A2400C0ED7B /* UIViewControllerExtensions.swift in Sources */,
 				E55B823D2205006300C0ED7B /* CollectionExtensions.swift in Sources */,
 				E55B82342204AAFC00C0ED7B /* URLPathMatcher.swift in Sources */,
+				E55B825C2208D64D00C0ED7B /* LoginViewController.swift in Sources */,
 				E55B8225220483F500C0ED7B /* Router.swift in Sources */,
 				E55B823A2204ABA100C0ED7B /* MatchedURL.swift in Sources */,
-				E55B81F42204835600C0ED7B /* ViewController.swift in Sources */,
 				E55B81F22204835600C0ED7B /* AppDelegate.swift in Sources */,
 				E55B8241220899E800C0ED7B /* UITabBarControllerExtensions.swift in Sources */,
 				E55B8227220487AA00C0ED7B /* RouterError.swift in Sources */,
 				E55B822B2204880800C0ED7B /* RouteProvider.swift in Sources */,
 				E55B82452208A9F100C0ED7B /* RouterCustomTransitionDelegateProtocol.swift in Sources */,
+				E55B82572208D52800C0ED7B /* AppRoutes.swift in Sources */,
 				E55B82382204AB6000C0ED7B /* PathPattern+Component.swift in Sources */,
 				E55B823F220899BF00C0ED7B /* UINavigationControllerExtensions.swift in Sources */,
+				E55B82602208D65C00C0ED7B /* HomeViewController.swift in Sources */,
 				E55B82302204AA7B00C0ED7B /* URLMatcher.swift in Sources */,
 				E55B82362204AB3A00C0ED7B /* PathPattern.swift in Sources */,
+				E55B82642208D66A00C0ED7B /* ProfileViewController.swift in Sources */,
 				E55B82322204AAC600C0ED7B /* URLMatcher+Group.swift in Sources */,
 				E55B82212204837600C0ED7B /* Integrator.swift in Sources */,
 			);
@@ -437,14 +449,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		E55B81F52204835600C0ED7B /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E55B81F62204835600C0ED7B /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		E55B81FA2204835800C0ED7B /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

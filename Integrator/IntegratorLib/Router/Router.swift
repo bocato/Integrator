@@ -11,7 +11,9 @@ import UIKit
 
 public protocol RouterProtocol {
     
+    //
     // MARK: - Properties
+    //
     
     /// The viewController that starts the flow (could be anything that is )
     var rootViewController: UIViewController { get }
@@ -28,7 +30,9 @@ public protocol RouterProtocol {
     /// Custom transition delegate
     var customTransitionDelegate: RouterCustomTransitionDelegate? { get set }
     
+    //
     // MARK: - Initialization
+    //
     
     /// Initialise
     ///
@@ -36,9 +40,11 @@ public protocol RouterProtocol {
     ///   - route: the routes enum for this flow
     init(rootViewController: UIViewController, routes: RouteProvider)
     
+    //
     // MARK: - Navigation Methods
-  
-    /// Navigate
+    //
+    
+    /// Navigate using Enums
     ///
     /// - Parameters:
     ///   - route: an enum defining the possible routes
@@ -47,7 +53,7 @@ public protocol RouterProtocol {
     func navigate(to route: RouteProvider, animated: Bool, completion: ((Error?) -> Void)?)
     
     
-    /// Navigate
+    /// Navigate using URLs
     ///
     /// - Parameters:
     ///   - url: And URL that can be parsed to a pre-define route
@@ -59,7 +65,9 @@ public protocol RouterProtocol {
 
 public class Router: RouterProtocol {
     
+    //
     // MARK: - Properties
+    //
     
     /// The viewController that starts the flow (could be anything that is )
     public let rootViewController: UIViewController
@@ -83,13 +91,18 @@ public class Router: RouterProtocol {
     /// Register url matcher group
     private lazy var urlMatcherGroup: URLMatcher.Group? = routes.registerURLs()
     
+    //
     // MARK: - Initialization
+    //
+    
     required public init(rootViewController: UIViewController, routes: RouteProvider) {
         self.rootViewController = rootViewController
         self.routes = routes
     }
  
+    //
     // MARK: - Navigation Methods
+    //
     
     /// Navigate, using the route enum
     ///
@@ -131,7 +144,9 @@ public class Router: RouterProtocol {
         return false
     }
     
+    //
     // MARK: - Implementation
+    //
     
     ///
     /// Prepare the route for navigation.
@@ -225,7 +240,9 @@ public class Router: RouterProtocol {
         }
     }
     
+    //
     // MARK: - URL Parsing
+    //
     
     ///
     /// Find a matching Route for a URL.

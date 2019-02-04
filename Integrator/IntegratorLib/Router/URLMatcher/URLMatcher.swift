@@ -14,12 +14,16 @@ import Foundation
  */
 public class URLMatcher {
     
+    //
     // MARK: - Types
+    //
     
     /// Closure to enable the path mapping
     public typealias MapPathsClosure = (URLPathMatcher) -> Void
     
+    //
     // MARK: - Properties
+    //
     
     /// Hosts to match against
     let hosts: [String]
@@ -27,7 +31,9 @@ public class URLMatcher {
     /// Path matcher
     let pathMatcher: URLPathMatcher
     
+    //
     // MARK: - Initialization
+    //
     
     /// Init
     ///
@@ -42,7 +48,9 @@ public class URLMatcher {
         mapPathsClosure(pathMatcher)
     }
     
+    //
     // MARK: - Methods
+    //
     
     /// Set a group of mapped paths for some hosts
     public static func group(_ hosts: [String],
@@ -56,7 +64,9 @@ public class URLMatcher {
         return group([host], mapPathsClosure)
     }
     
+    //
     // MARK: - Implementation
+    //
     
     /// Match a URL to one of the paths, for any host.
     internal func match(url: URL) throws -> RouteProvider? {

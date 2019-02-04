@@ -14,7 +14,9 @@ import Foundation
  */
 public class URLPathMatcher {
     
+    //
     // MARK: - Properties
+    //
     
     /// Dynamic path patterns
     private var dynamicPathPatterns = [PathPattern: ((MatchedURL) throws -> RouteProvider)]()
@@ -22,7 +24,9 @@ public class URLPathMatcher {
     /// Simple path patterns
     private var staticPathPatterns = [PathPattern: (() throws -> RouteProvider)]()
     
+    //
     // MARK: - Methods
+    //
     
     /// Map a path to a route
     /// - Note: With the `MatchedURL` passed as a parameter in the callback
