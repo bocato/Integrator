@@ -33,7 +33,7 @@ public enum RouteTransition {
     ///
     /// - See: https://developer.apple.com/documentation/uikit/uiviewcontroller/1621380-presentviewcontroller
     ///
-    case modal
+    case present
     
     ///
     /// Uses `UINavigationController(_:).setViewControllers(to:animated:)`.

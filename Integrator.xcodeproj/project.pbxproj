@@ -35,6 +35,7 @@
 		E55B82612208D65C00C0ED7B /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E55B825F2208D65C00C0ED7B /* HomeViewController.xib */; };
 		E55B82642208D66A00C0ED7B /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82622208D66A00C0ED7B /* ProfileViewController.swift */; };
 		E55B82652208D66A00C0ED7B /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E55B82632208D66A00C0ED7B /* ProfileViewController.xib */; };
+		E55B826E2209E88C00C0ED7B /* AppIntegrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B826D2209E88C00C0ED7B /* AppIntegrator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +90,7 @@
 		E55B825F2208D65C00C0ED7B /* HomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
 		E55B82622208D66A00C0ED7B /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		E55B82632208D66A00C0ED7B /* ProfileViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
+		E55B826D2209E88C00C0ED7B /* AppIntegrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntegrator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,6 +235,7 @@
 			children = (
 				E55B81F12204835600C0ED7B /* AppDelegate.swift */,
 				E55B82562208D52800C0ED7B /* AppRoutes.swift */,
+				E55B826D2209E88C00C0ED7B /* AppIntegrator.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -240,8 +243,7 @@
 		E55B82492208CACE00C0ED7B /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				E55B825A2208D64D00C0ED7B /* LoginViewController.swift */,
-				E55B825B2208D64D00C0ED7B /* LoginViewController.xib */,
+				E55B82712209F72A00C0ED7B /* Login */,
 				E55B825E2208D65C00C0ED7B /* HomeViewController.swift */,
 				E55B825F2208D65C00C0ED7B /* HomeViewController.xib */,
 				E55B82622208D66A00C0ED7B /* ProfileViewController.swift */,
@@ -258,6 +260,15 @@
 				E55B81FD2204835800C0ED7B /* Info.plist */,
 			);
 			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		E55B82712209F72A00C0ED7B /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				E55B825A2208D64D00C0ED7B /* LoginViewController.swift */,
+				E55B825B2208D64D00C0ED7B /* LoginViewController.xib */,
+			);
+			path = Login;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -395,6 +406,7 @@
 			files = (
 				E55B8229220487EA00C0ED7B /* RouteTransition.swift in Sources */,
 				E55B824322089A2400C0ED7B /* UIViewControllerExtensions.swift in Sources */,
+				E55B826E2209E88C00C0ED7B /* AppIntegrator.swift in Sources */,
 				E55B823D2205006300C0ED7B /* CollectionExtensions.swift in Sources */,
 				E55B82342204AAFC00C0ED7B /* URLPathMatcher.swift in Sources */,
 				E55B825C2208D64D00C0ED7B /* LoginViewController.swift in Sources */,

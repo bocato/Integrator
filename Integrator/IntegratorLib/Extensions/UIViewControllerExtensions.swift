@@ -98,7 +98,8 @@ internal extension UIViewController {
     /// Fetch the top-most view controller
     /// - Source: https://stackoverflow.com/a/50656239
     static internal func getTopViewController(for baseViewController: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
-        if let navigationController = baseViewController as? UINavigationController {
+        
+        if let navigationController = baseViewController as? UINavigationController, navigationController.viewControllers.count > 0 {
             return getTopViewController(for: navigationController.visibleViewController)
         }
         
@@ -112,6 +113,12 @@ internal extension UIViewController {
         }
         
         return baseViewController
+    }
+    
+    /// Returns a new ViewController of the required type
+    //  - Note: Use the same name on the Xib
+    class func initFromNib<T: UIViewController>() -> T {
+        return UIViewController(nibName: String(describing: self), bundle: Bundle(for: self)) as! T
     }
     
 }

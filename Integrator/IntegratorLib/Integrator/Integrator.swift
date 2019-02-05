@@ -110,12 +110,8 @@ public extension Integrator {
 }
 
 public protocol ApplicationIntegrator: Integrator { // This one doesn't have a parentFlow
-    
-    /// Initialization omiting the parent, since there is only one aplication integrator,
-    /// being that, it won't have a parent.
-    ///
-    /// - Parameter router: a router for the main flows
-    init(router: RouterProtocol)
+    /// - Note: Create the nitialization omiting the parent, since there is
+    ///         only one aplication integrator, being that, it won't have a parent.
 }
 public extension ApplicationIntegrator {
     public func finish() { fatalError("Application never ends.") }

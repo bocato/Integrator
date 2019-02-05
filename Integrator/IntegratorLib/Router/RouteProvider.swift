@@ -31,7 +31,7 @@ public protocol RouteProvider { // ENUM
     ///
     /// - Note: Throwing an error here will cancel the transition
     ///
-    func prepareForTransition<T: UIViewController>(from viewController: UIViewController) throws -> T
+    func prepareForTransition(from viewController: UIViewController) throws -> UIViewController
     
     ///
     /// Register a URL matcher group.
@@ -45,7 +45,7 @@ public protocol RouteProvider { // ENUM
     /// }
     /// ```
     ///
-    func registerURLs() -> URLMatcher.Group?
+    static func registerURLs() -> URLMatcher.Group?
     
 }
 
@@ -57,7 +57,7 @@ public extension RouteProvider {
     }
     
     /// Register URLs default
-    func registerURLs() -> URLMatcher.Group? {
+    static func registerURLs() -> URLMatcher.Group? {
         return nil
     }
     

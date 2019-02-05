@@ -12,10 +12,25 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-
+    private var appIntegrator: AppIntegrator?
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        // Create integrator dependencies
+        let rootNavigationController = UINavigationController()
+        let mainRouter = Router<AppRoutes>(rootViewController: rootNavigationController)
+        
+        // Create the integrator
+        appIntegrator = AppIntegrator(router: mainRouter, parent: nil)
+        
+        // Create a basic UIWindow and activate it
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = rootNavigationController
+        window?.makeKeyAndVisible()
+        
+        // Start the Integrator
+        appIntegrator?.start()
+        
         return true
     }
 

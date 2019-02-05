@@ -24,9 +24,6 @@ public protocol RouterProtocol {
     /// Computed property to get the rootViewController as an UITabBarController, if possible
     var tabBarControllerr: UITabBarController? { get }
     
-    /// The routes for this router
-    var routes: RouteProvider { get }
-    
     /// Custom transition delegate
     var customTransitionDelegate: RouterCustomTransitionDelegate? { get set }
     
@@ -38,7 +35,7 @@ public protocol RouterProtocol {
     ///
     /// - Parameter rootViewController: the controller that marks the start of the flow
     ///   - route: the routes enum for this flow
-    init(rootViewController: UIViewController, routes: RouteProvider)
+    init(rootViewController: UIViewController)
     
     //
     // MARK: - Navigation Methods
@@ -63,7 +60,7 @@ public protocol RouterProtocol {
     func navigate(with url: URL, animated: Bool, completion: ((Error?) -> Void)?) -> Bool
 }
 
-public class Router: RouterProtocol {
+public class Router<Routes: RouteProvider>: RouterProtocol {
     
     //
     // MARK: - Properties
@@ -82,22 +79,18 @@ public class Router: RouterProtocol {
         return rootViewController as? UITabBarController
     }
     
-    /// The pre-defined routes
-    public let routes: RouteProvider
-    
     /// Custom transition delegate
     public weak var customTransitionDelegate: RouterCustomTransitionDelegate?
     
     /// Register url matcher group
-    private lazy var urlMatcherGroup: URLMatcher.Group? = routes.registerURLs()
+    private lazy var urlMatcherGroup: URLMatcher.Group? = Routes.registerURLs()
     
     //
     // MARK: - Initialization
     //
     
-    required public init(rootViewController: UIViewController, routes: RouteProvider) {
+    required public init(rootViewController: UIViewController) {
         self.rootViewController = rootViewController
-        self.routes = routes
     }
  
     //
@@ -109,7 +102,7 @@ public class Router: RouterProtocol {
     /// - Note: Has no effect if the destination view controller is the view controller
     ///         or navigation controller you are presently on.
     ///
-    open func navigate(to route: RouteProvider, animated: Bool = true, completion: ((Error?) -> Void)? = nil) {
+    open func navigate(to route: RouteProvider, animated: Bool, completion: ((Error?) -> Void)?) {
         prepareForNavigation(to: route, animated: animated, successHandler: { (source, destination) in
             self.performNavigation(from: source,
                                    to: destination,
@@ -223,7 +216,7 @@ public class Router: RouterProtocol {
             navigationControler.setViewControllers([destination], animated: animated) {
                 completion?(nil)
             }
-        case .modal:
+        case .present:
             source.present(destination, animated: animated) {
                 completion?(nil)
             }
