@@ -34,6 +34,7 @@ public enum RouterError {
     /// A required parameter was found, but it was not an Int
     case requiredIntegerParameterWasNotAnInteger(parameter: String, stringValue: String)
     
+    case couldNotBuildViewControllerForRoute(named: String)
 }
 
 extension RouterError: LocalizedError {
@@ -67,6 +68,10 @@ extension RouterError: LocalizedError {
             Required integer parameter \"\(name)\" existed, but was not an integer.
             Instead \"\(stringValue)\" was received."
             """
+        case .couldNotBuildViewControllerForRoute(let routeName):
+            return """
+            The view controller for "\(routeName)" could not be built."
+            """
         }
     }
     
@@ -93,6 +98,11 @@ extension RouterError: LocalizedError {
         case .requiredIntegerParameterWasNotAnInteger(_, let stringValue):
             return """
             The value that was received was \"\(stringValue)\", which could not be cast to `Int`.
+            """
+        case .couldNotBuildViewControllerForRoute(let routeName):
+            return """
+            The view controller for "\(routeName)" could not be built, please
+            check if you registered it properly."
             """
         }
     }

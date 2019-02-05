@@ -12,6 +12,13 @@ import UIKit
 public protocol RouterProtocol {
     
     //
+    // MARK: - Types
+    //
+    
+    /// ViewControllerBuilderClosure type
+    typealias ViewControllerBuilderClosure = () throws -> UIViewController
+    
+    //
     // MARK: - Properties
     //
     
@@ -36,6 +43,19 @@ public protocol RouterProtocol {
     /// - Parameter rootViewController: the controller that marks the start of the flow
     ///   - route: the routes enum for this flow
     init(rootViewController: UIViewController)
+    
+    
+    //
+    // MARK: - Builder functions
+    //
+    
+    /// Register Builders for the ViewControllers of the routes in this flow
+    ///
+    /// - Parameters:
+    ///   - route: The route you want to register a builder for the controller
+    ///   - viewControllerBuilderClosure: a closure to build a view controller in a async way
+    /// - Returns: ?
+    func registerViewControllerBuilder(for route: RouteProvider, viewControllerBuilderClosure: @escaping ViewControllerBuilderClosure)
     
     //
     // MARK: - Navigation Methods
@@ -82,6 +102,9 @@ public class Router<Routes: RouteProvider>: RouterProtocol {
     /// Custom transition delegate
     public weak var customTransitionDelegate: RouterCustomTransitionDelegate?
     
+    // The builders for this flows ViewController's
+    private var viewControllerBuilders: [String : ViewControllerBuilderClosure] = [:]
+    
     /// Register url matcher group
     private lazy var urlMatcherGroup: URLMatcher.Group? = Routes.registerURLs()
     
@@ -91,6 +114,33 @@ public class Router<Routes: RouteProvider>: RouterProtocol {
     
     required public init(rootViewController: UIViewController) {
         self.rootViewController = rootViewController
+    }
+    
+    //
+    // MARK: - Builder functions
+    //
+    
+    
+    /// Register builder implementation
+    ///
+    /// - Parameters:
+    ///   - route: the route you want to register the builder
+    ///   - viewControllerBuilderClosure: the closure to build the
+    public func registerViewControllerBuilder(for route: RouteProvider,
+                                              viewControllerBuilderClosure: @escaping Router.ViewControllerBuilderClosure) {
+        viewControllerBuilders[route.name] = viewControllerBuilderClosure
+    }
+    
+    /// <#Description#>
+    ///
+    /// - Parameter route: <#route description#>
+    /// - Returns: <#return value description#>
+    /// - Throws: <#throws value description#>
+    private func buildController(for route: RouteProvider) throws -> UIViewController {
+        guard let viewControllerBuilderClosure = viewControllerBuilders[route.name] else {
+            throw RouterError.couldNotBuildViewControllerForRoute(named: route.name)
+        }
+        return try viewControllerBuilderClosure()
     }
  
     //
@@ -162,7 +212,7 @@ public class Router<Routes: RouteProvider>: RouterProtocol {
         
         let destination: UIViewController
         do {
-            destination = try route.prepareForTransition(from: source)
+            destination = try buildController(for: route) //try route.prepareForTransition(from: source)
         } catch {
             errorHandler(error)
             return

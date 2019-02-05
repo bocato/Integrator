@@ -24,14 +24,14 @@ public protocol RouteProvider { // ENUM
     //
     // MARK: - Methods
     //
-    
-    ///
-    /// Prepare the route for transition and return the view controller
-    ///  to transition to on the view hierachy.
-    ///
-    /// - Note: Throwing an error here will cancel the transition
-    ///
-    func prepareForTransition(from viewController: UIViewController) throws -> UIViewController
+
+//    ///
+//    /// Prepare the route for transition and return the view controller
+//    ///  to transition to on the view hierachy.
+//    ///
+//    /// - Note: Throwing an error here will cancel the transition
+//    ///
+//    func prepareForTransition(from viewController: UIViewController) throws -> UIViewController
     
     ///
     /// Register a URL matcher group.

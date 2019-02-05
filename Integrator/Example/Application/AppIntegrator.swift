@@ -6,7 +6,7 @@
 //  Copyright © 2019 Eduardo Bocato. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class AppIntegrator: ApplicationIntegrator {
     
@@ -27,10 +27,17 @@ class AppIntegrator: ApplicationIntegrator {
     }
 
     func start() {
-        let loginRoute = Routes.login(delegate: self)
-        router.navigate(to: loginRoute, animated: true) { (error) in
+        
+        router.registerViewControllerBuilder(for: Routes.login) { () -> UIViewController in
+            let loginViewController = LoginViewController(nibName: "LoginViewController", bundle: nil)
+            loginViewController.delegate = self
+            return loginViewController
+        }
+        
+        router.navigate(to: Routes.login, animated: true) { (error) in
             debugPrint("error: \(error.debugDescription)")
         }
+        
     }
     
 }
