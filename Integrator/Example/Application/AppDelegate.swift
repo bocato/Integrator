@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let mainRouter = Router<AppRoutes>(rootViewController: rootNavigationController)
         
         // Create the integrator
-        appIntegrator = AppIntegrator(router: mainRouter, parent: nil)
+        appIntegrator = AppIntegrator(router: mainRouter)
         
         // Create a basic UIWindow and activate it
         window = UIWindow(frame: UIScreen.main.bounds)

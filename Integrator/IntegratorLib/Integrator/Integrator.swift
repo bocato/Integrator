@@ -49,25 +49,21 @@ public protocol Integrator {
     var childs: [Integrator]? { get set }
     
     //
-    // MARK: Initialization
-    //
-    
-    /// Builds an Integrator instance
-    ///
-    /// - Parameters:
-    ///   - router: a router to deal with navigation and URL parsing
-    ///   - parent: the parent, ie, the Integrator that started this flow
-    init(router: RouterProtocol, parent: Integrator?)
-    
-    //
     // MARK: - Methods
     //
     
-    /// Start the integration flow
+    /// Starts the integration flow and calls registerViewControllerBuilders() to do it
     func start()
     
     /// Used to clean up everything flow related
     func finish()
+    
+    /// Needs to be implemented in order to guarantee that the builders will be registered
+    ///
+    /// - Note: We suggest to call it on `init` or `start`.
+    ///         Also, don't forget to implement the builders for all cases in the Route
+    ///
+    func registerRouteBuilders()
     
     //
     // MARK: - Output Operations
@@ -106,12 +102,6 @@ public protocol Integrator {
     
 }
 public extension Integrator {
-    //
-    // MARK: - Helpers
-    //
-    public var identifier: String {
-        return String(describing: type(of: self))
-    }
     
     //
     // MARK: - Methods
@@ -231,10 +221,17 @@ public extension Integrator {
         debugPrint("\(input) was received from \(parent?.identifier ?? "nobody, 'cause this guy doesn't have a parent!")")
     }
     
+    //
+    // MARK: - Helpers
+    //
+    public var identifier: String {
+        return String(describing: type(of: self))
+    }
+    
 }
 
 public protocol ApplicationIntegrator: Integrator { // This one doesn't have a parentFlow
-    /// - Note: Create the nitialization omiting the parent, since there is
+    /// - Note: Create the initialization omiting the parent, since there is
     ///         only one aplication integrator, being that, it won't have a parent.
 }
 public extension ApplicationIntegrator {

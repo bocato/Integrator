@@ -9,7 +9,7 @@
 
 import UIKit
 
-public protocol RouteProvider { // ENUM
+public protocol RouteProvider { // Enum, implementing CaseIterable
     
     //
     // MARK: - Properties

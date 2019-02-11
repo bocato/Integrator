@@ -80,7 +80,7 @@ public protocol RouterProtocol {
     func openURL(_ url: URL, animated: Bool, completion: ((Error?) -> Void)?) -> Bool
 }
 
-public class Router<Routes: RouteProvider>: RouterProtocol {
+public class Router<Routes: RouteProvider & CaseIterable>: RouterProtocol {
     
     //
     // MARK: - Properties
@@ -131,11 +131,11 @@ public class Router<Routes: RouteProvider>: RouterProtocol {
         viewControllerBuilders[route.name] = builder
     }
     
-    /// <#Description#>
+    /// Builds aa ViewController for the route
     ///
-    /// - Parameter route: <#route description#>
-    /// - Returns: <#return value description#>
-    /// - Throws: <#throws value description#>
+    /// - Parameter route: a route, conforming with the provider
+    /// - Returns: the configured ViewController
+    /// - Throws: an error telling us if the route could not be built
     private func buildController(for route: RouteProvider) throws -> UIViewController {
         guard let viewControllerBuilderClosure = viewControllerBuilders[route.name] else {
             throw RouterError.couldNotBuildViewControllerForRoute(named: route.name)
@@ -302,5 +302,6 @@ public class Router<Routes: RouteProvider>: RouterProtocol {
         }
         return nil
     }
+    
     
 }

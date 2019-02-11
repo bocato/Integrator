@@ -11,28 +11,24 @@ import UIKit
 class AppIntegrator: ApplicationIntegrator {
     
     // MARK: - Aliases
+    
     typealias Routes = AppRoutes
     
     // MARK: - Properties
     
-    let router: RouterProtocol
+    let router: RouterProtocol // review this... i think it should be a let
     weak var delegate: IntegratorDelegate?
     var parent: Integrator?
     var childs: [Integrator]? = []
     
     // MARK: - Initialization
     
-    required init(router: RouterProtocol, parent: Integrator?) {
-        
+    init(router: RouterProtocol) {
         self.router = router
-        self.parent = parent
-        
-        registerViewControllerBuilders()
-        
+        registerRouteBuilders()
     }
     
     // MARK: - Integrator Methods
-    
     func start() {
         
         router.navigate(to: Routes.login, animated: true) { (error) in
@@ -41,14 +37,16 @@ class AppIntegrator: ApplicationIntegrator {
         
     }
     
-    // MARK: - Builders
+}
+extension AppIntegrator {
     
-    private func registerViewControllerBuilders() {
-        router.registerBuilder(for: Routes.login, builder: loginViewControllerBuilder)
+    // MARK: - Builders
+    func registerRouteBuilders() {
+        router.registerBuilder(for: Routes.login, builder: loginRouteBuilder)
         router.registerBuilder(for: Routes.homeTabBar, builder: homeTabBarControllerBuilder)
     }
     
-    private func loginViewControllerBuilder() -> UIViewController {
+    private func loginRouteBuilder() -> UIViewController {
         let loginViewController = LoginViewController(nibName: "LoginViewController", bundle: nil)
         loginViewController.delegate = self
         return loginViewController
@@ -67,16 +65,12 @@ class AppIntegrator: ApplicationIntegrator {
         tabBarController.setViewControllers([
             tabOneNavigationController,
             tabTwoNavigationController
-        ], animated: false)
+            ], animated: false)
         
         return tabBarController
     }
     
-    //    private func configureRouteControllerBuilders() { // Think about this
-    //        AppRoutes.allCases.forEach { router.registerBuilder(for: $0, builder: loginViewControllerBuilder) }
-    //    }
 }
-
 
 
 extension AppIntegrator: LoginViewControllerDelegate {

@@ -102,7 +102,7 @@ extension RouterError: LocalizedError {
         case .couldNotBuildViewControllerForRoute(let routeName):
             return """
             The view controller for "\(routeName)" could not be built, please
-            check if you registered it properly."
+            check if you have registered it's builder properly."
             """
         }
     }
