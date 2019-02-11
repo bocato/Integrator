@@ -43,7 +43,7 @@ extension AppIntegrator {
     // MARK: - Builders
     func registerRouteBuilders() {
         router.registerBuilder(for: Routes.login, builder: loginRouteBuilder)
-        router.registerBuilder(for: Routes.homeTabBar, builder: homeTabBarControllerBuilder)
+        router.registerBuilder(for: Routes.homeTabBar, builder: homeTabBarBuilder)
     }
     
     private func loginRouteBuilder() -> UIViewController {
@@ -52,20 +52,17 @@ extension AppIntegrator {
         return loginViewController
     }
     
-    private func homeTabBarControllerBuilder() -> UIViewController {
+    private func homeTabBarBuilder() -> UIViewController {
         
         let tabBarController = UITabBarController()
+        let homeRouter = Router<HomeTabBarRoutes>(rootViewController: tabBarController)
+        let homeTabBarIntegrator = HomeTabBarIntegrator(router: homeRouter)
         
-        let homeViewController = HomeViewController(labelText: "HomeViewController")
-        let tabOneNavigationController = UINavigationController(rootViewController: homeViewController)
-        
-        let profileViewController = ProfileViewController(nibName: "ProfileViewController", bundle: nil)
-        let tabTwoNavigationController = UINavigationController(rootViewController: profileViewController)
-        
-        tabBarController.setViewControllers([
-            tabOneNavigationController,
-            tabTwoNavigationController
-            ], animated: false)
+        do {
+            try attachChild(homeTabBarIntegrator)
+        } catch {
+            debugPrint(error.localizedDescription)
+        }
         
         return tabBarController
     }

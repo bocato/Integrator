@@ -30,7 +30,7 @@ public protocol IntegratorDelegate: AnyObject {
 }
 
 /// Defines an integrator for Controllers, or Integrators
-public protocol Integrator {
+public protocol Integrator: AnyObject {
     
     //
     // MARK: - Properties
@@ -120,13 +120,12 @@ public extension Integrator {
     ///   - child: the child to be attached
     ///   - completion: the completion handler to be called after attaching it
     /// - Returns: Void
-    public mutating func attachChild(_ child: Integrator, completion: (() -> ())? = nil) throws {
+    public func attachChild(_ child: Integrator, completion: (() -> ())? = nil) throws {
         if childs?.first(where: { $0.identifier == child.identifier }) != nil {
             throw IntegratorError.duplicatedChildFlow
         }
-        var childToAdd = child
-        childToAdd.parent = self
-        childs?.append(childToAdd)
+        child.parent = self
+        childs?.append(child)
         completion?()
     }
     
@@ -135,7 +134,7 @@ public extension Integrator {
     /// - Parameters:
     ///   - childIdentifier: the identifier of the child to be removed
     ///   - completion: the completion handler to be called after detaching the child
-    public mutating func detachChildWithIdentifier(_ childIdentifier: String, completion: (() -> ())? = nil) throws {
+    public func detachChildWithIdentifier(_ childIdentifier: String, completion: (() -> ())? = nil) throws {
         guard let childToDettachIndex = childs?.firstIndex(where: { $0.identifier == childIdentifier }) else {
             throw IntegratorError.couldNotFindChildFlowWithIdentifier(childIdentifier)
         }

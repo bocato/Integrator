@@ -14,13 +14,16 @@ struct HomeViewControllerDependencies {
 
 class HomeViewController: UIViewController {
 
-    // MARK: - Dependencies
+    // MARK: - IBOutlets
+    @IBOutlet private weak var centerLabel: UILabel!
     
-    private let labelText: String
+    // MARK: - Dependencies
+    private let centerLabelText: String
     
     // MARK: - Initialization
-    init(labelText: String) {
-        self.labelText = labelText
+    
+    init(centerLabelText: String) {
+        self.centerLabelText = centerLabelText
         super.init(nibName: "HomeViewController", bundle: nil)
     }
     
@@ -32,6 +35,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        centerLabel.text = centerLabelText
     }
     
     

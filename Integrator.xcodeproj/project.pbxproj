@@ -37,7 +37,8 @@
 		E55B82652208D66A00C0ED7B /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E55B82632208D66A00C0ED7B /* ProfileViewController.xib */; };
 		E55B826E2209E88C00C0ED7B /* AppIntegrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B826D2209E88C00C0ED7B /* AppIntegrator.swift */; };
 		E55B82B12211EABB00C0ED7B /* IntegratorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82B02211EABB00C0ED7B /* IntegratorError.swift */; };
-		E55B82B62212063500C0ED7B /* HomeIntegrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82B52212063500C0ED7B /* HomeIntegrator.swift */; };
+		E55B82B62212063500C0ED7B /* HomeTabBarIntegrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82B52212063500C0ED7B /* HomeTabBarIntegrator.swift */; };
+		E55B82B82212113900C0ED7B /* HomeTabBarRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82B72212113900C0ED7B /* HomeTabBarRoutes.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,7 +95,8 @@
 		E55B82632208D66A00C0ED7B /* ProfileViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
 		E55B826D2209E88C00C0ED7B /* AppIntegrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntegrator.swift; sourceTree = "<group>"; };
 		E55B82B02211EABB00C0ED7B /* IntegratorError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegratorError.swift; sourceTree = "<group>"; };
-		E55B82B52212063500C0ED7B /* HomeIntegrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeIntegrator.swift; sourceTree = "<group>"; };
+		E55B82B52212063500C0ED7B /* HomeTabBarIntegrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabBarIntegrator.swift; sourceTree = "<group>"; };
+		E55B82B72212113900C0ED7B /* HomeTabBarRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabBarRoutes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -267,7 +269,8 @@
 		E55B82AF2211DE7500C0ED7B /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				E55B82B52212063500C0ED7B /* HomeIntegrator.swift */,
+				E55B82B72212113900C0ED7B /* HomeTabBarRoutes.swift */,
+				E55B82B52212063500C0ED7B /* HomeTabBarIntegrator.swift */,
 				E55B82B42212060500C0ED7B /* Controllers */,
 			);
 			path = Home;
@@ -432,6 +435,7 @@
 				E55B823D2205006300C0ED7B /* CollectionExtensions.swift in Sources */,
 				E55B82342204AAFC00C0ED7B /* URLPathMatcher.swift in Sources */,
 				E55B825C2208D64D00C0ED7B /* LoginViewController.swift in Sources */,
+				E55B82B82212113900C0ED7B /* HomeTabBarRoutes.swift in Sources */,
 				E55B8225220483F500C0ED7B /* Router.swift in Sources */,
 				E55B823A2204ABA100C0ED7B /* MatchedURL.swift in Sources */,
 				E55B81F22204835600C0ED7B /* AppDelegate.swift in Sources */,
@@ -441,7 +445,7 @@
 				E55B822B2204880800C0ED7B /* RouteProvider.swift in Sources */,
 				E55B82452208A9F100C0ED7B /* RouterCustomTransitionDelegateProtocol.swift in Sources */,
 				E55B82572208D52800C0ED7B /* AppRoutes.swift in Sources */,
-				E55B82B62212063500C0ED7B /* HomeIntegrator.swift in Sources */,
+				E55B82B62212063500C0ED7B /* HomeTabBarIntegrator.swift in Sources */,
 				E55B82382204AB6000C0ED7B /* PathPattern+Component.swift in Sources */,
 				E55B823F220899BF00C0ED7B /* UINavigationControllerExtensions.swift in Sources */,
 				E55B82602208D65C00C0ED7B /* HomeViewController.swift in Sources */,
