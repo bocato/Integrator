@@ -6,7 +6,7 @@
 
 # Integrator
 
-Flow integration, based on the concepts of FlowControllers, Coordinator and ResponderChain.
+Flow integration, based on the concepts of FlowControllers, Coordinators and ResponderChain.
 
 ## Usage
 ### Basic Usage
