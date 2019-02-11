@@ -8,31 +8,39 @@
 
 import UIKit
 
-enum AppRoutes: RouteProvider {
+enum AppRoutes: CaseIterable {
     
+    //
     // MARK: - Routes
+    //
     
     /// Root view controller
     case login
     
-    /// presented home tabbarcontroller
-    case home
+    /// presented home TabBarcontroller
+    case homeTabBar
     
-    // forgot password
-    case forgotPassword
+}
+extension AppRoutes: RouteProvider {
     
+    //
     // MARK: - RouteProvider
+    //
     
     var transition: RouteTransition {
         switch self {
         case .login: return .set
-        case .home: return .push
-        default: return .push
+        case .homeTabBar: return .push
         }
     }
-    static func registerURLs() -> URLMatcher.Group? {
-        return nil // TODO: Implement
-    }
     
+    static func registerURLs() -> URLMatcher.Group? {
+        return URLMatcher.Group(matchers: [
+            .group(["integrator.test.com", "localhost"]) {
+                $0.map("login") { AppRoutes.login }
+                $0.map("home") { AppRoutes.homeTabBar }
+            }
+        ])
+    }
     
 }

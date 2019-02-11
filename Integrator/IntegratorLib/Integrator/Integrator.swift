@@ -8,9 +8,13 @@
 
 import UIKit
 
-/// An enum that defines and output to be passed on from
-/// a child to it's parent using kind of a Responder Chain
-public protocol IntegratorOutput { }
+/// An enum that defines an output to be passed on from
+/// a child to it's parents over the responders Chain
+public protocol IntegratorOutput {}
+
+/// An enum that defines an input to be passed on from
+/// the parent to it's childs
+public protocol IntegratorInput {}
 
 /// Defines a delegate to pass the outputs in the responder chain
 public protocol IntegratorDelegate: AnyObject {
@@ -28,7 +32,9 @@ public protocol IntegratorDelegate: AnyObject {
 /// Defines an integrator for Controllers, or Integrators
 public protocol Integrator {
     
+    //
     // MARK: - Properties
+    //
     
     /// A router to deal with navigation and URL parsing
     var router: RouterProtocol { get }
@@ -36,11 +42,15 @@ public protocol Integrator {
     /// Delegate in order to implement the responder chain like communication
     var delegate: IntegratorDelegate? { get set }
     
-    /// The parent integrator, ie, who started this one
-    var parent: Integrator? { get }
+    /// The parent integrator, i.e., who started this one
+    var parent: Integrator? { get set }
     
+    /// The child integrators, i.e., the sub-flows of integration
+    var childs: [Integrator]? { get set }
     
+    //
     // MARK: Initialization
+    //
     
     /// Builds an Integrator instance
     ///
@@ -49,7 +59,9 @@ public protocol Integrator {
     ///   - parent: the parent, ie, the Integrator that started this flow
     init(router: RouterProtocol, parent: Integrator?)
     
+    //
     // MARK: - Methods
+    //
     
     /// Start the integration flow
     func start()
@@ -57,21 +69,120 @@ public protocol Integrator {
     /// Used to clean up everything flow related
     func finish()
     
+    //
+    // MARK: - Child Operations
+    //
+    
+    /// Attachs a child integration flow
+    ///
+    /// - Parameters:
+    ///   - child: the child to be attached
+    ///   - completion: the completion handler to be called after attaching it
+    /// - Returns: Void
+    mutating func attachChild(_ child: Integrator, completion: (() -> ())?) throws
+    
+    /// Dettachs a child flow and finishs it
+    ///
+    /// - Parameters:
+    ///   - childIdentifier: the identifier of the child to be removed
+    ///   - completion: the completion handler to be called after detaching the child
+    mutating func detachChildWithIdentifier(_ childIdentifier: String, completion: (() -> ())?) throws
+    
+    //
+    // MARK: - Output Operations
+    //
+    
     /// Aims to sent an output to the parent flows
     ///
     /// - Parameter output: the desired output to be sent
     func sendOutputToParent(_ output: IntegratorOutput)
     
-    
     /// Receives an output from it's parent
     ///
     /// - Parameters:
     ///   - child: the child that has sent the output
-    ///   - output: the output that was sent..
+    ///   - output: the output that was sent, it needs to conform with IntegratorOutput
     func receiveOutput(from child: Integrator, output: IntegratorOutput)
+    
+    
+    //
+    // MARK: - Input Operations
+    //
+    
+    /// Sends an input to a designated Child
+    ///
+    /// - Parameters:
+    ///   - childIdentifier: the child integrator
+    ///   - input: a desired input object to be sent, it needs to conform with IntegratorOutput
+    func sendInputToChild(_ childIdentifier: String, input: IntegratorInput) throws
+    
+    /// Broadcast a designated input to all integrator childs
+    ///
+    /// - Parameter input:
+    func broadcastInputToAllChilds(input: IntegratorInput) throws
+    
+    /// Receives an input from it's parent
+    ///
+    /// - Parameters:
+    ///   - input: the output that was sent, it needs to conform with IntegratorInput
+    ///
+    /// - Note: This needs to be overriden in order to intercept the inputs from the parent
+    func receiveInput(_ input: IntegratorInput)
     
 }
 public extension Integrator {
+    //
+    // MARK: - Helpers
+    //
+    public var identifier: String {
+        return String(describing: type(of: self))
+    }
+    
+    //
+    // MARK: - Methods
+    //
+    
+    /// Finish function pre-implemetation... Override if needed.
+    public func finish() { fatalError("This function should be overriden to be used!")}
+    
+    //
+    // MARK: - Child Operations
+    //
+    
+    /// Attachs a child integration flow
+    ///
+    /// - Parameters:
+    ///   - child: the child to be attached
+    ///   - completion: the completion handler to be called after attaching it
+    /// - Returns: Void
+    public mutating func attachChild(_ child: Integrator, completion: (() -> ())? = nil) throws {
+        if childs?.first(where: { $0.identifier == child.identifier }) != nil {
+            throw IntegratorError.duplicatedChildFlow
+        }
+        var childToAdd = child
+        childToAdd.parent = self
+        childs?.append(childToAdd)
+        completion?()
+    }
+    
+    /// Dettachs a child flow and finishs it
+    ///
+    /// - Parameters:
+    ///   - childIdentifier: the identifier of the child to be removed
+    ///   - completion: the completion handler to be called after detaching the child
+    public mutating func detachChildWithIdentifier(_ childIdentifier: String, completion: (() -> ())? = nil) throws {
+        guard let childToDettachIndex = childs?.firstIndex(where: { $0.identifier == childIdentifier }) else {
+            throw IntegratorError.couldNotFindChildFlowWithIdentifier(childIdentifier)
+        }
+        childs?[childToDettachIndex].finish()
+        childs?.remove(at: childToDettachIndex)
+        completion?()
+    }
+
+    
+    //
+    // MARK: - Output Operations
+    //
     
     /// Default implementation, in order to guarantee that the output is passed on
     ///
@@ -88,8 +199,50 @@ public extension Integrator {
     ///   - output: the output that was sent..
     ///
     /// - Example:
-    ///    `func receiveOutput(from child: Integrator, output: IntegratorOutput) {
-    ///        switch (child, output) {
+    ///    `override func receiveOutput(from child: Integrator, output: IntegratorOutput) {
+    ///        switch (input) {
+    ///        case .someInput:
+    ///        // DO SOMETHING...
+    ///        }
+    ///    }`
+    ///
+    public func receiveOutput(from child: Integrator, output: IntegratorOutput) {
+        parent?.receiveOutput(from: self, output: output)
+    }
+    
+    //
+    // MARK: - Input Operations
+    //
+    
+    /// Sends an input to a designated Child
+    ///
+    /// - Parameters:
+    ///   - childIdentifier: the child integrator
+    ///   - input: a desired input object to be sent, it needs to conform with IntegratorOutput
+    public func sendInputToChild(_ childIdentifier: String, input: IntegratorInput) throws {
+        guard let childToSendTheInput = childs?.first(where: { $0.identifier == childIdentifier } ) else {
+            throw IntegratorError.couldNotFindChildFlowWithIdentifier(childIdentifier)
+        }
+        childToSendTheInput.receiveInput(input)
+    }
+    
+    /// Broadcast a designated input to all integrator childs
+    ///
+    /// - Parameter input:
+    func broadcastInputToAllChilds(input: IntegratorInput) throws {
+        childs?.forEach { $0.receiveInput(input) }
+    }
+    
+    /// Default implementation, so you don't need to implement it when you don't need it
+    ///
+    /// - Parameters:
+    ///   - input: the output that was sent, it needs to conform with IntegratorInput
+    ///
+    /// - Note: This needs to be overriden in order to intercept the inputs from the parent
+    //
+    /// - Example:
+    ///    `override func receiveInput(_ input: IntegratorInput) {
+    ///        switch (input) {
     ///        case let (integrator as SomeIntegrator, output as SomeIntegrator.Output):
     ///            switch output {
     ///            case .someOutput:
@@ -100,12 +253,9 @@ public extension Integrator {
     ///        }
     ///    }`
     ///
-    public func receiveOutput(from child: Integrator, output: IntegratorOutput) {
-        parent?.receiveOutput(from: self, output: output)
+    public func receiveInput(_ input: IntegratorInput) {
+        debugPrint("\(input) was received from \(parent?.identifier ?? "nobody, 'cause this guy doesn't have a parent!")")
     }
-    
-    /// Finish function pre-implemetation... Override if needed.
-    public func finish() { fatalError("This function should be overriden to be used!")}
     
 }
 

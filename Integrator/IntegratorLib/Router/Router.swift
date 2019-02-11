@@ -55,7 +55,7 @@ public protocol RouterProtocol {
     ///   - route: The route you want to register a builder for the controller
     ///   - viewControllerBuilderClosure: a closure to build a view controller in a async way
     /// - Returns: ?
-    func registerViewControllerBuilder(for route: RouteProvider, viewControllerBuilderClosure: @escaping ViewControllerBuilderClosure)
+    func registerBuilder(for route: RouteProvider, builder: @escaping ViewControllerBuilderClosure)
     
     //
     // MARK: - Navigation Methods
@@ -77,7 +77,7 @@ public protocol RouterProtocol {
     ///   - animated: true or false, as the systems default
     ///   - completion: callback to identify if the navigation was successfull
     @discardableResult
-    func navigate(with url: URL, animated: Bool, completion: ((Error?) -> Void)?) -> Bool
+    func openURL(_ url: URL, animated: Bool, completion: ((Error?) -> Void)?) -> Bool
 }
 
 public class Router<Routes: RouteProvider>: RouterProtocol {
@@ -126,9 +126,9 @@ public class Router<Routes: RouteProvider>: RouterProtocol {
     /// - Parameters:
     ///   - route: the route you want to register the builder
     ///   - viewControllerBuilderClosure: the closure to build the
-    public func registerViewControllerBuilder(for route: RouteProvider,
-                                              viewControllerBuilderClosure: @escaping Router.ViewControllerBuilderClosure) {
-        viewControllerBuilders[route.name] = viewControllerBuilderClosure
+    public func registerBuilder(for route: RouteProvider,
+                                              builder: @escaping Router.ViewControllerBuilderClosure) {
+        viewControllerBuilders[route.name] = builder
     }
     
     /// <#Description#>
@@ -173,7 +173,7 @@ public class Router<Routes: RouteProvider>: RouterProtocol {
     ///         Avoid using it for all the internal navigation flow, try to use enums on this case.
     ///
     @discardableResult
-    open func navigate(with url: URL, animated: Bool = true, completion: ((Error?) -> Void)?) -> Bool {
+    open func openURL(_ url: URL, animated: Bool = true, completion: ((Error?) -> Void)?) -> Bool {
         do {
             guard let route = try findMatchingRoute(for: url) else {
                 completion?(nil) // No matching route
