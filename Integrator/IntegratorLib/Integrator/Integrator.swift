@@ -70,32 +70,8 @@ public protocol Integrator {
     func finish()
     
     //
-    // MARK: - Child Operations
-    //
-    
-    /// Attachs a child integration flow
-    ///
-    /// - Parameters:
-    ///   - child: the child to be attached
-    ///   - completion: the completion handler to be called after attaching it
-    /// - Returns: Void
-    mutating func attachChild(_ child: Integrator, completion: (() -> ())?) throws
-    
-    /// Dettachs a child flow and finishs it
-    ///
-    /// - Parameters:
-    ///   - childIdentifier: the identifier of the child to be removed
-    ///   - completion: the completion handler to be called after detaching the child
-    mutating func detachChildWithIdentifier(_ childIdentifier: String, completion: (() -> ())?) throws
-    
-    //
     // MARK: - Output Operations
     //
-    
-    /// Aims to sent an output to the parent flows
-    ///
-    /// - Parameter output: the desired output to be sent
-    func sendOutputToParent(_ output: IntegratorOutput)
     
     /// Receives an output from it's parent
     ///
@@ -103,7 +79,6 @@ public protocol Integrator {
     ///   - child: the child that has sent the output
     ///   - output: the output that was sent, it needs to conform with IntegratorOutput
     func receiveOutput(from child: Integrator, output: IntegratorOutput)
-    
     
     //
     // MARK: - Input Operations
@@ -178,7 +153,6 @@ public extension Integrator {
         childs?.remove(at: childToDettachIndex)
         completion?()
     }
-
     
     //
     // MARK: - Output Operations
@@ -199,10 +173,15 @@ public extension Integrator {
     ///   - output: the output that was sent..
     ///
     /// - Example:
-    ///    `override func receiveOutput(from child: Integrator, output: IntegratorOutput) {
-    ///        switch (input) {
-    ///        case .someInput:
-    ///        // DO SOMETHING...
+    ///    `func receiveOutput(from child: Integrator, output: IntegratorOutput) {
+    ///        switch (child, output) {
+    ///        case let (integrator as SomeIntegrator, output as SomeIntegrator.Output):
+    ///            switch output {
+    ///            case .someOutput:
+    ///                // DO SOMETHING...
+    ///                sendOutputToParent(output) // Pass it on if needed, or not...
+    ///            }
+    ///        default: return
     ///        }
     ///    }`
     ///
@@ -233,23 +212,18 @@ public extension Integrator {
         childs?.forEach { $0.receiveInput(input) }
     }
     
-    /// Default implementation, so you don't need to implement it when you don't need it
+    /// Default implementation, in order to guarantee that the output is passed on.
+    /// This needs to be overriden in order to intercept the outputs on the parents
     ///
     /// - Parameters:
-    ///   - input: the output that was sent, it needs to conform with IntegratorInput
+    ///   - child: the child that has sent the output
+    ///   - output: the output that was sent..
     ///
-    /// - Note: This needs to be overriden in order to intercept the inputs from the parent
-    //
     /// - Example:
     ///    `override func receiveInput(_ input: IntegratorInput) {
     ///        switch (input) {
-    ///        case let (integrator as SomeIntegrator, output as SomeIntegrator.Output):
-    ///            switch output {
-    ///            case .someOutput:
-    ///                // DO SOMETHING...
-    ///                sendOutputToParent(output) // Pass it on if needed, or not...
-    ///            }
-    ///        default: return
+    ///        case .someInput:
+    ///        // DO SOMETHING
     ///        }
     ///    }`
     ///
