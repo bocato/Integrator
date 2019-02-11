@@ -1,6 +1,12 @@
+
+
+# STILL IN DEVELOPMENT...
+
+
+
 # Integrator
 
-Simple flow integration for iOS.
+Flow integration, based on the concepts of FlowControllers, Coordinators and ResponderChain.
 
 ## Usage
 ### Basic Usage
