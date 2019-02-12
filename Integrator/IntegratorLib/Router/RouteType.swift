@@ -9,7 +9,7 @@
 
 import UIKit
 
-public protocol RouteProvider { // Enum, implementing CaseIterable
+public protocol RouteType { // Enum, CaseIterable
     
     //
     // MARK: - Properties
@@ -48,8 +48,7 @@ public protocol RouteProvider { // Enum, implementing CaseIterable
     static func registerURLs() -> URLMatcher.Group?
     
 }
-
-public extension RouteProvider {
+extension RouteType {
     
     /// Route name, `login(username: String, password: String)` will become `login`
     public var name: String {
@@ -62,3 +61,15 @@ public extension RouteProvider {
     }
     
 }
+extension RouteType {
+    
+    // MARK: - Equatable
+    
+    /// Equatable (default: Compares on `name` property)
+    public static func == (_ lhs: Self, _ rhs: Self) -> Bool {
+        return lhs.name == rhs.name
+    }
+    
+    
+}
+

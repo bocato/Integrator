@@ -10,10 +10,14 @@ import UIKit
 
 class HomeTabBarIntegrator: Integrator {
     
+    // MARK: - Aliases
+    
+    typealias Routes = AppRoutes.HomeTabBar
+    
     // MARK: - Properties
     
     let router: RouterProtocol
-    var delegate: IntegratorDelegate?
+    weak var integratorDelegate: IntegratorDelegate?
     var parent: Integrator?
     var childs: [Integrator]?
     
@@ -31,8 +35,8 @@ class HomeTabBarIntegrator: Integrator {
     }
     
     func registerRouteBuilders() {
-        router.registerBuilder(for: HomeTabBarRoutes.home, builder: homeRouteBuilder)
-        router.registerBuilder(for: HomeTabBarRoutes.profile, builder: profileRouteBuilder)
+        router.registerBuilder(for: Routes.home, builder: homeRouteBuilder)
+        router.registerBuilder(for: Routes.profile, builder: profileRouteBuilder)
     }
     
     // MARK: - Builders

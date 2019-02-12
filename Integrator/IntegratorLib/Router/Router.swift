@@ -1,5 +1,5 @@
 //
-//  Router.swift
+//  RouterProtocol.swift
 //  Integrator
 //
 //
@@ -25,11 +25,11 @@ public protocol RouterProtocol {
     /// The viewController that starts the flow (could be anything that is )
     var rootViewController: UIViewController { get }
     
-    /// Computed property to get the rootViewController as an UINavigationController, if possible
-    var navigationController: UINavigationController? { get }
-    
-    /// Computed property to get the rootViewController as an UITabBarController, if possible
-    var tabBarControllerr: UITabBarController? { get }
+//    /// Computed property to get the rootViewController as an UINavigationController, if possible
+//    var navigationController: UINavigationController? { get }
+//    
+//    /// Computed property to get the rootViewController as an UITabBarController, if possible
+//    var tabBarControllerr: UITabBarController? { get }
     
     /// Custom transition delegate
     var customTransitionDelegate: RouterCustomTransitionDelegate? { get set }
@@ -55,7 +55,7 @@ public protocol RouterProtocol {
     ///   - route: The route you want to register a builder for the controller
     ///   - viewControllerBuilderClosure: a closure to build a view controller in a async way
     /// - Returns: ?
-    func registerBuilder(for route: RouteProvider, builder: @escaping ViewControllerBuilderClosure)
+    func registerBuilder(for route: RouteType, builder: @escaping ViewControllerBuilderClosure)
     
     //
     // MARK: - Navigation Methods
@@ -67,7 +67,7 @@ public protocol RouterProtocol {
     ///   - route: an enum defining the possible routes
     ///   - animated: true or false, as the systems default
     ///   - completion: callback to identify if the navigation was successfull
-    func navigate(to route: RouteProvider, animated: Bool, completion: ((Error?) -> Void)?)
+    func navigate(to route: RouteType, animated: Bool, completion: ((Error?) -> Void)?)
     
     
     /// Navigate using URLs
@@ -80,7 +80,7 @@ public protocol RouterProtocol {
     func openURL(_ url: URL, animated: Bool, completion: ((Error?) -> Void)?) -> Bool
 }
 
-public class Router<Routes: RouteProvider & CaseIterable>: RouterProtocol {
+public class Router<Route: RouteType & CaseIterable>: RouterProtocol {
     
     //
     // MARK: - Properties
@@ -106,7 +106,7 @@ public class Router<Routes: RouteProvider & CaseIterable>: RouterProtocol {
     private var viewControllerBuilders: [String : ViewControllerBuilderClosure] = [:]
     
     /// Register url matcher group
-    private lazy var urlMatcherGroup: URLMatcher.Group? = Routes.registerURLs()
+    private lazy var urlMatcherGroup: URLMatcher.Group? = Route.registerURLs()
     
     //
     // MARK: - Initialization
@@ -126,8 +126,8 @@ public class Router<Routes: RouteProvider & CaseIterable>: RouterProtocol {
     /// - Parameters:
     ///   - route: the route you want to register the builder
     ///   - viewControllerBuilderClosure: the closure to build the
-    public func registerBuilder(for route: RouteProvider,
-                                              builder: @escaping Router.ViewControllerBuilderClosure) {
+    public func registerBuilder(for route: RouteType,
+                                              builder: @escaping ViewControllerBuilderClosure) {
         viewControllerBuilders[route.name] = builder
     }
     
@@ -136,7 +136,7 @@ public class Router<Routes: RouteProvider & CaseIterable>: RouterProtocol {
     /// - Parameter route: a route, conforming with the provider
     /// - Returns: the configured ViewController
     /// - Throws: an error telling us if the route could not be built
-    private func buildController(for route: RouteProvider) throws -> UIViewController {
+    private func buildController(for route: RouteType) throws -> UIViewController {
         guard let viewControllerBuilderClosure = viewControllerBuilders[route.name] else {
             throw RouterError.couldNotBuildViewControllerForRoute(named: route.name)
         }
@@ -152,7 +152,7 @@ public class Router<Routes: RouteProvider & CaseIterable>: RouterProtocol {
     /// - Note: Has no effect if the destination view controller is the view controller
     ///         or navigation controller you are presently on.
     ///
-    open func navigate(to route: RouteProvider, animated: Bool, completion: ((Error?) -> Void)?) {
+    open func navigate(to route: RouteType, animated: Bool, completion: ((Error?) -> Void)?) {
         prepareForNavigation(to: route, animated: animated, successHandler: { (source, destination) in
             self.performNavigation(from: source,
                                    to: destination,
@@ -200,7 +200,7 @@ public class Router<Routes: RouteProvider & CaseIterable>: RouterProtocol {
     ///
     /// - Note: The completion block will not execute if we could not find a route
     ///
-    private func prepareForNavigation(to route: RouteProvider,
+    private func prepareForNavigation(to route: RouteType,
                                       animated: Bool,
                                       successHandler: @escaping (_ source: UIViewController, _ destination: UIViewController) -> Void,
                                       errorHandler: @escaping (Error) -> Void) {
@@ -259,12 +259,16 @@ public class Router<Routes: RouteProvider & CaseIterable>: RouterProtocol {
                 completion?(nil)
             }
         case .set:
-            guard let navigationControler = navigationController else {
-                completion?(RouterError.missingRequiredNavigationController(for: transition))
-                return
-            }
-            navigationControler.setViewControllers([destination], animated: animated) {
-                completion?(nil)
+            if rootViewController is UINavigationController {
+                guard let navigationControler = navigationController else {
+                    completion?(RouterError.missingRequiredNavigationController(for: transition))
+                    return
+                }
+                navigationControler.setViewControllers([destination], animated: animated) {
+                    completion?(nil)
+                }
+            } else if rootViewController is UITabBarController { // TODO: Implement
+                debugPrint("Do Something")
             }
         case .present:
             source.present(destination, animated: animated) {
@@ -293,7 +297,7 @@ public class Router<Routes: RouteProvider & CaseIterable>: RouterProtocol {
     /// - Note: This method throws an error when the route is mapped
     ///         but the mapping fails.
     ///
-    private func findMatchingRoute(for url: URL) throws -> RouteProvider? {
+    private func findMatchingRoute(for url: URL) throws -> RouteType? {
         guard let urlMatcherGroup = urlMatcherGroup else { return nil }
         for urlMatcher in urlMatcherGroup.matchers {
             if let route = try urlMatcher.match(url: url) {

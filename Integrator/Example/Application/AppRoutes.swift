@@ -21,7 +21,8 @@ enum AppRoutes: CaseIterable {
     case homeTabBar
     
 }
-extension AppRoutes: RouteProvider {
+extension AppRoutes: RouteType {
+    
     
     //
     // MARK: - RouteProvider
@@ -30,15 +31,15 @@ extension AppRoutes: RouteProvider {
     var transition: RouteTransition {
         switch self {
         case .login: return .set
-        case .homeTabBar: return .push
+        case .homeTabBar: return .present
         }
     }
     
     static func registerURLs() -> URLMatcher.Group? {
         return URLMatcher.Group(matchers: [
             .group(["integrator.test.com", "localhost"]) {
-                $0.map("login") { AppRoutes.login }
-                $0.map("home") { AppRoutes.homeTabBar }
+                $0.map("login") { self.login }
+                $0.map("homeTabBar") { self.homeTabBar }
             }
         ])
     }

@@ -19,17 +19,17 @@ public class URLMatcher {
     //
     
     /// Closure to enable the path mapping
-    public typealias MapPathsClosure = (URLPathMatcher) -> Void
+    public typealias MapPathsClosure = (URLPathMapper) -> Void
     
     //
     // MARK: - Properties
     //
     
-    /// Hosts to match against
-    let hosts: [String]
+    /// Only matches against these hosts
+    internal let hosts: [String]
     
-    /// Path matcher
-    let pathMatcher: URLPathMatcher
+    /// Path mapper
+    internal let pathMapper: URLPathMapper
     
     //
     // MARK: - Initialization
@@ -42,10 +42,10 @@ public class URLMatcher {
     ///   - mapPathsClosure: closure to enable paths mapping
     internal init(hosts: [String], _ mapPathsClosure: MapPathsClosure) {
         self.hosts = hosts
-        self.pathMatcher = URLPathMatcher()
+        self.pathMapper = URLPathMapper()
         
         // Run the path matching
-        mapPathsClosure(pathMatcher)
+        mapPathsClosure(pathMapper)
     }
     
     //
@@ -69,12 +69,11 @@ public class URLMatcher {
     //
     
     /// Match a URL to one of the paths, for any host.
-    internal func match(url: URL) throws -> RouteProvider? {
+    internal func match(url: URL) throws -> RouteType? {
         guard let host = url.host, hosts.contains(host) else {
             return nil
         }
-        
-        return try pathMatcher.match(url)
+        return try pathMapper.match(url)
     }
     
 }

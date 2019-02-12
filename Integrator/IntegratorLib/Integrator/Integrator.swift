@@ -19,14 +19,11 @@ public protocol IntegratorInput {}
 /// Defines a delegate to pass the outputs in the responder chain
 public protocol IntegratorDelegate: AnyObject {
     
-    /// Receives an output from it's parent, having the possibility of intercepting
-    /// it and doing something or passing it on to the next responder
+    /// Returns the child that just finished
     ///
-    /// - Parameters:
-    ///   - output: and output with data or messages to be passed on
-    ///   - integrator: the integrator that has sent the output
-    func receiveOutput(_ output: IntegratorOutput, fromIntegrator integrator: Integrator)
-
+    /// - Parameter child: the child that finished
+    func childDidFinish(_ child: Integrator)
+    
 }
 
 /// Defines an integrator for Controllers, or Integrators
@@ -36,11 +33,11 @@ public protocol Integrator: AnyObject {
     // MARK: - Properties
     //
     
-    /// A router to deal with navigation and URL parsing
+    /// A Router to deal with navigation and URL parsing
     var router: RouterProtocol { get }
     
     /// Delegate in order to implement the responder chain like communication
-    var delegate: IntegratorDelegate? { get set }
+    var integratorDelegate: IntegratorDelegate? { get set }
     
     /// The parent integrator, i.e., who started this one
     var parent: Integrator? { get set }
@@ -54,9 +51,6 @@ public protocol Integrator: AnyObject {
     
     /// Starts the integration flow and calls registerViewControllerBuilders() to do it
     func start()
-    
-    /// Used to clean up everything flow related
-    func finish()
     
     /// Needs to be implemented in order to guarantee that the builders will be registered
     ///
@@ -80,18 +74,6 @@ public protocol Integrator: AnyObject {
     // MARK: - Input Operations
     //
     
-    /// Sends an input to a designated Child
-    ///
-    /// - Parameters:
-    ///   - childIdentifier: the child integrator
-    ///   - input: a desired input object to be sent, it needs to conform with IntegratorOutput
-    func sendInputToChild(_ childIdentifier: String, input: IntegratorInput) throws
-    
-    /// Broadcast a designated input to all integrator childs
-    ///
-    /// - Parameter input:
-    func broadcastInputToAllChilds(input: IntegratorInput) throws
-    
     /// Receives an input from it's parent
     ///
     /// - Parameters:
@@ -107,8 +89,10 @@ public extension Integrator {
     // MARK: - Methods
     //
     
-    /// Finish function pre-implemetation... Override if needed.
-    public func finish() { fatalError("This function should be overriden to be used!")}
+    /// Used to have a callback and clean up everything flow related
+    public func finish() {
+        integratorDelegate?.childDidFinish(self)
+    }
     
     //
     // MARK: - Child Operations

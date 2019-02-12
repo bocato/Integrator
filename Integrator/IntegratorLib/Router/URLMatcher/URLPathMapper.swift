@@ -1,5 +1,5 @@
 //
-//  URLPathMatcher.swift
+//  URLPathMapper.swift
 //  Integrator
 //
 //  Created by Eduardo Bocato on 01/02/19.
@@ -10,19 +10,39 @@
 import Foundation
 
 /**
- Router URL Path Matcher
+ Router URL Path Mapper.
+ 
+ - Note: All static paths are resolved before dynamic paths.
+ 
+ Usage:
+ ```
+ // Static path
+ $0.map("/users") { .allUsers }
+ 
+ // Dynamic path
+ $0.map("/users/{id}/profile") { try .profile(withID: $0.param("id")) }
  */
-public class URLPathMatcher {
+public class URLPathMapper {
+    
+    //
+    // MARK: - Typealiases
+    //
+    
+    /// Mapping for a dynamic path
+    internal typealias DynamicPathMapping = ((MatchedURL) throws -> RouteType)
+    
+    /// Mapping for a static path
+    internal typealias StaticPathMapping = (() throws -> RouteType)
     
     //
     // MARK: - Properties
     //
     
     /// Dynamic path patterns
-    private var dynamicPathPatterns = [PathPattern: ((MatchedURL) throws -> RouteProvider)]()
+    private var dynamicPathPatterns = [PathPattern: ((MatchedURL) throws -> RouteType)]()
     
     /// Simple path patterns
-    private var staticPathPatterns = [PathPattern: (() throws -> RouteProvider)]()
+    private var staticPathPatterns = [PathPattern: (() throws -> RouteType)]()
     
     //
     // MARK: - Methods
@@ -30,17 +50,17 @@ public class URLPathMatcher {
     
     /// Map a path to a route
     /// - Note: With the `MatchedURL` passed as a parameter in the callback
-    public func map(_ pathPattern: PathPattern, _ route: @escaping (MatchedURL) throws -> RouteProvider) {
+    public func map(_ pathPattern: PathPattern, _ route: @escaping (MatchedURL) throws -> RouteType) {
         dynamicPathPatterns[pathPattern] = route
     }
     
     /// Map a path to a route
-    public func map(_ pathPattern: PathPattern, _ route: @escaping () throws -> RouteProvider) {
+    public func map(_ pathPattern: PathPattern, _ route: @escaping () throws -> RouteType) {
         staticPathPatterns[pathPattern] = route
     }
     
     /// Match a Route from a URL
-    internal func match(_ url: URL) throws -> RouteProvider? {
+    internal func match(_ url: URL) throws -> RouteType? {
     
         // Check for matches on all static paths
         for (pattern, route) in staticPathPatterns {

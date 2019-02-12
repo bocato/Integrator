@@ -16,8 +16,8 @@ class AppIntegrator: ApplicationIntegrator {
     
     // MARK: - Properties
     
-    let router: RouterProtocol // review this... i think it should be a let
-    weak var delegate: IntegratorDelegate?
+    let router: RouterProtocol
+    weak var integratorDelegate: IntegratorDelegate?
     var parent: Integrator?
     var childs: [Integrator]? = []
     
@@ -55,11 +55,13 @@ extension AppIntegrator {
     private func homeTabBarBuilder() -> UIViewController {
         
         let tabBarController = UITabBarController()
-        let homeRouter = Router<HomeTabBarRoutes>(rootViewController: tabBarController)
-        let homeTabBarIntegrator = HomeTabBarIntegrator(router: homeRouter)
+        let homeTabBarRouter = Router<Routes.HomeTabBar>(rootViewController: tabBarController)
+        let homeTabBarIntegrator = HomeTabBarIntegrator(router: homeTabBarRouter)
         
         do {
-            try attachChild(homeTabBarIntegrator)
+            try attachChild(homeTabBarIntegrator) {
+                homeTabBarIntegrator.start()
+            }
         } catch {
             debugPrint(error.localizedDescription)
         }
@@ -75,14 +77,14 @@ extension AppIntegrator: LoginViewControllerDelegate {
     func loginDidSucceed(in controller: LoginViewController) {
         
         // Using URLS
-        let homeTabBarURL = URL(string: "testapp://localhost/home")! // Local
-            // URL(string: "http://integrator.test.com/home") // WEB
+        let homeTabBarURL = URL(string: "testapp://localhost/homeTabBar")! // Local
+            // URL(string: "http://integrator.test.com/homeTabBar") // WEB
         router.openURL(homeTabBarURL, animated: true) { (error) in
             debugPrint("error: \(error.debugDescription)")
         }
         
         // Using Enums
-//        router.navigate(to: AppRoutes.homeTabBar, animated: true) { (error) in
+//        router.navigate(to: Routes.homeTabBar, animated: true) { (error) in
 //            debugPrint("error: \(error.debugDescription)")
 //        }
         

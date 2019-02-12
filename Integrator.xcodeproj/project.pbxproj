@@ -16,10 +16,10 @@
 		E55B8225220483F500C0ED7B /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B8224220483F500C0ED7B /* Router.swift */; };
 		E55B8227220487AA00C0ED7B /* RouterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B8226220487AA00C0ED7B /* RouterError.swift */; };
 		E55B8229220487EA00C0ED7B /* RouteTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B8228220487EA00C0ED7B /* RouteTransition.swift */; };
-		E55B822B2204880800C0ED7B /* RouteProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B822A2204880800C0ED7B /* RouteProvider.swift */; };
+		E55B822B2204880800C0ED7B /* RouteType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B822A2204880800C0ED7B /* RouteType.swift */; };
 		E55B82302204AA7B00C0ED7B /* URLMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B822F2204AA7B00C0ED7B /* URLMatcher.swift */; };
 		E55B82322204AAC600C0ED7B /* URLMatcher+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82312204AAC600C0ED7B /* URLMatcher+Group.swift */; };
-		E55B82342204AAFC00C0ED7B /* URLPathMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82332204AAFC00C0ED7B /* URLPathMatcher.swift */; };
+		E55B82342204AAFC00C0ED7B /* URLPathMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82332204AAFC00C0ED7B /* URLPathMapper.swift */; };
 		E55B82362204AB3A00C0ED7B /* PathPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82352204AB3A00C0ED7B /* PathPattern.swift */; };
 		E55B82382204AB6000C0ED7B /* PathPattern+Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82372204AB6000C0ED7B /* PathPattern+Component.swift */; };
 		E55B823A2204ABA100C0ED7B /* MatchedURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82392204ABA100C0ED7B /* MatchedURL.swift */; };
@@ -74,10 +74,10 @@
 		E55B8224220483F500C0ED7B /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		E55B8226220487AA00C0ED7B /* RouterError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterError.swift; sourceTree = "<group>"; };
 		E55B8228220487EA00C0ED7B /* RouteTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteTransition.swift; sourceTree = "<group>"; };
-		E55B822A2204880800C0ED7B /* RouteProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteProvider.swift; sourceTree = "<group>"; };
+		E55B822A2204880800C0ED7B /* RouteType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteType.swift; sourceTree = "<group>"; };
 		E55B822F2204AA7B00C0ED7B /* URLMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLMatcher.swift; sourceTree = "<group>"; };
 		E55B82312204AAC600C0ED7B /* URLMatcher+Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLMatcher+Group.swift"; sourceTree = "<group>"; };
-		E55B82332204AAFC00C0ED7B /* URLPathMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLPathMatcher.swift; sourceTree = "<group>"; };
+		E55B82332204AAFC00C0ED7B /* URLPathMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLPathMapper.swift; sourceTree = "<group>"; };
 		E55B82352204AB3A00C0ED7B /* PathPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathPattern.swift; sourceTree = "<group>"; };
 		E55B82372204AB6000C0ED7B /* PathPattern+Component.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PathPattern+Component.swift"; sourceTree = "<group>"; };
 		E55B82392204ABA100C0ED7B /* MatchedURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchedURL.swift; sourceTree = "<group>"; };
@@ -194,7 +194,7 @@
 			isa = PBXGroup;
 			children = (
 				E55B822C2204AA3100C0ED7B /* URLMatcher */,
-				E55B822A2204880800C0ED7B /* RouteProvider.swift */,
+				E55B822A2204880800C0ED7B /* RouteType.swift */,
 				E55B8228220487EA00C0ED7B /* RouteTransition.swift */,
 				E55B8224220483F500C0ED7B /* Router.swift */,
 				E55B8226220487AA00C0ED7B /* RouterError.swift */,
@@ -208,7 +208,7 @@
 			children = (
 				E55B822F2204AA7B00C0ED7B /* URLMatcher.swift */,
 				E55B82312204AAC600C0ED7B /* URLMatcher+Group.swift */,
-				E55B82332204AAFC00C0ED7B /* URLPathMatcher.swift */,
+				E55B82332204AAFC00C0ED7B /* URLPathMapper.swift */,
 				E55B82352204AB3A00C0ED7B /* PathPattern.swift */,
 				E55B82372204AB6000C0ED7B /* PathPattern+Component.swift */,
 				E55B82392204ABA100C0ED7B /* MatchedURL.swift */,
@@ -433,7 +433,7 @@
 				E55B824322089A2400C0ED7B /* UIViewControllerExtensions.swift in Sources */,
 				E55B826E2209E88C00C0ED7B /* AppIntegrator.swift in Sources */,
 				E55B823D2205006300C0ED7B /* CollectionExtensions.swift in Sources */,
-				E55B82342204AAFC00C0ED7B /* URLPathMatcher.swift in Sources */,
+				E55B82342204AAFC00C0ED7B /* URLPathMapper.swift in Sources */,
 				E55B825C2208D64D00C0ED7B /* LoginViewController.swift in Sources */,
 				E55B82B82212113900C0ED7B /* HomeTabBarRoutes.swift in Sources */,
 				E55B8225220483F500C0ED7B /* Router.swift in Sources */,
@@ -442,7 +442,7 @@
 				E55B8241220899E800C0ED7B /* UITabBarControllerExtensions.swift in Sources */,
 				E55B8227220487AA00C0ED7B /* RouterError.swift in Sources */,
 				E55B82B12211EABB00C0ED7B /* IntegratorError.swift in Sources */,
-				E55B822B2204880800C0ED7B /* RouteProvider.swift in Sources */,
+				E55B822B2204880800C0ED7B /* RouteType.swift in Sources */,
 				E55B82452208A9F100C0ED7B /* RouterCustomTransitionDelegateProtocol.swift in Sources */,
 				E55B82572208D52800C0ED7B /* AppRoutes.swift in Sources */,
 				E55B82B62212063500C0ED7B /* HomeTabBarIntegrator.swift in Sources */,
