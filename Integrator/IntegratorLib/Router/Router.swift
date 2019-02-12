@@ -86,8 +86,18 @@ public class Router<Route: RouteType & CaseIterable>: RouterProtocol {
     // MARK: - Properties
     //
     
-    /// The viewController that starts the flow (could be anything that is )
+    /// The viewController that starts the flow (could be anything that is Inherited from UIViewController)
     public let rootViewController: UIViewController
+    
+    /// Returns the rootViewController as an UINavigationController, if possible
+    public var navigationController: UINavigationController? {
+        return rootViewController as? UINavigationController
+    }
+    
+    /// Returns the rootViewController as an UITabBarController, if possible
+    public var tabBarControllerr: UITabBarController? {
+        return rootViewController as? UITabBarController
+    }
     
     /// Custom transition delegate
     public weak var customTransitionDelegate: RouterCustomTransitionDelegate?
