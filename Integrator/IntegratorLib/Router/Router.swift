@@ -89,16 +89,6 @@ public class Router<Route: RouteType & CaseIterable>: RouterProtocol {
     /// The viewController that starts the flow (could be anything that is )
     public let rootViewController: UIViewController
     
-    /// Returns the rootViewController as an UINavigationController, if possible
-    public var navigationController: UINavigationController? {
-        return rootViewController as? UINavigationController
-    }
-    
-    /// Returns the rootViewController as an UITabBarController, if possible
-    public var tabBarControllerr: UITabBarController? {
-        return rootViewController as? UITabBarController
-    }
-    
     /// Custom transition delegate
     public weak var customTransitionDelegate: RouterCustomTransitionDelegate?
     
@@ -251,7 +241,7 @@ public class Router<Route: RouteType & CaseIterable>: RouterProtocol {
         
         switch transition {
         case .push:
-            guard let navigationControler = navigationController else {
+            guard let navigationControler = rootViewController as? UINavigationController else {
                 completion?(RouterError.missingRequiredNavigationController(for: transition))
                 return
             }
@@ -260,7 +250,7 @@ public class Router<Route: RouteType & CaseIterable>: RouterProtocol {
             }
         case .set:
             if rootViewController is UINavigationController {
-                guard let navigationControler = navigationController else {
+                guard let navigationControler = rootViewController as? UINavigationController else {
                     completion?(RouterError.missingRequiredNavigationController(for: transition))
                     return
                 }

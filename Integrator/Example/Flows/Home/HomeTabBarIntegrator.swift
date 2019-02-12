@@ -32,6 +32,9 @@ class HomeTabBarIntegrator: Integrator {
     
     func start() {
         registerRouteBuilders()
+        router.navigate(to: Routes.home, animated: true) { (error) in
+            debugPrint("\(error.debugDescription)")
+        }
     }
     
     func registerRouteBuilders() {
