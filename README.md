@@ -196,6 +196,92 @@ And override the transition to your custom in your Router:
     }
 ```
 
+### Integrator to Integrator communication
+---
+
+In order to send messages from the `Parent` flow to it's `Child`, you need to do this:
+```swift
+
+class MyParentIntegrator: Integrator {
+
+     /* ... */
+     
+     func someThingThatNeedsToPassAMessageToTheChilds {
+     
+        // Define the message, normally and enum, which needs to conform with `IntegratorInput`
+        let message = .something(with: someData)
+        
+        // Then send it
+        
+        sendInputToChild("MyChildIdentifier", input: message)
+        // OR
+        broadcastInputToAllChilds(input: message)
+        
+     }
+
+}
+
+```
+
+On the `Child`, you need to override the function below in order to intercept the messages.
+```swift
+class MyChildIntegrator: Integrator {
+
+     /* ... */
+     
+    override func receiveInput(_ input: IntegratorInput) {
+        switch (input) {
+        case .someInput(let data):
+            // Do something with the data
+        }
+    }
+    
+}
+```
+
+---
+
+In order to send messages from the `Child` flow to it's `Parent`, you need to do this:
+```swift
+
+class MyChildIntegrator: Integrator {
+
+     /* ... */
+     
+     func someThingThatNeedsToPassAMessageToTheParent {
+     
+        // Define the message, normally and enum, which needs to conform with `Integrator`
+        let message = .something(with: someData)
+        
+        // Then send it
+        sendOutputToParent(output: message)
+        
+     }
+
+}
+
+```
+
+On the `Parent`, you need to override the function below in order to intercept the messages.
+```swift
+class MyParentIntegrator: Integrator {
+
+    /* ... */
+
+    func receiveOutput(from child: Integrator, output: IntegratorOutput) {
+        switch (child, output) {
+        case let (integrator as SomeIntegrator, output as SomeIntegrator.Output):
+            switch output {
+            case .someOutput:
+                // Do something with the message received
+                sendOutputToParent(output) // Then pass it on if needed, or not...
+            }
+        default: return
+        }
+    }
+
+}
+``
 
 
 ## Thank you note
