@@ -85,7 +85,7 @@ extension AppIntegrator: LoginViewControllerDelegate {
 //        }
 //
         // Using Enums
-        router.navigate(to: AppRoutes.homeTabBar(.home), animated: true) { (error) in
+        router.navigate(to: AppRoutes.homeTabBar(.home(text: "HOME-Test")), animated: true) { (error) in
             debugPrint("error: \(error.debugDescription)")
         }
         

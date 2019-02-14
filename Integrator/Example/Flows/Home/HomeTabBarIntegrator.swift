@@ -44,6 +44,10 @@ class HomeTabBarIntegrator: Integrator {
     // MARK: - Configure TabBar
     private func configureControllers(forTab tab: AppRoutes.HomeTab) { // meh, review this... just want it to work...
         tabBarController = UITabBarController()
+        tabBarController.toolbarItems = [
+            UIBarButtonItem(title: "Home", style: .plain, target: nil, action: nil),
+            UIBarButtonItem(title: "Profile", style: .plain, target: nil, action: nil),
+        ]
         tabBarController.setViewControllers([HomeViewController(), ProfileViewController()], animated: false)
         switch tab {
         case .home:
@@ -63,7 +67,12 @@ extension HomeTabBarIntegrator: RouteResolver {
             throw RouterError.couldNotBuildViewControllerForRoute(named: route.name)
         }
         
-        tabBarController.selectedIndex = currentRoute.hashValue
+        switch currentRoute {
+        case .home:
+            tabBarController.selectedIndex = 0
+        case .profile:
+            tabBarController.selectedIndex = 1
+        }
         return tabBarController
         
     }

@@ -15,14 +15,16 @@ extension AppRoutes {
         //
         // MARK: - Initialization
         //
-      
-        init?(name: String, params: [String: Any]?) throws {
-            switch name {
+        
+        init(url: MatchedURL) throws {
+            let tabName = try url.param("tab")
+            switch tabName {
             case "home":
-                self = .home
+                let text = try url.param("text")
+                self = .home(text: text)
             case "profile":
                 self = .profile
-            default: throw RouterError.couldNotFindRouteForPattern("/homeTab/\(name)")
+            default: throw RouterError.couldNotFindRouteForMatchedURL(url)
             }
         }
         
@@ -31,7 +33,7 @@ extension AppRoutes {
         //
         
         /// Root tab
-        case home
+        case home(text: String)
         
         /// presented home TabBarcontroller
         case profile

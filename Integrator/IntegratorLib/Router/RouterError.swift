@@ -43,6 +43,9 @@ public enum RouterError {
     /// There is no possible route configured for this pattern
     case couldNotFindRouteForPattern(String)
     
+    /// There is no possible route configured for this MatchedURL
+    case couldNotFindRouteForMatchedURL(MatchedURL)
+    
 }
 
 extension RouterError: LocalizedError {
@@ -89,6 +92,11 @@ extension RouterError: LocalizedError {
             There is no route configured for the pattern below:
             \(pattern.debugDescription)
             """
+        case .couldNotFindRouteForMatchedURL(let matchedURL):
+            return """
+            There is no route configured for the URL below:
+            \(matchedURL.rawURL)
+            """
         }
     }
     
@@ -130,6 +138,11 @@ extension RouterError: LocalizedError {
             There is no route configured for the pattern below:
             \(pattern)
             Check its configuration.
+            """
+        case .couldNotFindRouteForMatchedURL(let matchedURL):
+            return """
+            There is no route configured for the URL below:
+            \(matchedURL.rawURL)
             """
         }
     }

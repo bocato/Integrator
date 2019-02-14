@@ -188,7 +188,7 @@ public extension Integrator {
     public func receiveInput(_ input: IntegratorInput) {
         debugPrint("\(input) was received from \(parent?.identifier ?? "nobody, 'cause this guy doesn't have a parent!")")
     }
-    
+        
     // MARK: - Helpers
     
     public var identifier: String {
