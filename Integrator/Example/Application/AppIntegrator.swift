@@ -39,14 +39,14 @@ extension AppIntegrator: RouteResolver {
     
     func executeBeforeTransition(to route: RouteType) throws -> UIViewController {
         
-        guard let currentRoute = route as? AppRoutes else { // TODO: Verify this
+        guard let currentRoute = route as? AppRoutes else { 
             throw RouterError.couldNotBuildViewControllerForRoute(named: route.name)
         }
         
         switch currentRoute {
         case .homeTabBar(let tab):
             
-            let homeTabBarIntegrator = HomeTabBarIntegrator(router: router, tab: tab)
+            let homeTabBarIntegrator = HomeTabBarIntegrator(router: router, selectedTab: tab)
             
              do {
                 
@@ -85,7 +85,7 @@ extension AppIntegrator: LoginViewControllerDelegate {
 //        }
 //
         // Using Enums
-        router.navigate(to: AppRoutes.login, animated: true) { (error) in
+        router.navigate(to: AppRoutes.homeTabBar(.home), animated: true) { (error) in
             debugPrint("error: \(error.debugDescription)")
         }
         

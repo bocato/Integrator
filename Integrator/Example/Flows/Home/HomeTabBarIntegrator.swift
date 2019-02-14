@@ -22,18 +22,21 @@ class HomeTabBarIntegrator: Integrator {
     var childs: [Integrator]?
     
     var tabBarController: UITabBarController! // meh, check this
+    var selectedTab: AppRoutes.HomeTab
     
     // MARK: - Initialization
     
-    init(router: RouterProtocol, tab: AppRoutes.HomeTab) {
+    init(router: RouterProtocol, selectedTab: AppRoutes.HomeTab) {
         self.router = router
+        self.selectedTab = selectedTab
         router.registerResolver(forRouteType: Routes.self, resolver: executeBeforeTransition)
     }
     
     // MARK: - Required Methods
     
     func start() {
-        router.navigate(to: Routes.home, rootViewController: nil, animated: true) { (error) in
+        configureControllers(forTab: selectedTab)
+        router.navigate(to: selectedTab, rootViewController: nil, animated: true) { (error) in
             debugPrint("\(error.debugDescription)")
         }
     }
@@ -60,10 +63,8 @@ extension HomeTabBarIntegrator: RouteResolver {
             throw RouterError.couldNotBuildViewControllerForRoute(named: route.name)
         }
         
-        switch currentRoute {
-        case .home: return tabBarController.viewControllers![0] // TODO: Check this...
-        case .profile: return tabBarController.viewControllers![1] // TODO: Check this...
-        }
+        tabBarController.selectedIndex = currentRoute.hashValue
+        return tabBarController
         
     }
     
