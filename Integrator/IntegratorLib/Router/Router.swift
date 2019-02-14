@@ -15,8 +15,8 @@ public protocol RouterProtocol {
     // MARK: - Types
     //
     
-    /// ViewControllerBuilderClosure type
-    typealias ViewControllerBuilderClosure = () throws -> UIViewController
+    /// A route resolver type
+    typealias RouteResolverClosure = (_ route: RouteType) throws -> UIViewController
     
     //
     // MARK: - Properties
@@ -49,7 +49,7 @@ public protocol RouterProtocol {
     ///   - route: The route you want to register a builder for the controller
     ///   - resolver: the delegate wich is going to resolve the route, i.e.,
     ///               configure it's controller before the transition
-    func registerResolver<Route: RouteType>(forRouteType type: Route.Type, resolver: RouteResolver)
+    func registerResolver<Route: RouteType>(forRouteType type: Route.Type, resolver: @escaping RouteResolverClosure)
     
     /// Gets a configuerd controller for a defined route, if the said route is configured
     ///
@@ -120,7 +120,7 @@ public class Router<Route: RouteType>: RouterProtocol {
     private lazy var urlMatcherGroup: URLMatcher.Group? = Route.registerURLs()
     
     /// Route resolver, where the key is `RouteType` implementation
-    private var routeResolvers = [String: RouteResolver]()
+    private var routeResolvers = [String: RouteResolverClosure]()
     
     //
     // MARK: - Initialization
@@ -140,7 +140,7 @@ public class Router<Route: RouteType>: RouterProtocol {
     ///   - route: The route you want to register a builder for the controller
     ///   - resolver: the delegate wich is going to resolve the route, i.e.,
     ///               configure it's controller before the transition
-    public func registerResolver<Route>(forRouteType type: Route.Type, resolver: RouteResolver) where Route : RouteType {
+    public func registerResolver<Route>(forRouteType type: Route.Type, resolver: @escaping RouteResolverClosure) where Route : RouteType {
         let routeTypeName = String(describing: type)
         routeResolvers[routeTypeName] = resolver
     }
@@ -150,7 +150,7 @@ public class Router<Route: RouteType>: RouterProtocol {
     /// - Parameter route: a route, conforming with the provider
     /// - Returns: the configured ViewController
     /// - Throws: an error telling us if the route could not be built
-    private func findResolverForRoute(_ route: RouteType) throws -> RouteResolver {
+    private func findResolverForRoute(_ route: RouteType) throws -> RouteResolverClosure {
         let routeTypeName = String(describing: type(of: route))
         guard let resolver = routeResolvers[routeTypeName] else {
             throw RouterError.couldNotBuildViewControllerForRoute(named: route.name)
@@ -165,16 +165,16 @@ public class Router<Route: RouteType>: RouterProtocol {
     /// - Throws: and error if the resolver is not configured
     public func resolveControllerForRoute(_ route: RouteType) throws -> UIViewController {
         
-        let resolver: RouteResolver
+        let routeResolverClosure: RouteResolverClosure
         do {
-            resolver = try findResolverForRoute(route)
+            routeResolverClosure = try findResolverForRoute(route)
         } catch {
             throw error
         }
         
         let controler: UIViewController
         do {
-            controler = try resolver.prepareForTransition(to: route)
+            controler = try routeResolverClosure(route)
         } catch {
             throw error
         }

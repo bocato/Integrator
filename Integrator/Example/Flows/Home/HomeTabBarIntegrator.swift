@@ -27,7 +27,7 @@ class HomeTabBarIntegrator: Integrator {
     
     init(router: RouterProtocol, tab: AppRoutes.HomeTab) {
         self.router = router
-        router.registerResolver(forRouteType: Routes.self, resolver: self)
+        router.registerResolver(forRouteType: Routes.self, resolver: executeBeforeTransition)
     }
     
     // MARK: - Required Methods
@@ -54,7 +54,7 @@ class HomeTabBarIntegrator: Integrator {
 // MARK: - RouteResolver
 extension HomeTabBarIntegrator: RouteResolver {
     
-    func prepareForTransition(to route: RouteType) throws -> UIViewController {
+    func executeBeforeTransition(to route: RouteType) throws -> UIViewController {
         
         guard let currentRoute = route as? Routes else { // TODO: Verify this
             throw RouterError.couldNotBuildViewControllerForRoute(named: route.name)

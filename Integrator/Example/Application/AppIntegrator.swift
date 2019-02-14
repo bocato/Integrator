@@ -21,7 +21,7 @@ class AppIntegrator: ApplicationIntegrator {
     
     init(router: RouterProtocol) {
         self.router = router
-        router.registerResolver(forRouteType: AppRoutes.self, resolver: self)
+        router.registerResolver(forRouteType: AppRoutes.self, resolver: executeBeforeTransition)
     }
     
     // MARK: - Integrator Methods
@@ -37,7 +37,7 @@ class AppIntegrator: ApplicationIntegrator {
 // MARK: - RouteResolver
 extension AppIntegrator: RouteResolver {
     
-    func prepareForTransition(to route: RouteType) throws -> UIViewController {
+    func executeBeforeTransition(to route: RouteType) throws -> UIViewController {
         
         guard let currentRoute = route as? AppRoutes else { // TODO: Verify this
             throw RouterError.couldNotBuildViewControllerForRoute(named: route.name)

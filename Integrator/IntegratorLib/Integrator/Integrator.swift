@@ -27,7 +27,7 @@ public protocol IntegratorDelegate: AnyObject {
 }
 
 /// Defines an integrator for Controllers, or Integrators
-public protocol Integrator: AnyObject {
+public protocol Integrator: RouteResolver, AnyObject {
     
     //
     // MARK: - Properties

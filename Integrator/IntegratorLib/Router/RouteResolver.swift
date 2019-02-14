@@ -9,11 +9,11 @@
 import UIKit
 
 public protocol RouteResolver {
-    func prepareForTransition(to route: RouteType) throws -> UIViewController
+    func executeBeforeTransition(to route: RouteType) throws -> UIViewController
 }
 extension RouteResolver {
     
-    func prepareForTransition(to route: RouteType) throws -> UIViewController {
+    func executeBeforeTransition(to route: RouteType) throws -> UIViewController {
         throw RouterError.couldNotBuildViewControllerForRoute(named: route.name)
     }
     
