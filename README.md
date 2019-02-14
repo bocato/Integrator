@@ -20,7 +20,7 @@ enum MyRoute: RouteType {
     
     /// Root view controller
     case login
-    case homeTabBar(_ tab: HomeTab)
+    case homeTabBar(tab: HomeTab)
     
     // MARK: - RouteType
     
