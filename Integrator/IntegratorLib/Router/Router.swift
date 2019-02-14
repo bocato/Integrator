@@ -15,21 +15,15 @@ public protocol RouterProtocol {
     // MARK: - Types
     //
     
-    /// ViewControllerBuilderClosure type
-    typealias ViewControllerBuilderClosure = () throws -> UIViewController
+    /// A route resolver type
+    typealias RouteResolverClosure = (_ route: RouteType) throws -> UIViewController
     
     //
     // MARK: - Properties
     //
     
-    /// The viewController that starts the flow (could be anything that is )
-    var rootViewController: UIViewController { get }
-    
-//    /// Computed property to get the rootViewController as an UINavigationController, if possible
-//    var navigationController: UINavigationController? { get }
-//    
-//    /// Computed property to get the rootViewController as an UITabBarController, if possible
-//    var tabBarControllerr: UITabBarController? { get }
+    /// The navigationController that starts the flow
+    var navigationController: UINavigationController { get }
     
     /// Custom transition delegate
     var customTransitionDelegate: RouterCustomTransitionDelegate? { get set }
@@ -38,24 +32,31 @@ public protocol RouterProtocol {
     // MARK: - Initialization
     //
     
-    /// Initialise
+    /// Initialization
     ///
     /// - Parameter rootViewController: the controller that marks the start of the flow
-    ///   - route: the routes enum for this flow
-    init(rootViewController: UIViewController)
+    ///   - navigationController: the navigationController that starts the route
+    init(navigationController: UINavigationController)
     
     
     //
-    // MARK: - Builder functions
+    // MARK: - Resolver functions
     //
     
-    /// Register Builders for the ViewControllers of the routes in this flow
+    /// Register Resolvers for the routes in this flow
     ///
     /// - Parameters:
     ///   - route: The route you want to register a builder for the controller
-    ///   - viewControllerBuilderClosure: a closure to build a view controller in a async way
-    /// - Returns: ?
-    func registerBuilder(for route: RouteType, builder: @escaping ViewControllerBuilderClosure)
+    ///   - resolver: the delegate wich is going to resolve the route, i.e.,
+    ///               configure it's controller before the transition
+    func registerResolver<Route: RouteType>(forRouteType type: Route.Type, resolver: @escaping RouteResolverClosure)
+    
+    /// Gets a configuerd controller for a defined route, if the said route is configured
+    ///
+    /// - Parameter route: the route you want to resolve
+    /// - Returns: a configuredViewControler for the expected route
+    /// - Throws: and error if the resolver is not configured
+    func resolveControllerForRoute(_ route: RouteType) throws -> UIViewController
     
     //
     // MARK: - Navigation Methods
@@ -65,10 +66,33 @@ public protocol RouterProtocol {
     ///
     /// - Parameters:
     ///   - route: an enum defining the possible routes
+    ///   - rootViewController: a rootViewController to start the flow
     ///   - animated: true or false, as the systems default
     ///   - completion: callback to identify if the navigation was successfull
-    func navigate(to route: RouteType, animated: Bool, completion: ((Error?) -> Void)?)
+    func navigate(to route: RouteType,
+                  rootViewController: UIViewController?,
+                  animated: Bool,
+                  completion: ((Error?) -> Void)?)
     
+    /// Navigate using Enums
+    ///
+    /// - Parameters:
+    ///   - route: an enum defining the possible routes
+    ///   - animated: true or false, as the systems default
+    ///   - completion: callback to identify if the navigation was successfull
+    func navigate(to route: RouteType,
+                  animated: Bool,
+                  completion: ((Error?) -> Void)?)
+    
+    /// Navigate using URLs
+    ///
+    /// - Parameters:
+    ///   - url: And URL that can be parsed to a pre-define route
+    ///   - rootViewController: the root controller to start the flow from
+    ///   - animated: true or false, as the systems default
+    ///   - completion: callback to identify if the navigation was successfull
+    @discardableResult
+    func openURL(_ url: URL, from rootViewController: UIViewController?, animated: Bool, completion: ((Error?) -> Void)?) -> Bool
     
     /// Navigate using URLs
     ///
@@ -80,69 +104,85 @@ public protocol RouterProtocol {
     func openURL(_ url: URL, animated: Bool, completion: ((Error?) -> Void)?) -> Bool
 }
 
-public class Router<Route: RouteType & CaseIterable>: RouterProtocol {
+public class Router<Route: RouteType>: RouterProtocol {
     
     //
     // MARK: - Properties
     //
     
-    /// The viewController that starts the flow (could be anything that is Inherited from UIViewController)
-    public let rootViewController: UIViewController
-    
-    /// Returns the rootViewController as an UINavigationController, if possible
-    public var navigationController: UINavigationController? {
-        return rootViewController as? UINavigationController
-    }
-    
-    /// Returns the rootViewController as an UITabBarController, if possible
-    public var tabBarControllerr: UITabBarController? {
-        return rootViewController as? UITabBarController
-    }
+    /// The navigationController that starts the flow
+    public let navigationController: UINavigationController
     
     /// Custom transition delegate
     public weak var customTransitionDelegate: RouterCustomTransitionDelegate?
     
-    // The builders for this flows ViewController's
-    private var viewControllerBuilders: [String : ViewControllerBuilderClosure] = [:]
-    
     /// Register url matcher group
     private lazy var urlMatcherGroup: URLMatcher.Group? = Route.registerURLs()
+    
+    /// Route resolver, where the key is `RouteType` implementation
+    private var routeResolvers = [String: RouteResolverClosure]()
     
     //
     // MARK: - Initialization
     //
     
-    required public init(rootViewController: UIViewController) {
-        self.rootViewController = rootViewController
+    required public init(navigationController: UINavigationController) {
+        self.navigationController = navigationController
     }
     
     //
-    // MARK: - Builder functions
+    // MARK: - Route Resolver functions
     //
     
-    
-    /// Register builder implementation
+    /// Register Resolvers for the routes in this flow
     ///
     /// - Parameters:
-    ///   - route: the route you want to register the builder
-    ///   - viewControllerBuilderClosure: the closure to build the
-    public func registerBuilder(for route: RouteType,
-                                              builder: @escaping ViewControllerBuilderClosure) {
-        viewControllerBuilders[route.name] = builder
+    ///   - route: The route you want to register a builder for the controller
+    ///   - resolver: the delegate wich is going to resolve the route, i.e.,
+    ///               configure it's controller before the transition
+    public func registerResolver<Route>(forRouteType type: Route.Type, resolver: @escaping RouteResolverClosure) where Route : RouteType {
+        let routeTypeName = String(describing: type)
+        routeResolvers[routeTypeName] = resolver
     }
     
-    /// Builds aa ViewController for the route
+    /// Resolve the controller for the route
     ///
     /// - Parameter route: a route, conforming with the provider
     /// - Returns: the configured ViewController
     /// - Throws: an error telling us if the route could not be built
-    private func buildController(for route: RouteType) throws -> UIViewController {
-        guard let viewControllerBuilderClosure = viewControllerBuilders[route.name] else {
+    private func findResolverForRoute(_ route: RouteType) throws -> RouteResolverClosure {
+        let routeTypeName = String(describing: type(of: route))
+        guard let resolver = routeResolvers[routeTypeName] else {
             throw RouterError.couldNotBuildViewControllerForRoute(named: route.name)
         }
-        return try viewControllerBuilderClosure()
+        return resolver
     }
- 
+    
+    /// Gets a configuerd controller for a defined route, if the said route is configured
+    ///
+    /// - Parameter route: the route you want to resolve
+    /// - Returns: a configuredViewControler for the expected route
+    /// - Throws: and error if the resolver is not configured
+    public func resolveControllerForRoute(_ route: RouteType) throws -> UIViewController {
+        
+        let routeResolverClosure: RouteResolverClosure
+        do {
+            routeResolverClosure = try findResolverForRoute(route)
+        } catch {
+            throw error
+        }
+        
+        let controler: UIViewController
+        do {
+            controler = try routeResolverClosure(route)
+        } catch {
+            throw error
+        }
+        
+        return controler
+        
+    }
+    
     //
     // MARK: - Navigation Methods
     //
@@ -152,16 +192,33 @@ public class Router<Route: RouteType & CaseIterable>: RouterProtocol {
     /// - Note: Has no effect if the destination view controller is the view controller
     ///         or navigation controller you are presently on.
     ///
-    open func navigate(to route: RouteType, animated: Bool, completion: ((Error?) -> Void)?) {
-        prepareForNavigation(to: route, animated: animated, successHandler: { (source, destination) in
-            self.performNavigation(from: source,
-                                   to: destination,
-                                   with: route.transition,
-                                   animated: animated,
-                                   completion: completion)
+    open func navigate(to route: RouteType,
+                       rootViewController: UIViewController?,
+                       animated: Bool,
+                       completion: ((Error?) -> Void)?) {
+        prepareForNavigation(to: route,
+                             rootViewController: rootViewController ?? navigationController,
+                             animated: animated,
+                             successHandler: {  (source, destination) in
+                                self.performNavigation(from: source,
+                                                       to: destination,
+                                                       with: route.transition,
+                                                       animated: animated,
+                                                       completion: completion)
         }, errorHandler: { error in
             completion?(error)
         })
+    }
+    
+    /// Navigate, using the route enum
+    ///
+    /// - Note: Has no effect if the destination view controller is the view controller
+    ///         or navigation controller you are presently on.
+    ///
+    open func navigate(to route: RouteType,
+                      animated: Bool,
+                      completion: ((Error?) -> Void)?) {
+        navigate(to: route, rootViewController: nil, animated: animated, completion: completion)
     }
     
     /// Navigate matching an URL to a pre-defined route
@@ -173,18 +230,32 @@ public class Router<Route: RouteType & CaseIterable>: RouterProtocol {
     ///         Avoid using it for all the internal navigation flow, try to use enums on this case.
     ///
     @discardableResult
-    open func openURL(_ url: URL, animated: Bool = true, completion: ((Error?) -> Void)?) -> Bool {
+    open func openURL(_ url: URL,
+                      from rootViewController: UIViewController?,
+                      animated: Bool = true,
+                      completion: ((Error?) -> Void)?) -> Bool {
         do {
             guard let route = try findMatchingRoute(for: url) else {
                 completion?(nil) // No matching route
                 return false
             }
-            navigate(to: route, animated: animated, completion: completion)
+            navigate(to: route, rootViewController: nil, animated: animated, completion: completion)
             return true
         } catch {
             completion?(error) // error finding the route
         }
         return false
+    }
+    
+    /// Navigate using URLs
+    ///
+    /// - Parameters:
+    ///   - url: And URL that can be parsed to a pre-define route
+    ///   - animated: true or false, as the systems default
+    ///   - completion: callback to identify if the navigation was successfull
+    @discardableResult
+    open func openURL(_ url: URL, animated: Bool, completion: ((Error?) -> Void)?) -> Bool {
+        return openURL(url, from: nil, animated: animated, completion: completion)
     }
     
     //
@@ -201,6 +272,7 @@ public class Router<Route: RouteType & CaseIterable>: RouterProtocol {
     /// - Note: The completion block will not execute if we could not find a route
     ///
     private func prepareForNavigation(to route: RouteType,
+                                      rootViewController: UIViewController?,
                                       animated: Bool,
                                       successHandler: @escaping (_ source: UIViewController, _ destination: UIViewController) -> Void,
                                       errorHandler: @escaping (Error) -> Void) {
@@ -212,7 +284,7 @@ public class Router<Route: RouteType & CaseIterable>: RouterProtocol {
         
         let destination: UIViewController
         do {
-            destination = try buildController(for: route) //try route.prepareForTransition(from: source)
+            destination = try resolveControllerForRoute(route)
         } catch {
             errorHandler(error)
             return
@@ -251,45 +323,118 @@ public class Router<Route: RouteType & CaseIterable>: RouterProtocol {
         
         switch transition {
         case .push:
-            guard let navigationControler = rootViewController as? UINavigationController else {
-                completion?(RouterError.missingRequiredNavigationController(for: transition))
-                return
-            }
-            navigationControler.pushViewController(destination, animated: animated) {
-                completion?(nil)
-            }
+            pushTransition(source, destination, animated, completion)
         case .set:
-            if rootViewController is UINavigationController {
-                guard let navigationControler = rootViewController as? UINavigationController else {
-                    completion?(RouterError.missingRequiredNavigationController(for: transition))
-                    return
-                }
-                navigationControler.setViewControllers([destination], animated: animated) {
-                    completion?(nil)
-                }
-            } else if rootViewController is UITabBarController { // TODO: Implement
-                debugPrint("Do Something")
+            if source is UINavigationController {
+                setTransition(source, destination, animated, completion)
+            } else if source is UITabBarController {
+                // TODO: check this...
+                debugPrint("UITabBarController")
             }
         case .present:
-            source.present(destination, animated: animated) {
-                completion?(nil)
+            modalTransition(source, destination, animated, completion)
+        case .inferred:
+            if source is UITabBarController {
+                // TODO: check this...
+                debugPrint("UITabBarController")
+            } else {
+               inferTransition(source, destination, animated, completion)
             }
         case .custom:
-            guard let customTransitionDelegate = customTransitionDelegate else {
-                completion?(RouterError.missingCustomTransitionDelegate)
-                return
-            }
-            customTransitionDelegate.performTransition(to: destination,
-                                                       from: source,
-                                                       transition: transition,
-                                                       animated: animated,
-                                                       completion: completion)
+            customTransition(transition, source, destination, animated, completion)
         }
     }
     
-    //
+    // MARK: - Transitions
+    
+    /// Infer transition from context
+    private func inferTransition(_ source: UIViewController,
+                                 _ destination: UIViewController,
+                                 _ animated: Bool,
+                                 _ completion: ((Error?) -> Void)?) {
+        if (source as? UINavigationController) == nil || (destination as? UINavigationController) != nil {
+            modalTransition(source, destination, animated, completion)
+        } else if destination.navigationController == source {
+            setTransition(source, destination, animated, completion)
+        } else {
+            pushTransition(source, destination, animated, completion)
+        }
+    }
+    
+    /// Push transition
+    private func pushTransition(_ source: UIViewController,
+                                _ destination: UIViewController,
+                                _ animated: Bool,
+                                _ completion: ((Error?) -> Void)?) {
+        guard let navController = source as? UINavigationController else {
+            completion?(RouterError.missingRequiredNavigationController(for: .push))
+            return
+        }
+        
+        navController.pushViewController(destination, animated: animated) {
+            completion?(nil)
+        }
+    }
+    
+    /// Set transition
+    private func setTransition(_ source: UIViewController,
+                               _ destination: UIViewController,
+                               _ animated: Bool,
+                               _ completion: ((Error?) -> Void)?) {
+        guard let navController = source as? UINavigationController else {
+            completion?(RouterError.missingRequiredNavigationController(for: .set))
+            return
+        }
+        
+        let viewControllers: [UIViewController]
+        
+        if let index = navController.viewControllers.firstIndex(of: destination) {
+            //
+            // Pop all view controllers above the destination
+            //
+            viewControllers = Array(navController.viewControllers[...index])
+        } else {
+            //
+            // Set destination
+            //
+            viewControllers = [destination]
+        }
+        
+        navController.setViewControllers(viewControllers, animated: animated) {
+            completion?(nil)
+        }
+    }
+    
+    /// Modal transition
+    private func modalTransition(_ source: UIViewController,
+                                 _ destination: UIViewController,
+                                 _ animated: Bool,
+                                 _ completion: ((Error?) -> Void)?) {
+        source.present(destination, animated: animated) {
+            completion?(nil)
+        }
+    }
+    
+    /// Custom transition
+    private func customTransition(_ transition: RouteTransition,
+                                  _ source: UIViewController,
+                                  _ destination: UIViewController,
+                                  _ animated: Bool,
+                                  _ completion: ((Error?) -> Void)?) {
+        
+        guard let delegate = customTransitionDelegate else {
+            completion?(RouterError.missingCustomTransitionDelegate)
+            return
+        }
+        
+        delegate.performTransition(to: destination,
+                                   from: source,
+                                   transition: transition,
+                                   animated: animated,
+                                   completion: completion)
+    }
+    
     // MARK: - URL Parsing
-    //
     
     ///
     /// Find a matching Route for a URL.

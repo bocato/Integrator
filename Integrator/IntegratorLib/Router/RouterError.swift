@@ -34,7 +34,15 @@ public enum RouterError {
     /// A required parameter was found, but it was not an Int
     case requiredIntegerParameterWasNotAnInteger(parameter: String, stringValue: String)
     
+    /// Defines an error when the resolver is not configured
+    case couldNotFindResolverForRoute(RouteType)
+    
+    /// A represents an error when the builder is not configured
     case couldNotBuildViewControllerForRoute(named: String)
+    
+    /// There is no possible route configured for this pattern
+    case couldNotFindRouteForPattern(String)
+    
 }
 
 extension RouterError: LocalizedError {
@@ -68,9 +76,18 @@ extension RouterError: LocalizedError {
             Required integer parameter \"\(name)\" existed, but was not an integer.
             Instead \"\(stringValue)\" was received."
             """
+        case .couldNotFindResolverForRoute(let route):
+            return """
+            There is no configured resolver for \(String(describing: route))"
+            """
         case .couldNotBuildViewControllerForRoute(let routeName):
             return """
             The view controller for "\(routeName)" could not be built."
+            """
+        case .couldNotFindRouteForPattern(let pattern):
+            return """
+            There is no route configured for the pattern below:
+            \(pattern.debugDescription)
             """
         }
     }
@@ -99,10 +116,20 @@ extension RouterError: LocalizedError {
             return """
             The value that was received was \"\(stringValue)\", which could not be cast to `Int`.
             """
+        case .couldNotFindResolverForRoute(let route):
+            return """
+            You should check if there is a resolver registered for \(String(describing: route))"
+            """
         case .couldNotBuildViewControllerForRoute(let routeName):
             return """
             The view controller for "\(routeName)" could not be built, please
             check if you have registered it's builder properly."
+            """
+        case .couldNotFindRouteForPattern(let pattern):
+            return """
+            There is no route configured for the pattern below:
+            \(pattern)
+            Check its configuration.
             """
         }
     }

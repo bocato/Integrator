@@ -8,10 +8,6 @@
 
 import UIKit
 
-struct HomeViewControllerDependencies {
-    let labelText: String
-}
-
 class HomeViewController: UIViewController {
 
     // MARK: - IBOutlets
@@ -21,6 +17,10 @@ class HomeViewController: UIViewController {
     private let centerLabelText: String
     
     // MARK: - Initialization
+    init() {
+        self.centerLabelText = "HOME"
+        super.init(nibName: "HomeViewController", bundle: nil)
+    }
     
     init(centerLabelText: String) {
         self.centerLabelText = centerLabelText

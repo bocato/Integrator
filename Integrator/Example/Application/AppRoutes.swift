@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum AppRoutes: CaseIterable {
+enum AppRoutes {
     
     //
     // MARK: - Routes
@@ -18,7 +18,7 @@ enum AppRoutes: CaseIterable {
     case login
     
     /// presented home TabBarcontroller
-    case homeTabBar
+    case homeTabBar(_ tab: HomeTab)
     
 }
 extension AppRoutes: RouteType {
@@ -31,17 +31,19 @@ extension AppRoutes: RouteType {
     var transition: RouteTransition {
         switch self {
         case .login: return .set
-        case .homeTabBar: return .present
+        case .homeTabBar: return .set
         }
     }
     
-    static func registerURLs() -> URLMatcher.Group? {
-        return URLMatcher.Group(matchers: [
-            .group(["integrator.test.com", "localhost"]) {
-                $0.map("login") { self.login }
-                $0.map("homeTabBar") { self.homeTabBar }
-            }
-        ])
-    }
+//    static func registerURLs() -> URLMatcher.Group? {
+//        return URLMatcher.Group(matchers: [
+//            .group(["integrator.test.com", "localhost"]) {
+//                $0.map("login") { self.login }
+//                $0.map("homeTabBar/") { self.homeTabBar(nil) }
+//                $0.map("homeTabBar/home/{text}") { try HomeTab.home($0.param("text")) }
+//                $0.map("homeTabBar/profile") { HomeTab.profile }
+//            }
+//        ])
+//    }
     
 }

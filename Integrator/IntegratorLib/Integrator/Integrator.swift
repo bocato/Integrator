@@ -27,7 +27,7 @@ public protocol IntegratorDelegate: AnyObject {
 }
 
 /// Defines an integrator for Controllers, or Integrators
-public protocol Integrator: AnyObject {
+public protocol Integrator: RouteResolver, AnyObject {
     
     //
     // MARK: - Properties
@@ -51,13 +51,6 @@ public protocol Integrator: AnyObject {
     
     /// Starts the integration flow and calls registerViewControllerBuilders() to do it
     func start()
-    
-    /// Needs to be implemented in order to guarantee that the builders will be registered
-    ///
-    /// - Note: We suggest to call it on `init` or `start`.
-    ///         Also, don't forget to implement the builders for all cases in the Route
-    ///
-    func registerRouteBuilders()
     
     //
     // MARK: - Output Operations
@@ -85,18 +78,14 @@ public protocol Integrator: AnyObject {
 }
 public extension Integrator {
     
-    //
     // MARK: - Methods
-    //
     
     /// Used to have a callback and clean up everything flow related
     public func finish() {
         integratorDelegate?.childDidFinish(self)
     }
     
-    //
     // MARK: - Child Operations
-    //
     
     /// Attachs a child integration flow
     ///
@@ -127,9 +116,7 @@ public extension Integrator {
         completion?()
     }
     
-    //
     // MARK: - Output Operations
-    //
     
     /// Default implementation, in order to guarantee that the output is passed on
     ///
@@ -162,9 +149,7 @@ public extension Integrator {
         parent?.receiveOutput(from: self, output: output)
     }
     
-    //
     // MARK: - Input Operations
-    //
     
     /// Sends an input to a designated Child
     ///
@@ -204,9 +189,8 @@ public extension Integrator {
         debugPrint("\(input) was received from \(parent?.identifier ?? "nobody, 'cause this guy doesn't have a parent!")")
     }
     
-    //
     // MARK: - Helpers
-    //
+    
     public var identifier: String {
         return String(describing: type(of: self))
     }
