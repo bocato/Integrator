@@ -18,7 +18,6 @@ enum MyRoute: RouteType {
 
     // MARK: - Routes
     
-    /// Root view controller
     case login
     case homeTabBar(tab: HomeTab)
     
@@ -33,9 +32,6 @@ enum MyRoute: RouteType {
     
 }
 ```
-
-##### URL Support
-[TODO]
 
 ---
 ### Creating and using a Router
@@ -87,7 +83,26 @@ extension AppIntegrator: RouteResolver {
 }
 ```
 
+## Advanced Usage
 
+### URL Support
+
+You only need to do one thing to add URL support to your routes.
+Implement the static method `registerURLs`:
+```swift
+extension MyRoute {
+
+    /* ... */
+
+    static func registerURLs() -> URLMatcherGroup<Route>? {
+        return .group("integrator.example.com") {
+            $0.map("login") { MyRoute.login }
+            $0.map("home-tabbar/{tab}") { try MyRoute.homeTabBar(HomeTab($0.param("tab"))) }
+        }
+    }
+
+}
+```
 
 
 
