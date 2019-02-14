@@ -29,7 +29,7 @@ class HomeTabBarIntegrator: Integrator {
     init(router: RouterProtocol, selectedTab: AppRoutes.HomeTab) {
         self.router = router
         self.selectedTab = selectedTab
-        router.registerResolver(forRouteType: Routes.self, resolver: executeBeforeTransition)
+        router.registerResolver(forRouteType: AppRoutes.HomeTab.self, resolver: executeBeforeTransition)
     }
     
     // MARK: - Required Methods
@@ -43,12 +43,16 @@ class HomeTabBarIntegrator: Integrator {
     
     // MARK: - Configure TabBar
     private func configureControllers(forTab tab: AppRoutes.HomeTab) { // meh, review this... just want it to work...
+        
         tabBarController = UITabBarController()
         tabBarController.toolbarItems = [
             UIBarButtonItem(title: "Home", style: .plain, target: nil, action: nil),
             UIBarButtonItem(title: "Profile", style: .plain, target: nil, action: nil),
         ]
-        tabBarController.setViewControllers([HomeViewController(), ProfileViewController()], animated: false)
+        let home = UINavigationController(rootViewController: HomeViewController())
+        let profile = UINavigationController(rootViewController: ProfileViewController())
+        tabBarController.setViewControllers([home, profile], animated: false)
+        
         switch tab {
         case .home:
             tabBarController.selectedIndex = 0
@@ -68,7 +72,8 @@ extension HomeTabBarIntegrator: RouteResolver {
         }
         
         switch currentRoute {
-        case .home:
+        case .home(let text):
+            (tabBarController.viewControllers?[0] as? HomeViewController)?.centerLabelText = text
             tabBarController.selectedIndex = 0
         case .profile:
             tabBarController.selectedIndex = 1

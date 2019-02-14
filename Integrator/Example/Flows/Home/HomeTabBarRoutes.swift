@@ -17,10 +17,12 @@ extension AppRoutes {
         //
         
         init(url: MatchedURL) throws {
-            let tabName = try url.param("tab")
+            let tabName: String = try url.param("tab")
             switch tabName {
             case "home":
-                let text = try url.param("text")
+                guard let text: String = url.query("text") else {
+                    throw RouterError.couldNotFindRouteForMatchedURL(url)
+                }
                 self = .home(text: text)
             case "profile":
                 self = .profile
@@ -47,6 +49,15 @@ extension AppRoutes {
             case .home: return .set
             case .profile: return .set
             }
+        }
+        
+        static func registerURLs() -> URLMatcher.Group? {
+            return URLMatcher.Group(matchers: [
+                .group("") {
+                    $0.map("profile") { AppRoutes.HomeTab.profile }
+                    $0.map("home") { try HomeTab(url: $0) }
+                }
+            ])
         }
         
     }

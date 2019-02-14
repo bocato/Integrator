@@ -39,7 +39,7 @@ extension AppRoutes: RouteType {
         return URLMatcher.Group(matchers: [
             .group(["integrator.test.com", "localhost"]) {
                 $0.map("login") { AppRoutes.login }
-                $0.map("homeTabBar/*") { try HomeTab(url: $0) }
+                $0.map("homeTabBar/{tab}") { try AppRoutes.homeTabBar(HomeTab(url: $0)) }
             }
         ])
     }

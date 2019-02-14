@@ -72,6 +72,15 @@ public class MatchedURL {
         return parameter
     }
     
+    /// Retrieve a named parameter as an `Int`
+    public func param(_ name: String) throws -> Int {
+        let stringParam: String = try param(name)
+        guard let intParam = Int(stringParam) else {
+            throw RouterError.requiredIntegerParameterWasNotAnInteger(parameter: name, stringValue: stringParam)
+        }
+        return intParam
+    }
+    
     /// Retrieve a query string parameter as a `String`
     public func query(_ name: String) -> String? {
         return queryItems[name]

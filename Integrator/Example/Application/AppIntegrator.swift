@@ -30,6 +30,11 @@ class AppIntegrator: ApplicationIntegrator {
         router.navigate(to: AppRoutes.login, animated: true) { (error) in
             debugPrint("error: \(error.debugDescription)")
         }
+  
+//        let homeTabBarURL = URL(string: "testapp://localhost/homeTabBar/home?text=MyHome")! // Local
+//        router.openURL(homeTabBarURL, animated: true) { (error) in
+//            debugPrint("error: \(error.debugDescription)")
+//        }
         
     }
     
@@ -55,9 +60,12 @@ extension AppIntegrator: RouteResolver {
                 
                 return homeTabBarIntegrator.tabBarController
                 
-             } catch { throw error }
+             } catch {
+                throw error
+            }
 
-        case .login: return buildLoginViewController()
+        case .login:
+            return buildLoginViewController()
         }
         
     }
@@ -78,16 +86,16 @@ extension AppIntegrator: LoginViewControllerDelegate {
     func loginDidSucceed(in controller: LoginViewController) {
         
         // Using URLS
-//        let homeTabBarURL = URL(string: "testapp://localhost/homeTabBar")! // Local
-//            // URL(string: "http://integrator.test.com/homeTabBar") // WEB
-//        router.openURL(homeTabBarURL, animated: true) { (error) in
-//            debugPrint("error: \(error.debugDescription)")
-//        }
-//
-        // Using Enums
-        router.navigate(to: AppRoutes.homeTabBar(.home(text: "HOME-Test")), animated: true) { (error) in
+        let homeTabBarURL = URL(string: "testapp://localhost/homeTabBar/home?text=MyHome")! // Local
+            // URL(string: "http://integrator.test.com/homeTabBar/home/text?=MyHome") // WEB
+        router.openURL(homeTabBarURL, animated: true) { (error) in
             debugPrint("error: \(error.debugDescription)")
         }
+
+        // Using Enums
+//        router.navigate(to: AppRoutes.homeTabBar(.home(text: "HOME-Test")), animated: true) { (error) in
+//            debugPrint("error: \(error.debugDescription)")
+//        }
         
     }
     

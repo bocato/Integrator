@@ -14,16 +14,10 @@ class HomeViewController: UIViewController {
     @IBOutlet private weak var centerLabel: UILabel!
     
     // MARK: - Dependencies
-    private let centerLabelText: String
+    var centerLabelText: String = "Home"
     
     // MARK: - Initialization
     init() {
-        self.centerLabelText = "HOME"
-        super.init(nibName: "HomeViewController", bundle: nil)
-    }
-    
-    init(centerLabelText: String) {
-        self.centerLabelText = centerLabelText
         super.init(nibName: "HomeViewController", bundle: nil)
     }
     
