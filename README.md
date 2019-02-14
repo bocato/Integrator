@@ -9,7 +9,7 @@ Flow integration, based on the concepts of FlowControllers, Coordinators and Res
 
 ---
 
-## Usage
+## Basic Usage
 
 ### Create and configure the Routes
 
@@ -38,14 +38,18 @@ enum MyRoute: RouteType {
 [TODO]
 
 ---
-## Create a Router instance
+### Creating and using a Router
 ```swift
+// Create a router
 let rootNavigationController = UINavigationController()
-let myRouter = Router<AppRoutes>(navigationController: rootNavigationController)
+let router = Router<AppRoutes>(navigationController: rootNavigationController)
+
+// Navigate to a route
+router.navigate(to: .login)
 ```
 
 ---
-## Create an Integrator
+### Create an Integrator
 #### Note: this is the part where you implement the `integration` related stuff, such as:
 ####### Delegates / closures / etc, for the callbacks from your controllers or actors.
 ####### Configure the actions before each transition, i.e., register the route resolvers, in order to have control over the flow.
@@ -73,3 +77,29 @@ extension AppIntegrator: RouteResolver {
     
 }
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
