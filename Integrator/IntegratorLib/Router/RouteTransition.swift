@@ -49,6 +49,11 @@ public enum RouteTransition {
     case set
     
     ///
+    /// Automatically infer the best transition to use.
+    ///
+    case inferred
+    
+    ///
     /// Uses a custom transition.
     ///
     /// - See `RouterCustomTransitionDelegate` for use.

@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Create integrator dependencies
         let rootNavigationController = UINavigationController()
-        let mainRouter = Router<AppRoutes>(rootViewController: rootNavigationController)
+        let mainRouter = Router<AppRoutes>(navigationController: rootNavigationController)
         
         // Create the integrator
         appIntegrator = AppIntegrator(router: mainRouter)

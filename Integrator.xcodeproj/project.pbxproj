@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E51EE893221486700030C23E /* URLMatcher+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51EE892221486700030C23E /* URLMatcher+Group.swift */; };
+		E51EE89722148C650030C23E /* RouteResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51EE89622148C650030C23E /* RouteResolver.swift */; };
 		E55B81F22204835600C0ED7B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B81F12204835600C0ED7B /* AppDelegate.swift */; };
 		E55B81F92204835800C0ED7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E55B81F82204835800C0ED7B /* Assets.xcassets */; };
 		E55B81FC2204835800C0ED7B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E55B81FA2204835800C0ED7B /* LaunchScreen.storyboard */; };
@@ -18,7 +20,6 @@
 		E55B8229220487EA00C0ED7B /* RouteTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B8228220487EA00C0ED7B /* RouteTransition.swift */; };
 		E55B822B2204880800C0ED7B /* RouteType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B822A2204880800C0ED7B /* RouteType.swift */; };
 		E55B82302204AA7B00C0ED7B /* URLMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B822F2204AA7B00C0ED7B /* URLMatcher.swift */; };
-		E55B82322204AAC600C0ED7B /* URLMatcher+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82312204AAC600C0ED7B /* URLMatcher+Group.swift */; };
 		E55B82342204AAFC00C0ED7B /* URLPathMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82332204AAFC00C0ED7B /* URLPathMapper.swift */; };
 		E55B82362204AB3A00C0ED7B /* PathPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82352204AB3A00C0ED7B /* PathPattern.swift */; };
 		E55B82382204AB6000C0ED7B /* PathPattern+Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82372204AB6000C0ED7B /* PathPattern+Component.swift */; };
@@ -27,7 +28,7 @@
 		E55B823F220899BF00C0ED7B /* UINavigationControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B823E220899BF00C0ED7B /* UINavigationControllerExtensions.swift */; };
 		E55B8241220899E800C0ED7B /* UITabBarControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B8240220899E800C0ED7B /* UITabBarControllerExtensions.swift */; };
 		E55B824322089A2400C0ED7B /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B824222089A2400C0ED7B /* UIViewControllerExtensions.swift */; };
-		E55B82452208A9F100C0ED7B /* RouterCustomTransitionDelegateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82442208A9F100C0ED7B /* RouterCustomTransitionDelegateProtocol.swift */; };
+		E55B82452208A9F100C0ED7B /* RouterCustomTransitionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82442208A9F100C0ED7B /* RouterCustomTransitionDelegate.swift */; };
 		E55B82572208D52800C0ED7B /* AppRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82562208D52800C0ED7B /* AppRoutes.swift */; };
 		E55B825C2208D64D00C0ED7B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B825A2208D64D00C0ED7B /* LoginViewController.swift */; };
 		E55B825D2208D64D00C0ED7B /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E55B825B2208D64D00C0ED7B /* LoginViewController.xib */; };
@@ -39,6 +40,7 @@
 		E55B82B12211EABB00C0ED7B /* IntegratorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82B02211EABB00C0ED7B /* IntegratorError.swift */; };
 		E55B82B62212063500C0ED7B /* HomeTabBarIntegrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82B52212063500C0ED7B /* HomeTabBarIntegrator.swift */; };
 		E55B82B82212113900C0ED7B /* HomeTabBarRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82B72212113900C0ED7B /* HomeTabBarRoutes.swift */; };
+		E55B82BC22133A5300C0ED7B /* RoutingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82BB22133A5300C0ED7B /* RoutingError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +61,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E51EE892221486700030C23E /* URLMatcher+Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLMatcher+Group.swift"; sourceTree = "<group>"; };
+		E51EE89622148C650030C23E /* RouteResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteResolver.swift; sourceTree = "<group>"; };
 		E55B81EE2204835600C0ED7B /* Integrator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Integrator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E55B81F12204835600C0ED7B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E55B81F82204835800C0ED7B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -76,7 +80,6 @@
 		E55B8228220487EA00C0ED7B /* RouteTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteTransition.swift; sourceTree = "<group>"; };
 		E55B822A2204880800C0ED7B /* RouteType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteType.swift; sourceTree = "<group>"; };
 		E55B822F2204AA7B00C0ED7B /* URLMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLMatcher.swift; sourceTree = "<group>"; };
-		E55B82312204AAC600C0ED7B /* URLMatcher+Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLMatcher+Group.swift"; sourceTree = "<group>"; };
 		E55B82332204AAFC00C0ED7B /* URLPathMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLPathMapper.swift; sourceTree = "<group>"; };
 		E55B82352204AB3A00C0ED7B /* PathPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathPattern.swift; sourceTree = "<group>"; };
 		E55B82372204AB6000C0ED7B /* PathPattern+Component.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PathPattern+Component.swift"; sourceTree = "<group>"; };
@@ -85,7 +88,7 @@
 		E55B823E220899BF00C0ED7B /* UINavigationControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationControllerExtensions.swift; sourceTree = "<group>"; };
 		E55B8240220899E800C0ED7B /* UITabBarControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITabBarControllerExtensions.swift; sourceTree = "<group>"; };
 		E55B824222089A2400C0ED7B /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
-		E55B82442208A9F100C0ED7B /* RouterCustomTransitionDelegateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterCustomTransitionDelegateProtocol.swift; sourceTree = "<group>"; };
+		E55B82442208A9F100C0ED7B /* RouterCustomTransitionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterCustomTransitionDelegate.swift; sourceTree = "<group>"; };
 		E55B82562208D52800C0ED7B /* AppRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRoutes.swift; sourceTree = "<group>"; };
 		E55B825A2208D64D00C0ED7B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		E55B825B2208D64D00C0ED7B /* LoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -97,6 +100,7 @@
 		E55B82B02211EABB00C0ED7B /* IntegratorError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegratorError.swift; sourceTree = "<group>"; };
 		E55B82B52212063500C0ED7B /* HomeTabBarIntegrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabBarIntegrator.swift; sourceTree = "<group>"; };
 		E55B82B72212113900C0ED7B /* HomeTabBarRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabBarRoutes.swift; sourceTree = "<group>"; };
+		E55B82BB22133A5300C0ED7B /* RoutingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,7 +202,9 @@
 				E55B8228220487EA00C0ED7B /* RouteTransition.swift */,
 				E55B8224220483F500C0ED7B /* Router.swift */,
 				E55B8226220487AA00C0ED7B /* RouterError.swift */,
-				E55B82442208A9F100C0ED7B /* RouterCustomTransitionDelegateProtocol.swift */,
+				E55B82442208A9F100C0ED7B /* RouterCustomTransitionDelegate.swift */,
+				E55B82BB22133A5300C0ED7B /* RoutingError.swift */,
+				E51EE89622148C650030C23E /* RouteResolver.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -207,7 +213,7 @@
 			isa = PBXGroup;
 			children = (
 				E55B822F2204AA7B00C0ED7B /* URLMatcher.swift */,
-				E55B82312204AAC600C0ED7B /* URLMatcher+Group.swift */,
+				E51EE892221486700030C23E /* URLMatcher+Group.swift */,
 				E55B82332204AAFC00C0ED7B /* URLPathMapper.swift */,
 				E55B82352204AB3A00C0ED7B /* PathPattern.swift */,
 				E55B82372204AB6000C0ED7B /* PathPattern+Component.swift */,
@@ -439,20 +445,22 @@
 				E55B8225220483F500C0ED7B /* Router.swift in Sources */,
 				E55B823A2204ABA100C0ED7B /* MatchedURL.swift in Sources */,
 				E55B81F22204835600C0ED7B /* AppDelegate.swift in Sources */,
+				E55B82BC22133A5300C0ED7B /* RoutingError.swift in Sources */,
 				E55B8241220899E800C0ED7B /* UITabBarControllerExtensions.swift in Sources */,
+				E51EE893221486700030C23E /* URLMatcher+Group.swift in Sources */,
 				E55B8227220487AA00C0ED7B /* RouterError.swift in Sources */,
 				E55B82B12211EABB00C0ED7B /* IntegratorError.swift in Sources */,
 				E55B822B2204880800C0ED7B /* RouteType.swift in Sources */,
-				E55B82452208A9F100C0ED7B /* RouterCustomTransitionDelegateProtocol.swift in Sources */,
+				E55B82452208A9F100C0ED7B /* RouterCustomTransitionDelegate.swift in Sources */,
 				E55B82572208D52800C0ED7B /* AppRoutes.swift in Sources */,
 				E55B82B62212063500C0ED7B /* HomeTabBarIntegrator.swift in Sources */,
 				E55B82382204AB6000C0ED7B /* PathPattern+Component.swift in Sources */,
 				E55B823F220899BF00C0ED7B /* UINavigationControllerExtensions.swift in Sources */,
 				E55B82602208D65C00C0ED7B /* HomeViewController.swift in Sources */,
 				E55B82302204AA7B00C0ED7B /* URLMatcher.swift in Sources */,
+				E51EE89722148C650030C23E /* RouteResolver.swift in Sources */,
 				E55B82362204AB3A00C0ED7B /* PathPattern.swift in Sources */,
 				E55B82642208D66A00C0ED7B /* ProfileViewController.swift in Sources */,
-				E55B82322204AAC600C0ED7B /* URLMatcher+Group.swift in Sources */,
 				E55B82212204837600C0ED7B /* Integrator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

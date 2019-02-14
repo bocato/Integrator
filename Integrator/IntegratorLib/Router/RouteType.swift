@@ -9,7 +9,7 @@
 
 import UIKit
 
-public protocol RouteType { // Enum, CaseIterable
+public protocol RouteType { // Enum
     
     //
     // MARK: - Properties
@@ -24,14 +24,6 @@ public protocol RouteType { // Enum, CaseIterable
     //
     // MARK: - Methods
     //
-
-//    ///
-//    /// Prepare the route for transition and return the view controller
-//    ///  to transition to on the view hierachy.
-//    ///
-//    /// - Note: Throwing an error here will cancel the transition
-//    ///
-//    func prepareForTransition(from viewController: UIViewController) throws -> UIViewController
     
     ///
     /// Register a URL matcher group.
@@ -55,6 +47,11 @@ extension RouteType {
         return String(describing: self).components(separatedBy: "(")[0]
     }
     
+    /// Transition type
+    public var transition: RouteTransition {
+        return .inferred
+    }
+    
     /// Register URLs default
     static func registerURLs() -> URLMatcher.Group? {
         return nil
@@ -66,10 +63,9 @@ extension RouteType {
     // MARK: - Equatable
     
     /// Equatable (default: Compares on `name` property)
-    public static func == (_ lhs: Self, _ rhs: Self) -> Bool {
+    public static func == (_ lhs: RouteType, _ rhs: RouteType) -> Bool {
         return lhs.name == rhs.name
     }
     
     
 }
-

@@ -10,12 +10,23 @@
 import Foundation
 
 /**
- A URL that has been matched to a registered `RouteProvider` route.
+ A URL that has been matched to a registered `RouteType` route.
  
  Used for shortcuts when mapping registered URLs routes.
  
  - Note: For use when handling routing parameters.
- - See: `Route.registerURLs(...)`
+ - See: `RouteType.registerURLs(...)`
+ 
+ Usage:
+ ```swift
+ // Path parameters
+ let str: String = try $0.param("myParam")
+ let int: Int = try $0.param("id")
+ 
+ // Query string parameters
+ let str: String? = $0.query("myParam")
+ let int: Int? = $0.query("myParam")
+ ```
  */
 public class MatchedURL {
     

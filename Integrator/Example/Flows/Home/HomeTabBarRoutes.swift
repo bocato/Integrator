@@ -10,7 +10,21 @@ import UIKit
 
 extension AppRoutes {
     
-    enum HomeTabBar: RouteType & CaseIterable {
+    enum HomeTab: RouteType {
+        
+        //
+        // MARK: - Initialization
+        //
+      
+        init?(name: String, params: [String: Any]?) throws {
+            switch name {
+            case "home":
+                self = .home
+            case "profile":
+                self = .profile
+            default: throw RouterError.couldNotFindRouteForPattern("/homeTab/\(name)")
+            }
+        }
         
         //
         // MARK: - Routes
@@ -31,15 +45,6 @@ extension AppRoutes {
             case .home: return .set
             case .profile: return .set
             }
-        }
-        
-        static func registerURLs() -> URLMatcher.Group? { // TODO: Check this...
-            return URLMatcher.Group(matchers: [
-                .group(["homeTabBar"]) {
-                    $0.map("home") { self.home }
-                    $0.map("profile") { self.profile }
-                }
-            ])
         }
         
     }

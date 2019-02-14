@@ -25,6 +25,7 @@ import Foundation
  */
 public class PathPattern: ExpressibleByStringLiteral, Hashable {
     
+    
     //
     // MARK: - Properties
     //
@@ -85,6 +86,13 @@ public class PathPattern: ExpressibleByStringLiteral, Hashable {
         }
         
         return .exact(string: string)
+    }
+    
+}
+extension PathPattern: CustomDebugStringConvertible {
+    
+    public var debugDescription: String {
+        return rawValue
     }
     
 }

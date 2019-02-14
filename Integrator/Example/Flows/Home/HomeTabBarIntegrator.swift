@@ -12,7 +12,7 @@ class HomeTabBarIntegrator: Integrator {
     
     // MARK: - Aliases
     
-    typealias Routes = AppRoutes.HomeTabBar
+    typealias Routes = AppRoutes.HomeTab
     
     // MARK: - Properties
     
@@ -21,37 +21,51 @@ class HomeTabBarIntegrator: Integrator {
     var parent: Integrator?
     var childs: [Integrator]?
     
+    var tabBarController: UITabBarController! // meh, check this
+    
     // MARK: - Initialization
     
-    init(router: RouterProtocol) {
+    init(router: RouterProtocol, tab: AppRoutes.HomeTab) {
         self.router = router
-        registerRouteBuilders()
+        router.registerResolver(forRouteType: Routes.self, resolver: self)
     }
     
     // MARK: - Required Methods
     
     func start() {
-        registerRouteBuilders()
-        router.navigate(to: Routes.home, animated: true) { (error) in
+        router.navigate(to: Routes.home, rootViewController: nil, animated: true) { (error) in
             debugPrint("\(error.debugDescription)")
         }
     }
     
-    func registerRouteBuilders() {
-        router.registerBuilder(for: Routes.home, builder: homeRouteBuilder)
-        router.registerBuilder(for: Routes.profile, builder: profileRouteBuilder)
-    }
-    
-    // MARK: - Builders
-    
-    private func homeRouteBuilder() -> UIViewController {
-        let homeViewController = HomeViewController(centerLabelText: "HOME TEXT!")
-        return homeViewController
-    }
-    
-    private func profileRouteBuilder() -> UIViewController {
-        let profileViewController = ProfileViewController()
-        return profileViewController
+    // MARK: - Configure TabBar
+    private func configureControllers(forTab tab: AppRoutes.HomeTab) { // meh, review this... just want it to work...
+        tabBarController = UITabBarController()
+        tabBarController.setViewControllers([HomeViewController(), ProfileViewController()], animated: false)
+        switch tab {
+        case .home:
+            tabBarController.selectedIndex = 0
+        case .profile:
+            tabBarController.selectedIndex = 1
+        }
     }
     
 }
+// MARK: - RouteResolver
+extension HomeTabBarIntegrator: RouteResolver {
+    
+    func prepareForTransition(to route: RouteType) throws -> UIViewController {
+        
+        guard let currentRoute = route as? Routes else { // TODO: Verify this
+            throw RouterError.couldNotBuildViewControllerForRoute(named: route.name)
+        }
+        
+        switch currentRoute {
+        case .home: return tabBarController.viewControllers![0] // TODO: Check this...
+        case .profile: return tabBarController.viewControllers![1] // TODO: Check this...
+        }
+        
+    }
+    
+}
+
