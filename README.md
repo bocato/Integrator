@@ -44,8 +44,12 @@ enum MyRoute: RouteType {
 let rootNavigationController = UINavigationController()
 let router = Router<AppRoutes>(navigationController: rootNavigationController)
 
-// Navigate to a route
-router.navigate(to: .login)
+// Navigate to a route using enums
+router.navigate(to: MyRoute.login)
+
+// Navigate to a route using URL's
+router.openURL(url)
+
 ```
 
 ---
