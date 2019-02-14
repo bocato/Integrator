@@ -38,7 +38,7 @@ enum MyRoute: RouteType {
 ```swift
 // Create a router
 let rootNavigationController = UINavigationController()
-let router = Router<AppRoutes>(navigationController: rootNavigationController)
+let router = Router<MyRoute>(navigationController: rootNavigationController)
 
 // Navigate to a route using enums
 router.navigate(to: MyRoute.login)
@@ -69,7 +69,12 @@ class MyIntegrator: Integrator {
     var childs: [Integrator]? = []
     
     func start() {
+    
     	// Here goes the logic for the flow to start... First route, etc   
+        
+        // We need to register a resolver in order to have control over DI, and such on them
+        router.registerResolver(forRouteType: MyRoute.self, resolver: executeBeforeTransition)
+        
     }
     
 }
@@ -195,21 +200,3 @@ And override the transition to your custom in your Router:
 
 ## Thank you note
 Thanks to the guys from XRouter, URLNavigator, RouteComposer, CoreNavigation and Compass for the resources provided that helped me to create this tool. 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
