@@ -125,7 +125,69 @@ extension AppDelegate {
 }
 ```
 
-#### Custom Transitions
+#### Custom Transitions 
+#### NOTE: This is done exactly like in XRouter, so I copied their documentation for this part.
+Here is an example using the popular [Hero Transitions](https://github.com/HeroTransitions/Hero) library.
+
+Set the `customTransitionDelegate` for the `Router`:
+```swift
+router.customTransitionDelegate = self
+```
+
+(Optional) Define your custom transitions in an extension so you can refer to them statically
+```swift
+extension RouteTransition {
+    static var heroCrossFade: RouteTransition {
+        return .custom(identifier: "HeroCrossFade")
+    }
+}
+```
+
+Implement the delegate method `performTransition(...)`:
+```swift
+
+extension Router: RouterCustomTransitionDelegate {
+
+    /// Handle custom transitions
+    func performTransition(to viewController: UIViewController,
+                           from sourceViewController: UIViewController,
+                           transition: RouteTransition,
+                           animated: Bool,
+                           completion: ((Error?) -> Void)?) {
+        if transition == .heroCrossFade {
+            sourceViewController.hero.isEnabled = true
+            destViewController.hero.isEnabled = true
+            destViewController.hero.modalAnimationType = .fade
+
+            // Creates a container nav stack
+            let containerNavController = UINavigationController()
+            containerNavController.hero.isEnabled = true
+            containerNavController.setViewControllers([newViewController], animated: false)
+
+            // Present the hero animation
+            sourceViewController.present(containerNavController, animated: animated) {
+                completion?(nil)
+            }
+        } else {
+            completion?(nil)
+        }
+    }
+
+}
+```
+
+And override the transition to your custom in your Router:
+```swift
+    override func transition(for route: Route) -> RouteTransition {
+        switch route {
+            case .profile:
+                return .heroCrossFade
+            default:
+                return super.transition(for: route)
+        }
+    }
+```
+
 
 
 ## Thank you note
