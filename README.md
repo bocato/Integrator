@@ -51,9 +51,9 @@ router.navigate(to: .login)
 ---
 ### Create an Integrator
 
-    #### Note: this is the part where you implement the `integration` related stuff, such as:
-    - Delegates / closures / etc, for the callbacks from your controllers or actors.
-    - Configure the actions before each transition, i.e., register the route resolvers, in order to have control over the flow.
+    Note: this is the part where you implement the `integration` related stuff, such as:
+        - Delegates / closures / etc, for the callbacks from your controllers or actors.
+        - Configure the actions before each transition, i.e., register the route resolvers, in order to have control over the flow.
 
 ```swift
 
