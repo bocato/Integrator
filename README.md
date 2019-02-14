@@ -104,11 +104,32 @@ extension MyRoute {
 }
 ```
 
+Then, handle it on the AppDelegate:
+```swift
+extension AppDelegate {
+
+    /// Open Universal Links
+    func application(_ application: UIApplication,
+                 continue userActivity: NSUserActivity,
+                 restorationHandler: @escaping ([Any]?) -> Void) -> Bool
+    {
+        guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
+            let url = userActivity.webpageURL,
+            let handledURL = router.openURL(url) else {
+            return false // Unrecognized URL
+        }
+
+        return handledURL
+    }
+
+}
+```
+
+#### Custom Transitions
 
 
-
-
-
+## Thank you note
+Thanks to the guys from XRouter, URLNavigator, RouteComposer, CoreNavigation and Compass for the resources provided that helped me to create this tool. 
 
 
 
