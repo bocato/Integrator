@@ -86,7 +86,7 @@ extension AppIntegrator: RouteResolver {
 ## Advanced Usage
 
 ### URL Support
-
+---
 You only need to do one thing to add URL support to your routes.
 Implement the static method `registerURLs`:
 ```swift
@@ -125,7 +125,9 @@ extension AppDelegate {
 }
 ```
 
-### Custom Transitions 
+
+### Custom Transitions
+---
 #### NOTE: This is done exactly like in XRouter, so I copied their documentation for this part.
 
 Here is an example using the popular [Hero Transitions](https://github.com/HeroTransitions/Hero) library.
