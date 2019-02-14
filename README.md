@@ -281,8 +281,7 @@ class MyParentIntegrator: Integrator {
     }
 
 }
-``
-
+```
 
 ## Thank you note
 Thanks to the guys from XRouter, URLNavigator, RouteComposer, CoreNavigation and Compass for the resources provided that helped me to create this tool. 
