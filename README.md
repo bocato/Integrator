@@ -125,8 +125,9 @@ extension AppDelegate {
 }
 ```
 
-#### Custom Transitions 
+### Custom Transitions 
 #### NOTE: This is done exactly like in XRouter, so I copied their documentation for this part.
+
 Here is an example using the popular [Hero Transitions](https://github.com/HeroTransitions/Hero) library.
 
 Set the `customTransitionDelegate` for the `Router`:
