@@ -51,6 +51,7 @@ router.navigate(to: .login)
 ---
 ### Create an Integrator
 
+##### Note
 ```
 This is the part where you implement the `integration` related stuff, such as:
     - Delegates / closures / etc, for the callbacks from your controllers or actors.
@@ -58,8 +59,8 @@ This is the part where you implement the `integration` related stuff, such as:
       in order to have control over the flow.                                            
 ```
 
+##### Implementation
 ```swift
-
 class MyIntegrator: Integrator {
    
     let router: RouterProtocol
