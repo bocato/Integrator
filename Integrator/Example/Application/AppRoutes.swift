@@ -18,7 +18,7 @@ enum AppRoutes {
     case login
     
     /// presented home TabBarcontroller
-    case homeTabBar(_ tab: HomeTab)
+    case tabBar(_ tab: Tab)
     
 }
 extension AppRoutes: RouteType {
@@ -31,7 +31,7 @@ extension AppRoutes: RouteType {
     var transition: RouteTransition {
         switch self {
         case .login: return .set
-        case .homeTabBar: return .set
+        case .tabBar: return .set
         }
     }
     
@@ -39,7 +39,7 @@ extension AppRoutes: RouteType {
         return URLMatcher.Group(matchers: [
             .group(["integrator.test.com", "localhost"]) {
                 $0.map("login") { AppRoutes.login }
-                $0.map("homeTabBar/{tab}") { try AppRoutes.homeTabBar(HomeTab(url: $0)) }
+                $0.map("tabBar/{tab}") { try AppRoutes.tabBar(Tab(url: $0)) }
             }
         ])
     }

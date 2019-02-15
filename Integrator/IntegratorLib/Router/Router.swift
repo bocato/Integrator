@@ -68,21 +68,42 @@ public protocol RouterProtocol {
     ///   - route: an enum defining the possible routes
     ///   - rootViewController: a rootViewController to start the flow
     ///   - animated: true or false, as the systems default
-    ///   - completion: callback to identify if the navigation was successfull
+    ///   - presentationCompletion: callback to identify if the navigation was successfull, after presentation
+    ///   - dismissalCompletion: callback when the viewController is being dismissed
     func navigate(to route: RouteType,
                   rootViewController: UIViewController?,
                   animated: Bool,
-                  completion: ((Error?) -> Void)?)
+                  presentationCompletion: ((Error?) -> Void)?,
+                  dismissalCompletion: ((UIViewController?) -> Void)?)
     
     /// Navigate using Enums
     ///
     /// - Parameters:
     ///   - route: an enum defining the possible routes
     ///   - animated: true or false, as the systems default
-    ///   - completion: callback to identify if the navigation was successfull
+    ///   - presentationCompletion: callback to identify if the navigation was successfull, after presentation
+    ///   - dismissalCompletion: callback when the viewController is being dismissed
     func navigate(to route: RouteType,
                   animated: Bool,
-                  completion: ((Error?) -> Void)?)
+                  presentationCompletion: ((Error?) -> Void)?,
+                  dismissalCompletion: ((UIViewController?) -> Void)?)
+    
+    /// Navigate using Enums
+    ///
+    /// - Parameters:
+    ///   - route: an enum defining the possible routes
+    ///   - animated: true or false, as the systems default
+    ///   - presentationCompletion: callback to identify if the navigation was successfull, after presentation
+    func navigate(to route: RouteType,
+                  animated: Bool,
+                  presentationCompletion: ((Error?) -> Void)?)
+    
+    /// Navigate using Enums
+    ///
+    /// - Parameters:
+    ///   - route: an enum defining the possible routes
+    ///   - animated: true or false, as the systems default
+    func navigate(to route: RouteType, animated: Bool)
     
     /// Navigate using URLs
     ///
@@ -90,21 +111,50 @@ public protocol RouterProtocol {
     ///   - url: And URL that can be parsed to a pre-define route
     ///   - rootViewController: the root controller to start the flow from
     ///   - animated: true or false, as the systems default
-    ///   - completion: callback to identify if the navigation was successfull
+    ///   - presentationCompletion: callback to identify if the navigation was successfull, after presentation
+    ///   - dismissalCompletion: callback when the viewController is being dismissed
     @discardableResult
-    func openURL(_ url: URL, from rootViewController: UIViewController?, animated: Bool, completion: ((Error?) -> Void)?) -> Bool
+    func openURL(_ url: URL,
+                 from rootViewController: UIViewController?,
+                 animated: Bool,
+                 presentationCompletion: ((Error?) -> Void)?,
+                 dismissalCompletion: ((UIViewController?) -> Void)?) -> Bool
     
     /// Navigate using URLs
     ///
     /// - Parameters:
     ///   - url: And URL that can be parsed to a pre-define route
     ///   - animated: true or false, as the systems default
-    ///   - completion: callback to identify if the navigation was successfull
+    ///   - presentationCompletion: callback to identify if the navigation was successfull, after presentation
+    ///   - dismissalCompletion: callback when the viewController is being dismissed
     @discardableResult
-    func openURL(_ url: URL, animated: Bool, completion: ((Error?) -> Void)?) -> Bool
+    func openURL(_ url: URL,
+                 animated: Bool,
+                 presentationCompletion: ((Error?) -> Void)?,
+                 dismissalCompletion: ((UIViewController?) -> Void)?) -> Bool
+    
+    /// Navigate using URLs
+    ///
+    /// - Parameters:
+    ///   - url: And URL that can be parsed to a pre-define route
+    ///   - animated: true or false, as the systems default
+    ///   - presentationCompletion: callback to identify if the navigation was successfull, after presentation
+    @discardableResult
+    func openURL(_ url: URL,
+                 animated: Bool,
+                 presentationCompletion: ((Error?) -> Void)?) -> Bool
+    
+    /// Navigate using URLs
+    ///
+    /// - Parameters:
+    ///   - url: And URL that can be parsed to a pre-define route
+    ///   - animated: true or false, as the systems default
+    @discardableResult
+    func openURL(_ url: URL, animated: Bool) -> Bool
+    
 }
 
-public class Router<Route: RouteType>: RouterProtocol {
+public class Router<Route: RouteType>: NSObject, RouterProtocol, UINavigationControllerDelegate {
     
     //
     // MARK: - Properties
@@ -122,12 +172,18 @@ public class Router<Route: RouteType>: RouterProtocol {
     /// Route resolver, where the key is `RouteType` implementation
     private var routeResolvers = [String: RouteResolverClosure]()
     
+    // Completions to run when the ViewControllers are dismissing
+    private var dismissingCompletions: [UIViewController: (UIViewController?) -> Void]
+    
     //
     // MARK: - Initialization
     //
     
     required public init(navigationController: UINavigationController) {
         self.navigationController = navigationController
+        dismissingCompletions = [:]
+        super.init()
+        navigationController.delegate = self
     }
     
     //
@@ -194,31 +250,67 @@ public class Router<Route: RouteType>: RouterProtocol {
     ///
     open func navigate(to route: RouteType,
                        rootViewController: UIViewController?,
-                       animated: Bool,
-                       completion: ((Error?) -> Void)?) {
+                       animated: Bool = true,
+                       presentationCompletion: ((Error?) -> Void)? = nil,
+                       dismissalCompletion: ((UIViewController?) -> Void)? = nil) {
+        
+        let routeRootController = rootViewController ?? navigationController
+        
         prepareForNavigation(to: route,
-                             rootViewController: rootViewController ?? navigationController,
+                             rootViewController: routeRootController,
                              animated: animated,
                              successHandler: {  (source, destination) in
                                 self.performNavigation(from: source,
                                                        to: destination,
                                                        with: route.transition,
                                                        animated: animated,
-                                                       completion: completion)
+                                                       presentationCompletion: presentationCompletion,
+                                                       dismissalCompletion: dismissalCompletion)
         }, errorHandler: { error in
-            completion?(error)
+            presentationCompletion?(error)
         })
     }
     
-    /// Navigate, using the route enum
+    /// Navigate, using the route enum (method overload)
     ///
     /// - Note: Has no effect if the destination view controller is the view controller
     ///         or navigation controller you are presently on.
     ///
     open func navigate(to route: RouteType,
                       animated: Bool,
-                      completion: ((Error?) -> Void)?) {
-        navigate(to: route, rootViewController: nil, animated: animated, completion: completion)
+                      presentationCompletion: ((Error?) -> Void)?,
+                      dismissalCompletion: ((UIViewController?) -> Void)?) {
+        navigate(to: route,
+                 rootViewController: nil,
+                 animated: animated,
+                 presentationCompletion: presentationCompletion,
+                 dismissalCompletion: dismissalCompletion)
+    }
+    
+    /// Navigate, using the route enum (method overload)
+    ///
+    /// - Note: Has no effect if the destination view controller is the view controller
+    ///         or navigation controller you are presently on.
+    ///
+    open func navigate(to route: RouteType,
+                       animated: Bool,
+                       presentationCompletion: ((Error?) -> Void)?) {
+        navigate(to: route,
+                 animated: animated,
+                 presentationCompletion: presentationCompletion,
+                 dismissalCompletion: nil)
+    }
+    
+    /// Navigate, using the route enum (method overload)
+    ///
+    /// - Note: Has no effect if the destination view controller is the view controller
+    ///         or navigation controller you are presently on.
+    ///
+    open func navigate(to route: RouteType, animated: Bool) {
+        navigate(to: route,
+                 animated: animated,
+                 presentationCompletion: nil,
+                 dismissalCompletion: nil)
     }
     
     /// Navigate matching an URL to a pre-defined route
@@ -233,29 +325,74 @@ public class Router<Route: RouteType>: RouterProtocol {
     open func openURL(_ url: URL,
                       from rootViewController: UIViewController?,
                       animated: Bool = true,
-                      completion: ((Error?) -> Void)?) -> Bool {
+                      presentationCompletion: ((Error?) -> Void)?,
+                      dismissalCompletion: ((UIViewController?) -> Void)?) -> Bool {
         do {
             guard let route = try findMatchingRoute(for: url) else {
-                completion?(nil) // No matching route
+                presentationCompletion?(nil) // No matching route
                 return false
             }
-            navigate(to: route, rootViewController: nil, animated: animated, completion: completion)
+            navigate(to: route,
+                     rootViewController: nil,
+                     animated: animated,
+                     presentationCompletion: presentationCompletion,
+                     dismissalCompletion: dismissalCompletion)
             return true
         } catch {
-            completion?(error) // error finding the route
+            presentationCompletion?(error) // error finding the route
         }
         return false
     }
     
-    /// Navigate using URLs
+    /// Navigate matching an URL to a pre-defined route (method overload)
     ///
-    /// - Parameters:
-    ///   - url: And URL that can be parsed to a pre-define route
-    ///   - animated: true or false, as the systems default
-    ///   - completion: callback to identify if the navigation was successfull
+    /// - Description: Open a URL to a route.
+    ///
+    /// - Note: Register your URL mappings in your `Route` by implementing the method `registerURLs`.
+    ///         This should be used as input for the application, or from a module to another...
+    ///         Avoid using it for all the internal navigation flow, try to use enums on this case.
     @discardableResult
-    open func openURL(_ url: URL, animated: Bool, completion: ((Error?) -> Void)?) -> Bool {
-        return openURL(url, from: nil, animated: animated, completion: completion)
+    open func openURL(_ url: URL,
+                      animated: Bool,
+                      presentationCompletion: ((Error?) -> Void)?,
+                      dismissalCompletion: ((UIViewController?) -> Void)?) -> Bool {
+        return openURL(url,
+                       from: nil,
+                       animated: animated,
+                       presentationCompletion: presentationCompletion,
+                       dismissalCompletion: dismissalCompletion)
+    }
+    
+    /// Navigate matching an URL to a pre-defined route (method overload)
+    ///
+    /// - Description: Open a URL to a route.
+    ///
+    /// - Note: Register your URL mappings in your `Route` by implementing the method `registerURLs`.
+    ///         This should be used as input for the application, or from a module to another...
+    ///         Avoid using it for all the internal navigation flow, try to use enums on this case.
+    @discardableResult
+    open func openURL(_ url: URL,
+                      animated: Bool = true,
+                      presentationCompletion: ((Error?) -> Void)?) -> Bool {
+        return openURL(url,
+                       animated: animated,
+                       presentationCompletion: presentationCompletion,
+                       dismissalCompletion: nil)
+    }
+    
+    /// Navigate matching an URL to a pre-defined route (method overload)
+    ///
+    /// - Description: Open a URL to a route.
+    ///
+    /// - Note: Register your URL mappings in your `Route` by implementing the method `registerURLs`.
+    ///         This should be used as input for the application, or from a module to another...
+    ///         Avoid using it for all the internal navigation flow, try to use enums on this case.
+    @discardableResult
+    open func openURL(_ url: URL, animated: Bool = true) -> Bool {
+        return openURL(url,
+                       animated: animated,
+                       presentationCompletion: nil,
+                       dismissalCompletion: nil)
     }
     
     //
@@ -308,11 +445,13 @@ public class Router<Route: RouteType>: RouterProtocol {
                                    to destination: UIViewController,
                                    with transition: RouteTransition,
                                    animated: Bool,
-                                   completion: ((Error?) -> Void)?) {
+                                   presentationCompletion: ((Error?) -> Void)?,
+                                   dismissalCompletion: ((UIViewController?) -> Void)?) {
+        
         // Already here/on current navigation controller
         if destination === source || destination === source.navigationController {
             // No error? -- maybe throw an "already here" error
-            completion?(nil)
+            presentationCompletion?(nil)
             return
         }
         
@@ -321,27 +460,28 @@ public class Router<Route: RouteType>: RouterProtocol {
         //  i.e. for "present" transitions.
         let source = source.navigationController ?? source
         
+        // Then, rund the transition
         switch transition {
         case .push:
-            pushTransition(source, destination, animated, completion)
+            pushTransition(source, destination, animated, presentationCompletion, dismissalCompletion)
         case .set:
             if source is UINavigationController {
-                setTransition(source, destination, animated, completion)
+                setTransition(source, destination, animated, presentationCompletion)
             } else if source is UITabBarController {
                 // TODO: check this...
                 debugPrint("UITabBarController")
             }
         case .present:
-            modalTransition(source, destination, animated, completion)
+            modalTransition(source, destination, animated, presentationCompletion)
         case .inferred:
             if source is UITabBarController {
                 // TODO: check this...
                 debugPrint("UITabBarController")
             } else {
-               inferTransition(source, destination, animated, completion)
+               inferTransition(source, destination, animated, presentationCompletion, dismissalCompletion)
             }
         case .custom:
-            customTransition(transition, source, destination, animated, completion)
+            customTransition(transition, source, destination, animated, presentationCompletion)
         }
     }
     
@@ -351,13 +491,14 @@ public class Router<Route: RouteType>: RouterProtocol {
     private func inferTransition(_ source: UIViewController,
                                  _ destination: UIViewController,
                                  _ animated: Bool,
-                                 _ completion: ((Error?) -> Void)?) {
+                                 _ presentationCompletion: ((Error?) -> Void)?,
+                                 _ dismissalCompletion: ((UIViewController?) -> Void)?) {
         if (source as? UINavigationController) == nil || (destination as? UINavigationController) != nil {
-            modalTransition(source, destination, animated, completion)
+            modalTransition(source, destination, animated, presentationCompletion)
         } else if destination.navigationController == source {
-            setTransition(source, destination, animated, completion)
+            setTransition(source, destination, animated, presentationCompletion)
         } else {
-            pushTransition(source, destination, animated, completion)
+            pushTransition(source, destination, animated, presentationCompletion, dismissalCompletion)
         }
     }
     
@@ -365,14 +506,21 @@ public class Router<Route: RouteType>: RouterProtocol {
     private func pushTransition(_ source: UIViewController,
                                 _ destination: UIViewController,
                                 _ animated: Bool,
-                                _ completion: ((Error?) -> Void)?) {
+                                _ presentationCompletion: ((Error?) -> Void)?,
+                                _ dismissalCompletion: ((UIViewController?) -> Void)?) {
+        
         guard let navController = source as? UINavigationController else {
-            completion?(RouterError.missingRequiredNavigationController(for: .push))
+            presentationCompletion?(RouterError.missingRequiredNavigationController(for: .push))
             return
         }
         
+        // Set the dismissal completion
+        if let dismissalCompletion = dismissalCompletion {
+            dismissingCompletions[destination] = dismissalCompletion
+        }
+        
         navController.pushViewController(destination, animated: animated) {
-            completion?(nil)
+            presentationCompletion?(nil)
         }
     }
     
@@ -452,5 +600,31 @@ public class Router<Route: RouteType>: RouterProtocol {
         return nil
     }
     
+    // MARK: - Helpers
+    fileprivate func runDismissingCompletion(for controller: UIViewController) {
+        guard let completion = dismissingCompletions[controller] else { return }
+        completion(controller)
+        dismissingCompletions.removeValue(forKey: controller)
+    }
+    
+}
+extension Router {
+    
+    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+        
+            // Read the view controller we’re moving from.
+            guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else {
+                return
+            }
+        
+            // Check whether our view controller array already contains that view controller. If it does it means we’re pushing a different view controller on top rather than popping it, so exit.
+            if navigationController.viewControllers.contains(fromViewController) {
+                return
+            }
+        
+            // We’re still here – it means we’re popping the view controller
+            runDismissingCompletion(for: viewController)
+        
+    }
     
 }

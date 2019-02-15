@@ -27,27 +27,25 @@ public protocol IntegratorDelegate: AnyObject {
 }
 
 /// Defines an integrator for Controllers, or Integrators
-public protocol Integrator: RouteResolver, AnyObject {
+public protocol Integrator: AnyObject, RouteResolver {
     
-    //
     // MARK: - Properties
-    //
     
     /// A Router to deal with navigation and URL parsing
-    var router: RouterProtocol { get }
+    var router: RouterProtocol { get set }
     
     /// Delegate in order to implement the responder chain like communication
     var integratorDelegate: IntegratorDelegate? { get set }
     
     /// The parent integrator, i.e., who started this one
+    ///
+    /// - Note: this guy should be weak
     var parent: Integrator? { get set }
     
     /// The child integrators, i.e., the sub-flows of integration
     var childs: [Integrator]? { get set }
     
-    //
     // MARK: - Methods
-    //
     
     /// Starts the integration flow and calls registerViewControllerBuilders() to do it
     func start()
@@ -77,8 +75,19 @@ public protocol Integrator: RouteResolver, AnyObject {
     
 }
 public extension Integrator {
-    
+
     // MARK: - Methods
+    
+    // Sets the initial route, and finishes when it is popped (when on a UINavigationController)
+    public func setInitialRoute(_ route: RouteType) {
+        router.navigate(to: route, animated: true, presentationCompletion: { (optionalError) in
+            if optionalError != nil {
+                fatalError("Initial route was not configured... You need to implement it's resolver!")
+            }
+        }, dismissalCompletion: { _ in
+            self.finish()
+        })
+    }
     
     /// Used to have a callback and clean up everything flow related
     public func finish() {

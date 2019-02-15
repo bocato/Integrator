@@ -12,9 +12,9 @@ class AppIntegrator: ApplicationIntegrator {
     
     // MARK: - Properties
     
-    let router: RouterProtocol
+    var router: RouterProtocol
     weak var integratorDelegate: IntegratorDelegate?
-    var parent: Integrator?
+    weak var parent: Integrator?
     var childs: [Integrator]? = []
     
     // MARK: - Initialization
@@ -26,16 +26,11 @@ class AppIntegrator: ApplicationIntegrator {
     
     // MARK: - Integrator Methods
     func start() {
-        
-        router.navigate(to: AppRoutes.login, animated: true) { (error) in
-            debugPrint("error: \(error.debugDescription)")
-        }
-  
+        setInitialRoute(AppRoutes.login)
 //        let homeTabBarURL = URL(string: "testapp://localhost/homeTabBar/home?text=MyHome")! // Local
 //        router.openURL(homeTabBarURL, animated: true) { (error) in
 //            debugPrint("error: \(error.debugDescription)")
 //        }
-        
     }
     
 }
@@ -49,21 +44,22 @@ extension AppIntegrator: RouteResolver {
         }
         
         switch currentRoute {
-        case .homeTabBar(let tab):
+        case .tabBar(let tab):
             
-            let homeTabBarIntegrator = HomeTabBarIntegrator(router: router, selectedTab: tab)
+            let tabBarIntegrator = TabBarIntegrator(router: router, selectedTab: tab)
+            tabBarIntegrator.parent = self
             
-             do {
+            do {
                 
-                try attachChild(homeTabBarIntegrator)
-                homeTabBarIntegrator.start()
+                try attachChild(tabBarIntegrator)
                 
-                return homeTabBarIntegrator.tabBarController
+                tabBarIntegrator.start()
                 
-             } catch {
+                return tabBarIntegrator.tabBarController
+                
+            } catch {
                 throw error
             }
-
         case .login:
             return buildLoginViewController()
         }
@@ -80,22 +76,27 @@ extension AppIntegrator: RouteResolver {
     
 }
 
-
 extension AppIntegrator: LoginViewControllerDelegate {
     
     func loginDidSucceed(in controller: LoginViewController) {
         
         // Using URLS
-        let homeTabBarURL = URL(string: "testapp://localhost/homeTabBar/home?text=MyHome")! // Local
-            // URL(string: "http://integrator.test.com/homeTabBar/home/text?=MyHome") // WEB
-        router.openURL(homeTabBarURL, animated: true) { (error) in
-            debugPrint("error: \(error.debugDescription)")
-        }
-
-        // Using Enums
-//        router.navigate(to: AppRoutes.homeTabBar(.home(text: "HOME-Test")), animated: true) { (error) in
+//        let homeTabBarURL = URL(string: "testapp://localhost/homeTabBar/home?text=MyHome")! // Local
+//            // URL(string: "http://integrator.test.com/homeTabBar/home/text?=MyHome") // WEB
+//        router.openURL(homeTabBarURL, animated: true) { (error) in
 //            debugPrint("error: \(error.debugDescription)")
 //        }
+
+        // Using Enums
+        router.navigate(to: AppRoutes.tabBar(.home(.root)),
+                        rootViewController: nil,
+                        animated: true,
+                        presentationCompletion: { (error) in
+                            debugPrint("error: \(error.debugDescription)")
+        },
+                        dismissalCompletion: { dismissedViewController in
+                            debugPrint(String(describing: dismissedViewController))
+        })
         
     }
     

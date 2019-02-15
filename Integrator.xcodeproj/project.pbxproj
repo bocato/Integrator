@@ -9,6 +9,15 @@
 /* Begin PBXBuildFile section */
 		E51EE893221486700030C23E /* URLMatcher+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51EE892221486700030C23E /* URLMatcher+Group.swift */; };
 		E51EE89722148C650030C23E /* RouteResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51EE89622148C650030C23E /* RouteResolver.swift */; };
+		E51EE8D42216BD460030C23E /* ProfileDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51EE8D22216BD460030C23E /* ProfileDetailViewController.swift */; };
+		E51EE8D52216BD460030C23E /* ProfileDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E51EE8D32216BD460030C23E /* ProfileDetailViewController.xib */; };
+		E51EE8D92216BF650030C23E /* ProfileRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51EE8D82216BF650030C23E /* ProfileRoutes.swift */; };
+		E51EE8DB2216C04E0030C23E /* ProfileIntegrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51EE8DA2216C04E0030C23E /* ProfileIntegrator.swift */; };
+		E51EE8E022171BE20030C23E /* HomeRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51EE8DF22171BE20030C23E /* HomeRoutes.swift */; };
+		E51EE8E222171BEE0030C23E /* HomeIntegrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51EE8E122171BED0030C23E /* HomeIntegrator.swift */; };
+		E51EE8E92217266F0030C23E /* ExampleTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51EE8E72217266F0030C23E /* ExampleTabBarController.swift */; };
+		E51EE8EE221730F80030C23E /* ProfileDetailRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51EE8ED221730F80030C23E /* ProfileDetailRoutes.swift */; };
+		E51EE8F0221733380030C23E /* ProfileDetailIntegrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51EE8EF221733380030C23E /* ProfileDetailIntegrator.swift */; };
 		E55B81F22204835600C0ED7B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B81F12204835600C0ED7B /* AppDelegate.swift */; };
 		E55B81F92204835800C0ED7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E55B81F82204835800C0ED7B /* Assets.xcassets */; };
 		E55B81FC2204835800C0ED7B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E55B81FA2204835800C0ED7B /* LaunchScreen.storyboard */; };
@@ -38,8 +47,8 @@
 		E55B82652208D66A00C0ED7B /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E55B82632208D66A00C0ED7B /* ProfileViewController.xib */; };
 		E55B826E2209E88C00C0ED7B /* AppIntegrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B826D2209E88C00C0ED7B /* AppIntegrator.swift */; };
 		E55B82B12211EABB00C0ED7B /* IntegratorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82B02211EABB00C0ED7B /* IntegratorError.swift */; };
-		E55B82B62212063500C0ED7B /* HomeTabBarIntegrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82B52212063500C0ED7B /* HomeTabBarIntegrator.swift */; };
-		E55B82B82212113900C0ED7B /* HomeTabBarRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82B72212113900C0ED7B /* HomeTabBarRoutes.swift */; };
+		E55B82B62212063500C0ED7B /* TabBarIntegrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82B52212063500C0ED7B /* TabBarIntegrator.swift */; };
+		E55B82B82212113900C0ED7B /* TabBarRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82B72212113900C0ED7B /* TabBarRoutes.swift */; };
 		E55B82BC22133A5300C0ED7B /* RoutingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82BB22133A5300C0ED7B /* RoutingError.swift */; };
 /* End PBXBuildFile section */
 
@@ -63,6 +72,15 @@
 /* Begin PBXFileReference section */
 		E51EE892221486700030C23E /* URLMatcher+Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLMatcher+Group.swift"; sourceTree = "<group>"; };
 		E51EE89622148C650030C23E /* RouteResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteResolver.swift; sourceTree = "<group>"; };
+		E51EE8D22216BD460030C23E /* ProfileDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailViewController.swift; sourceTree = "<group>"; };
+		E51EE8D32216BD460030C23E /* ProfileDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileDetailViewController.xib; sourceTree = "<group>"; };
+		E51EE8D82216BF650030C23E /* ProfileRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRoutes.swift; sourceTree = "<group>"; };
+		E51EE8DA2216C04E0030C23E /* ProfileIntegrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileIntegrator.swift; sourceTree = "<group>"; };
+		E51EE8DF22171BE20030C23E /* HomeRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRoutes.swift; sourceTree = "<group>"; };
+		E51EE8E122171BED0030C23E /* HomeIntegrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeIntegrator.swift; sourceTree = "<group>"; };
+		E51EE8E72217266F0030C23E /* ExampleTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleTabBarController.swift; sourceTree = "<group>"; };
+		E51EE8ED221730F80030C23E /* ProfileDetailRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailRoutes.swift; sourceTree = "<group>"; };
+		E51EE8EF221733380030C23E /* ProfileDetailIntegrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailIntegrator.swift; sourceTree = "<group>"; };
 		E55B81EE2204835600C0ED7B /* Integrator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Integrator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E55B81F12204835600C0ED7B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E55B81F82204835800C0ED7B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -98,8 +116,8 @@
 		E55B82632208D66A00C0ED7B /* ProfileViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
 		E55B826D2209E88C00C0ED7B /* AppIntegrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntegrator.swift; sourceTree = "<group>"; };
 		E55B82B02211EABB00C0ED7B /* IntegratorError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegratorError.swift; sourceTree = "<group>"; };
-		E55B82B52212063500C0ED7B /* HomeTabBarIntegrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabBarIntegrator.swift; sourceTree = "<group>"; };
-		E55B82B72212113900C0ED7B /* HomeTabBarRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabBarRoutes.swift; sourceTree = "<group>"; };
+		E55B82B52212063500C0ED7B /* TabBarIntegrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarIntegrator.swift; sourceTree = "<group>"; };
+		E55B82B72212113900C0ED7B /* TabBarRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarRoutes.swift; sourceTree = "<group>"; };
 		E55B82BB22133A5300C0ED7B /* RoutingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -128,6 +146,73 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E51EE8D62216BF3E0030C23E /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				E51EE8D82216BF650030C23E /* ProfileRoutes.swift */,
+				E51EE8DA2216C04E0030C23E /* ProfileIntegrator.swift */,
+				E51EE8D72216BF500030C23E /* Controllers */,
+				E51EE8EB221730BA0030C23E /* ProfileDetail */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		E51EE8D72216BF500030C23E /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E55B82622208D66A00C0ED7B /* ProfileViewController.swift */,
+				E55B82632208D66A00C0ED7B /* ProfileViewController.xib */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		E51EE8DC22171B850030C23E /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				E51EE8DF22171BE20030C23E /* HomeRoutes.swift */,
+				E51EE8E122171BED0030C23E /* HomeIntegrator.swift */,
+				E51EE8DE22171BC90030C23E /* Controlers */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		E51EE8DD22171BA10030C23E /* Tabs */ = {
+			isa = PBXGroup;
+			children = (
+				E51EE8DC22171B850030C23E /* Home */,
+				E51EE8D62216BF3E0030C23E /* Profile */,
+			);
+			path = Tabs;
+			sourceTree = "<group>";
+		};
+		E51EE8DE22171BC90030C23E /* Controlers */ = {
+			isa = PBXGroup;
+			children = (
+				E55B825E2208D65C00C0ED7B /* HomeViewController.swift */,
+				E55B825F2208D65C00C0ED7B /* HomeViewController.xib */,
+			);
+			path = Controlers;
+			sourceTree = "<group>";
+		};
+		E51EE8EB221730BA0030C23E /* ProfileDetail */ = {
+			isa = PBXGroup;
+			children = (
+				E51EE8ED221730F80030C23E /* ProfileDetailRoutes.swift */,
+				E51EE8EF221733380030C23E /* ProfileDetailIntegrator.swift */,
+				E51EE8EC221730E10030C23E /* Controllers */,
+			);
+			path = ProfileDetail;
+			sourceTree = "<group>";
+		};
+		E51EE8EC221730E10030C23E /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E51EE8D22216BD460030C23E /* ProfileDetailViewController.swift */,
+				E51EE8D32216BD460030C23E /* ProfileDetailViewController.xib */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		E55B81E52204835500C0ED7B = {
 			isa = PBXGroup;
 			children = (
@@ -272,20 +357,21 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
-		E55B82AF2211DE7500C0ED7B /* Home */ = {
+		E55B82AF2211DE7500C0ED7B /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
-				E55B82B72212113900C0ED7B /* HomeTabBarRoutes.swift */,
-				E55B82B52212063500C0ED7B /* HomeTabBarIntegrator.swift */,
+				E55B82B72212113900C0ED7B /* TabBarRoutes.swift */,
+				E55B82B52212063500C0ED7B /* TabBarIntegrator.swift */,
 				E55B82B42212060500C0ED7B /* Controllers */,
+				E51EE8DD22171BA10030C23E /* Tabs */,
 			);
-			path = Home;
+			path = TabBar;
 			sourceTree = "<group>";
 		};
 		E55B82B2221205DB00C0ED7B /* Flows */ = {
 			isa = PBXGroup;
 			children = (
-				E55B82AF2211DE7500C0ED7B /* Home */,
+				E55B82AF2211DE7500C0ED7B /* TabBar */,
 				E55B82712209F72A00C0ED7B /* Login */,
 			);
 			path = Flows;
@@ -294,10 +380,7 @@
 		E55B82B42212060500C0ED7B /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				E55B825E2208D65C00C0ED7B /* HomeViewController.swift */,
-				E55B825F2208D65C00C0ED7B /* HomeViewController.xib */,
-				E55B82622208D66A00C0ED7B /* ProfileViewController.swift */,
-				E55B82632208D66A00C0ED7B /* ProfileViewController.xib */,
+				E51EE8E72217266F0030C23E /* ExampleTabBarController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -411,6 +494,7 @@
 				E55B825D2208D64D00C0ED7B /* LoginViewController.xib in Resources */,
 				E55B82652208D66A00C0ED7B /* ProfileViewController.xib in Resources */,
 				E55B82612208D65C00C0ED7B /* HomeViewController.xib in Resources */,
+				E51EE8D52216BD460030C23E /* ProfileDetailViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,13 +519,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E51EE8E92217266F0030C23E /* ExampleTabBarController.swift in Sources */,
+				E51EE8F0221733380030C23E /* ProfileDetailIntegrator.swift in Sources */,
 				E55B8229220487EA00C0ED7B /* RouteTransition.swift in Sources */,
 				E55B824322089A2400C0ED7B /* UIViewControllerExtensions.swift in Sources */,
 				E55B826E2209E88C00C0ED7B /* AppIntegrator.swift in Sources */,
+				E51EE8EE221730F80030C23E /* ProfileDetailRoutes.swift in Sources */,
 				E55B823D2205006300C0ED7B /* CollectionExtensions.swift in Sources */,
 				E55B82342204AAFC00C0ED7B /* URLPathMapper.swift in Sources */,
+				E51EE8D42216BD460030C23E /* ProfileDetailViewController.swift in Sources */,
 				E55B825C2208D64D00C0ED7B /* LoginViewController.swift in Sources */,
-				E55B82B82212113900C0ED7B /* HomeTabBarRoutes.swift in Sources */,
+				E55B82B82212113900C0ED7B /* TabBarRoutes.swift in Sources */,
 				E55B8225220483F500C0ED7B /* Router.swift in Sources */,
 				E55B823A2204ABA100C0ED7B /* MatchedURL.swift in Sources */,
 				E55B81F22204835600C0ED7B /* AppDelegate.swift in Sources */,
@@ -453,10 +541,14 @@
 				E55B822B2204880800C0ED7B /* RouteType.swift in Sources */,
 				E55B82452208A9F100C0ED7B /* RouterCustomTransitionDelegate.swift in Sources */,
 				E55B82572208D52800C0ED7B /* AppRoutes.swift in Sources */,
-				E55B82B62212063500C0ED7B /* HomeTabBarIntegrator.swift in Sources */,
+				E51EE8D92216BF650030C23E /* ProfileRoutes.swift in Sources */,
+				E51EE8DB2216C04E0030C23E /* ProfileIntegrator.swift in Sources */,
+				E55B82B62212063500C0ED7B /* TabBarIntegrator.swift in Sources */,
 				E55B82382204AB6000C0ED7B /* PathPattern+Component.swift in Sources */,
+				E51EE8E222171BEE0030C23E /* HomeIntegrator.swift in Sources */,
 				E55B823F220899BF00C0ED7B /* UINavigationControllerExtensions.swift in Sources */,
 				E55B82602208D65C00C0ED7B /* HomeViewController.swift in Sources */,
+				E51EE8E022171BE20030C23E /* HomeRoutes.swift in Sources */,
 				E55B82302204AA7B00C0ED7B /* URLMatcher.swift in Sources */,
 				E51EE89722148C650030C23E /* RouteResolver.swift in Sources */,
 				E55B82362204AB3A00C0ED7B /* PathPattern.swift in Sources */,
