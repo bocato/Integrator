@@ -79,7 +79,7 @@ public extension Integrator {
     // MARK: - Methods
     
     // Sets the initial route, and finishes when it is popped (when on a UINavigationController)
-    public func setInitialRoute(_ route: RouteType) {
+    public func setInitialRoute(_ route: RouteType, animated: Bool = true) {
         router.navigate(to: route, animated: true, presentationCompletion: { (optionalError) in
             if optionalError != nil {
                 fatalError("Initial route was not configured... You need to implement it's resolver!")

@@ -11,16 +11,12 @@ import UIKit
 
 public protocol RouterProtocol {
     
-    //
     // MARK: - Types
-    //
     
     /// A route resolver type
     typealias RouteResolverClosure = (_ route: RouteType) throws -> UIViewController
     
-    //
     // MARK: - Properties
-    //
     
     /// The navigationController that starts the flow
     var navigationController: UINavigationController { get }
@@ -28,9 +24,7 @@ public protocol RouterProtocol {
     /// Custom transition delegate
     var customTransitionDelegate: RouterCustomTransitionDelegate? { get set }
     
-    //
     // MARK: - Initialization
-    //
     
     /// Initialization
     ///
@@ -38,10 +32,7 @@ public protocol RouterProtocol {
     ///   - navigationController: the navigationController that starts the route
     init(navigationController: UINavigationController)
     
-    
-    //
     // MARK: - Resolver functions
-    //
     
     /// Register Resolvers for the routes in this flow
     ///
@@ -175,20 +166,16 @@ public class Router<Route: RouteType>: NSObject, RouterProtocol, UINavigationCon
     // Completions to run when the ViewControllers are dismissing
     private var dismissingCompletions: [UIViewController: (UIViewController?) -> Void]
     
-    //
     // MARK: - Initialization
-    //
     
     required public init(navigationController: UINavigationController) {
         self.navigationController = navigationController
         dismissingCompletions = [:]
         super.init()
-        navigationController.delegate = self
+        self.navigationController.delegate = self
     }
     
-    //
     // MARK: - Route Resolver functions
-    //
     
     /// Register Resolvers for the routes in this flow
     ///
@@ -239,9 +226,7 @@ public class Router<Route: RouteType>: NSObject, RouterProtocol, UINavigationCon
         
     }
     
-    //
     // MARK: - Navigation Methods
-    //
     
     /// Navigate, using the route enum
     ///
@@ -395,9 +380,7 @@ public class Router<Route: RouteType>: NSObject, RouterProtocol, UINavigationCon
                        dismissalCompletion: nil)
     }
     
-    //
     // MARK: - Implementation
-    //
     
     ///
     /// Prepare the route for navigation.
@@ -601,29 +584,29 @@ public class Router<Route: RouteType>: NSObject, RouterProtocol, UINavigationCon
     }
     
     // MARK: - Helpers
+    
     fileprivate func runDismissingCompletion(for controller: UIViewController) {
         guard let completion = dismissingCompletions[controller] else { return }
         completion(controller)
         dismissingCompletions.removeValue(forKey: controller)
     }
     
-}
-extension Router {
+    // MARK: - Back action handling
     
-    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+    private func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
         
-            // Read the view controller we’re moving from.
-            guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else {
-                return
-            }
+        // Read the view controller we’re moving from.
+        guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else {
+            return
+        }
         
-            // Check whether our view controller array already contains that view controller. If it does it means we’re pushing a different view controller on top rather than popping it, so exit.
-            if navigationController.viewControllers.contains(fromViewController) {
-                return
-            }
+        // Check whether our view controller array already contains that view controller. If it does it means we’re pushing a different view controller on top rather than popping it, so exit.
+        if navigationController.viewControllers.contains(fromViewController) {
+            return
+        }
         
-            // We’re still here – it means we’re popping the view controller
-            runDismissingCompletion(for: viewController)
+        // We’re still here – it means we’re popping the view controller
+        runDismissingCompletion(for: viewController)
         
     }
     
