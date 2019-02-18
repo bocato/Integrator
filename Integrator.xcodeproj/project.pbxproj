@@ -16,6 +16,11 @@
 		E51EE905221AF79B0030C23E /* Integrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51EE904221AF79B0030C23E /* Integrator.swift */; };
 		E51EE907221AFCFB0030C23E /* RouterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51EE906221AFCFB0030C23E /* RouterError.swift */; };
 		E51EE909221B00F30030C23E /* RouteBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51EE908221B00F30030C23E /* RouteBuilder.swift */; };
+		E51EE90B221B19490030C23E /* AppRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51EE90A221B19490030C23E /* AppRoutes.swift */; };
+		E51EE915221B25AD0030C23E /* TabRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51EE914221B25AD0030C23E /* TabRoutes.swift */; };
+		E51EE917221B25D50030C23E /* HomeRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51EE916221B25D50030C23E /* HomeRoutes.swift */; };
+		E51EE919221B26600030C23E /* ProfileRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51EE918221B26600030C23E /* ProfileRoutes.swift */; };
+		E51EE91B221B26920030C23E /* ProfileDetailRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51EE91A221B26920030C23E /* ProfileDetailRoutes.swift */; };
 		E55B81F22204835600C0ED7B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B81F12204835600C0ED7B /* AppDelegate.swift */; };
 		E55B81F92204835800C0ED7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E55B81F82204835800C0ED7B /* Assets.xcassets */; };
 		E55B81FC2204835800C0ED7B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E55B81FA2204835800C0ED7B /* LaunchScreen.storyboard */; };
@@ -27,6 +32,7 @@
 		E55B8241220899E800C0ED7B /* UITabBarControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B8240220899E800C0ED7B /* UITabBarControllerExtensions.swift */; };
 		E55B824322089A2400C0ED7B /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B824222089A2400C0ED7B /* UIViewControllerExtensions.swift */; };
 		E55B82B12211EABB00C0ED7B /* IntegratorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55B82B02211EABB00C0ED7B /* IntegratorError.swift */; };
+		E5755FC3221B2A1C003A65E4 /* URLNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5755FC2221B2A1C003A65E4 /* URLNavigator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +62,11 @@
 		E51EE904221AF79B0030C23E /* Integrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Integrator.swift; sourceTree = "<group>"; };
 		E51EE906221AFCFB0030C23E /* RouterError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterError.swift; sourceTree = "<group>"; };
 		E51EE908221B00F30030C23E /* RouteBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteBuilder.swift; sourceTree = "<group>"; };
+		E51EE90A221B19490030C23E /* AppRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRoutes.swift; sourceTree = "<group>"; };
+		E51EE914221B25AD0030C23E /* TabRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabRoutes.swift; sourceTree = "<group>"; };
+		E51EE916221B25D50030C23E /* HomeRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRoutes.swift; sourceTree = "<group>"; };
+		E51EE918221B26600030C23E /* ProfileRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRoutes.swift; sourceTree = "<group>"; };
+		E51EE91A221B26920030C23E /* ProfileDetailRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailRoutes.swift; sourceTree = "<group>"; };
 		E55B81EE2204835600C0ED7B /* Integrator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Integrator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E55B81F12204835600C0ED7B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E55B81F82204835800C0ED7B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -73,6 +84,7 @@
 		E55B8240220899E800C0ED7B /* UITabBarControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITabBarControllerExtensions.swift; sourceTree = "<group>"; };
 		E55B824222089A2400C0ED7B /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
 		E55B82B02211EABB00C0ED7B /* IntegratorError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegratorError.swift; sourceTree = "<group>"; };
+		E5755FC2221B2A1C003A65E4 /* URLNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLNavigator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +115,7 @@
 		E51EE8FB221AE8BF0030C23E /* Router */ = {
 			isa = PBXGroup;
 			children = (
+				E5755FC4221B2A2B003A65E4 /* Navigator */,
 				E51EE8F1221AE3EF0030C23E /* Router.swift */,
 				E51EE8F5221AE58B0030C23E /* RouteType.swift */,
 				E51EE8FC221AE8F70030C23E /* RouterCustomTransitionDelegate.swift */,
@@ -119,6 +132,57 @@
 				E51EE902221AF1890030C23E /* URLPathPattern.swift */,
 			);
 			path = URLMatcher;
+			sourceTree = "<group>";
+		};
+		E51EE90C221B19770030C23E /* Flows */ = {
+			isa = PBXGroup;
+			children = (
+				E51EE90F221B256B0030C23E /* TabBar */,
+			);
+			path = Flows;
+			sourceTree = "<group>";
+		};
+		E51EE90F221B256B0030C23E /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				E51EE910221B257A0030C23E /* Tabs */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
+		E51EE910221B257A0030C23E /* Tabs */ = {
+			isa = PBXGroup;
+			children = (
+				E51EE914221B25AD0030C23E /* TabRoutes.swift */,
+				E51EE911221B25880030C23E /* Home */,
+				E51EE912221B258E0030C23E /* Profile */,
+			);
+			path = Tabs;
+			sourceTree = "<group>";
+		};
+		E51EE911221B25880030C23E /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				E51EE916221B25D50030C23E /* HomeRoutes.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		E51EE912221B258E0030C23E /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				E51EE918221B26600030C23E /* ProfileRoutes.swift */,
+				E51EE913221B25980030C23E /* ProfileDetail */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		E51EE913221B25980030C23E /* ProfileDetail */ = {
+			isa = PBXGroup;
+			children = (
+				E51EE91A221B26920030C23E /* ProfileDetailRoutes.swift */,
+			);
+			path = ProfileDetail;
 			sourceTree = "<group>";
 		};
 		E55B81E52204835500C0ED7B = {
@@ -193,7 +257,6 @@
 			children = (
 				E51EE900221AF1120030C23E /* URLMatcher */,
 				E51EE8FB221AE8BF0030C23E /* Router */,
-				E51EE8F9221AE6740030C23E /* Navigator.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -213,6 +276,7 @@
 			isa = PBXGroup;
 			children = (
 				E55B82482208CAC500C0ED7B /* Application */,
+				E51EE90C221B19770030C23E /* Flows */,
 				E55B824B2208CAF900C0ED7B /* SupportingFiles */,
 			);
 			path = Example;
@@ -222,6 +286,7 @@
 			isa = PBXGroup;
 			children = (
 				E55B81F12204835600C0ED7B /* AppDelegate.swift */,
+				E51EE90A221B19490030C23E /* AppRoutes.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -234,6 +299,15 @@
 				E55B81FD2204835800C0ED7B /* Info.plist */,
 			);
 			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		E5755FC4221B2A2B003A65E4 /* Navigator */ = {
+			isa = PBXGroup;
+			children = (
+				E51EE8F9221AE6740030C23E /* Navigator.swift */,
+				E5755FC2221B2A1C003A65E4 /* URLNavigator.swift */,
+			);
+			path = Navigator;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -370,16 +444,22 @@
 				E55B824322089A2400C0ED7B /* UIViewControllerExtensions.swift in Sources */,
 				E55B823D2205006300C0ED7B /* CollectionExtensions.swift in Sources */,
 				E51EE909221B00F30030C23E /* RouteBuilder.swift in Sources */,
+				E51EE917221B25D50030C23E /* HomeRoutes.swift in Sources */,
+				E5755FC3221B2A1C003A65E4 /* URLNavigator.swift in Sources */,
 				E51EE8FA221AE6740030C23E /* Navigator.swift in Sources */,
 				E51EE8F2221AE3EF0030C23E /* Router.swift in Sources */,
+				E51EE91B221B26920030C23E /* ProfileDetailRoutes.swift in Sources */,
 				E55B81F22204835600C0ED7B /* AppDelegate.swift in Sources */,
 				E51EE8FF221AED040030C23E /* RouteTransition.swift in Sources */,
+				E51EE90B221B19490030C23E /* AppRoutes.swift in Sources */,
 				E55B8241220899E800C0ED7B /* UITabBarControllerExtensions.swift in Sources */,
 				E51EE907221AFCFB0030C23E /* RouterError.swift in Sources */,
 				E55B82B12211EABB00C0ED7B /* IntegratorError.swift in Sources */,
 				E51EE905221AF79B0030C23E /* Integrator.swift in Sources */,
+				E51EE915221B25AD0030C23E /* TabRoutes.swift in Sources */,
 				E55B823F220899BF00C0ED7B /* UINavigationControllerExtensions.swift in Sources */,
 				E51EE8F6221AE58B0030C23E /* RouteType.swift in Sources */,
+				E51EE919221B26600030C23E /* ProfileRoutes.swift in Sources */,
 				E51EE8FD221AE8F70030C23E /* RouterCustomTransitionDelegate.swift in Sources */,
 				E55B82212204837600C0ED7B /* IntegratorType.swift in Sources */,
 			);

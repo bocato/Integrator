@@ -79,7 +79,6 @@ open class Router<Route: RouteType>: RouterType {
         self.navigator = Navigator<Route>(navigationController: navigationController, routesBuilder: routesBuilder)
     }
     
-    
     /// Initialzation
     ///
     /// - Parameters:
@@ -123,11 +122,11 @@ open class Router<Route: RouteType>: RouterType {
     ///   - presentationCompletion: callback to identify if the navigation was successfull, after presentation
     ///   - dismissalCompletion: callback when the viewController is being dismissed
     func navigate(to route: Route,
-                  rootViewController: UIViewController?,
+                  rootViewController: UIViewController? = nil,
                   animated: Bool,
                   presentationCompletion: ((Error?) -> Void)?,
-                  dismissalCompletion: ((UIViewController?) -> Void)?) {
-        
+                  dismissingCompletion: ((UIViewController?) -> Void)?) {
+        navigator.navigate(to: route, rootViewController: rootViewController, customTransitionDelegate: customTransitionDelegate, animated: animated, presentationCompletion: presentationCompletion, dismissingCompletion: dismissingCompletion)
     }
     
 }

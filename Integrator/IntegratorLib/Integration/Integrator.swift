@@ -22,6 +22,7 @@ open class Integrator<Routes: RouteType>: IntegratorType {
     
     required public init(router: Router<Routes>) {
         self.router = router
+        router.register(builder: executeBeforeTransition, forRouteType: Routes.self)
     }
     
     // MARK: - Methods
@@ -49,6 +50,16 @@ open class Integrator<Routes: RouteType>: IntegratorType {
     ///
     public func receiveInput(_ input: IntegratorType) {
         debugPrint("\(input) was received from \(parent?.identifier ?? "nobody")")
+    }
+    
+    
+    /// This is executed in order to provide a controller before the transition
+    ///
+    /// - Parameter route:
+    /// - Returns: a configured controller
+    /// - Throws: an error if the route is not yet configured
+    public func executeBeforeTransition(to route: RouteType) throws -> UIViewController {
+        fatalError("This method needs to be overriden, and the routes need to be configured.")
     }
     
 }
