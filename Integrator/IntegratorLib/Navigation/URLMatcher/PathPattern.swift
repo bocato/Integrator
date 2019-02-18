@@ -22,7 +22,7 @@ import Foundation
  ```
  
  */
-public class URLPathPattern: ExpressibleByStringLiteral, Hashable {
+public class PathPattern: ExpressibleByStringLiteral, Hashable {
     
     
     //
@@ -64,7 +64,7 @@ public class URLPathPattern: ExpressibleByStringLiteral, Hashable {
     }
     
     /// Compares on raw strings
-    public static func == (lhs: URLPathPattern, rhs: URLPathPattern) -> Bool {
+    public static func == (lhs: PathPattern, rhs: PathPattern) -> Bool {
         return lhs.rawValue == rhs.rawValue
     }
     
@@ -88,7 +88,7 @@ public class URLPathPattern: ExpressibleByStringLiteral, Hashable {
     }
     
 }
-extension URLPathPattern: CustomDebugStringConvertible {
+extension PathPattern: CustomDebugStringConvertible {
     
     public var debugDescription: String {
         return rawValue
@@ -96,7 +96,7 @@ extension URLPathPattern: CustomDebugStringConvertible {
     
 }
 
-public extension URLPathPattern {
+public extension PathPattern {
     
     /**
      Path pattern component for pattern matching.

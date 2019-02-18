@@ -8,47 +8,7 @@
 
 import UIKit
 
-// MARK: - Types
-
-public protocol RouterType {
-    
-    // MARK: - Properties
-    
-    /// The navigationController that starts the flow
-    var navigationController: UINavigationController { get }
-    
-    /// Custom transition delegate
-    var customTransitionDelegate: RouterCustomTransitionDelegate? { get set }
-    
-    // MARK: - Initialization
-    
-    /// Initialization
-    ///
-    /// - Parameter rootViewController: the controller that marks the start of the flow
-    ///   - navigationController: the navigationController that starts the route
-    init(navigationController: UINavigationController)
-    
-    // MARK: - Builders
-    
-    /// Registers a builder in order to create the result controller, i.e., the next scrreen
-    ///
-    /// - Parameters:
-    ///   - builder: a closure that receives a route and returns a controller
-    ///   - route: the route
-    func register<Route: RouteType>(builder:  @escaping RouteBuilderClosure, forRouteType type: Route.Type)
-    
-    // MARK: - URL Routing
-    
-    /// Registers a url pattern in order to match with a RouteType
-    ///
-    /// - Parameters:
-    ///   - urlPattern: an URL pattern to match against a RouteType
-    ///   - route: a routeType to match against an URL pattern
-    func register<Route: RouteType>(urlPattern: URLPathPattern, forRoute route: Route)
-    
-}
-
-open class Router<Route: RouteType>: RouterType {
+open class Router<Route: RouteType> { // TODO: Extract protocol?
     
     // MARK: - Properties
     
@@ -69,6 +29,9 @@ open class Router<Route: RouteType>: RouterType {
     /// A navigator to take care of routing stuff
     private let navigator: Navigator<Route>
     
+    // An URL navigator to take care of URL related routing
+    private let urlNavigator: URLNavigator<Route>
+    
     // MARK: - Initialization
     
     /// Initialzation
@@ -76,7 +39,8 @@ open class Router<Route: RouteType>: RouterType {
     /// - Parameter navigationController: a navigation controller to hold the controllers of this flow
     required public init(navigationController: UINavigationController) {
         self.routesBuilder = RouteBuilder<Route>()
-        self.navigator = Navigator<Route>(navigationController: navigationController, routesBuilder: routesBuilder)
+        self.navigator = Navigator<Route>(navigationController: navigationController, routesBuilder: self.routesBuilder)
+        self.urlNavigator = URLNavigator<Route>(navigator: self.navigator)
     }
     
     /// Initialzation
@@ -87,6 +51,7 @@ open class Router<Route: RouteType>: RouterType {
     init(navigationController: UINavigationController, routesBuilder: RouteBuilder<Route>) {
         self.routesBuilder = routesBuilder
         self.navigator = Navigator<Route>(navigationController: navigationController, routesBuilder: routesBuilder)
+        self.urlNavigator = URLNavigator<Route>(navigator: self.navigator)
     }
     
     // MARK: - Builders
@@ -107,8 +72,8 @@ open class Router<Route: RouteType>: RouterType {
     /// - Parameters:
     ///   - urlPattern: an URL pattern to match against a RouteType
     ///   - route: a routeType to match against an URL pattern
-    public func register<Route: RouteType>(urlPattern: URLPathPattern, forRoute route: Route) {
-        
+    public func associatePathPattern(_ pathPattern: PathPattern, toRouteResolver resolver: @escaping (MatchedURL) throws -> Route) {
+        urlNavigator.associatePathPattern(pathPattern, toRouteResolver: resolver)
     }
     
     // MARK: - Navigation Methods
@@ -127,6 +92,28 @@ open class Router<Route: RouteType>: RouterType {
                   presentationCompletion: ((Error?) -> Void)?,
                   dismissingCompletion: ((UIViewController?) -> Void)?) {
         navigator.navigate(to: route, rootViewController: rootViewController, customTransitionDelegate: customTransitionDelegate, animated: animated, presentationCompletion: presentationCompletion, dismissingCompletion: dismissingCompletion)
+    }
+    
+    /// Navigate using URLs
+    ///
+    /// - Parameters:
+    ///   - url: And URL that can be parsed to a pre-define route
+    ///   - rootViewController: the root controller to start the flow from
+    ///   - animated: true or false, as the systems default
+    ///   - presentationCompletion: callback to identify if the navigation was successfull, after presentation
+    ///   - dismissalCompletion: callback when the viewController is being dismissed
+    @discardableResult
+    func openURL(_ url: URL,
+                 from rootViewController: UIViewController? = nil,
+                 animated: Bool = true,
+                 presentationCompletion: ((Error?) -> Void)? = nil,
+                 dismissingCompletion: ((UIViewController?) -> Void)? = nil) -> Bool {
+        return urlNavigator.openURL(url,
+                                    from: rootViewController,
+                                    customTransitionDelegate: customTransitionDelegate,
+                                    animated: animated,
+                                    presentationCompletion: presentationCompletion,
+                                    dismissingCompletion: dismissingCompletion)
     }
     
 }
