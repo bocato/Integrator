@@ -1,14 +1,13 @@
 //
-//  PathPattern.swift
+//  URLPathPattern.swift
 //  Integrator
 //
-//  Created by Eduardo Bocato on 01/02/19.
+//  Created by Eduardo Bocato on 18/02/19.
 //  Copyright © 2019 Eduardo Bocato. All rights reserved.
-//  OBS: Based on XRouter
+//  NOTE: This is from XRouter
 //
 
 import Foundation
-
 
 /**
  Path pattern definition for pattern matching
@@ -23,7 +22,7 @@ import Foundation
  ```
  
  */
-public class PathPattern: ExpressibleByStringLiteral, Hashable {
+public class URLPathPattern: ExpressibleByStringLiteral, Hashable {
     
     
     //
@@ -65,7 +64,7 @@ public class PathPattern: ExpressibleByStringLiteral, Hashable {
     }
     
     /// Compares on raw strings
-    public static func == (lhs: PathPattern, rhs: PathPattern) -> Bool {
+    public static func == (lhs: URLPathPattern, rhs: URLPathPattern) -> Bool {
         return lhs.rawValue == rhs.rawValue
     }
     
@@ -89,10 +88,44 @@ public class PathPattern: ExpressibleByStringLiteral, Hashable {
     }
     
 }
-extension PathPattern: CustomDebugStringConvertible {
+extension URLPathPattern: CustomDebugStringConvertible {
     
     public var debugDescription: String {
         return rawValue
+    }
+    
+}
+
+public extension URLPathPattern {
+    
+    /**
+     Path pattern component for pattern matching.
+     */
+    public enum Component {
+        
+        // MARK: - Component match type
+        
+        /// Exact match component
+        case exact(string: String)
+        
+        /// Parameterized component
+        case parameter(named: String)
+        
+        /// Wildcard (ignored) component
+        case wildcard
+        
+        // MARK: - Methods
+        
+        /// Does this match some string
+        func matches(_ foreignString: String) -> Bool {
+            switch self {
+            case .exact(let localString):
+                return localString == foreignString
+            case .wildcard, .parameter:
+                return true
+            }
+        }
+        
     }
     
 }

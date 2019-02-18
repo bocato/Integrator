@@ -2,9 +2,8 @@
 //  RouterError.swift
 //  Integrator
 //
-//  Created by Eduardo Bocato on 01/02/19.
+//  Created by Eduardo Bocato on 18/02/19.
 //  Copyright © 2019 Eduardo Bocato. All rights reserved.
-//  OBS: Based on XRouter
 //
 
 import Foundation
@@ -44,7 +43,7 @@ public enum RouterError {
     case couldNotFindRouteForPattern(String)
     
     /// There is no possible route configured for this MatchedURL
-    case couldNotFindRouteForMatchedURL(MatchedURL)
+//    case couldNotFindRouteForMatchedURL(MatchedURL)
     
 }
 
@@ -92,11 +91,11 @@ extension RouterError: LocalizedError {
             There is no route configured for the pattern below:
             \(pattern.debugDescription)
             """
-        case .couldNotFindRouteForMatchedURL(let matchedURL):
-            return """
-            There is no route configured for the URL below:
-            \(matchedURL.rawURL)
-            """
+//        case .couldNotFindRouteForMatchedURL(let matchedURL):
+//            return """
+//            There is no route configured for the URL below:
+//            \(matchedURL.rawURL)
+//            """
         }
     }
     
@@ -139,11 +138,11 @@ extension RouterError: LocalizedError {
             \(pattern)
             Check its configuration.
             """
-        case .couldNotFindRouteForMatchedURL(let matchedURL):
-            return """
-            There is no route configured for the URL below:
-            \(matchedURL.rawURL)
-            """
+//        case .couldNotFindRouteForMatchedURL(let matchedURL):
+//            return """
+//            There is no route configured for the URL below:
+//            \(matchedURL.rawURL)
+//            """
         }
     }
     

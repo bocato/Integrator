@@ -1,43 +1,22 @@
 //
-//  RouteProvider.swift
+//  RouteType.swift
 //  Integrator
 //
-//  Created by Eduardo Bocato on 01/02/19.
+//  Created by Eduardo Bocato on 18/02/19.
 //  Copyright © 2019 Eduardo Bocato. All rights reserved.
-//  OBS: Based on XRouter
 //
 
 import UIKit
 
 public protocol RouteType { // Enum
-    
-    //
+
     // MARK: - Properties
-    //
     
     /// Route name
     var name: String { get }
     
     /// Transition type
     var transition: RouteTransition { get }
-    
-    //
-    // MARK: - Methods
-    //
-    
-    ///
-    /// Register a URL matcher group.
-    ///
-    /// Example:
-    /// ```
-    /// return .group(["website.com", "sales.website.com"]) {
-    ///     $0.map("products") { .allProducts(page: $0.query("page") ?? 0) }
-    ///     $0.map("products/{category}/") { try .productsShowcase(category: $0.param("category")) }
-    ///     $0.map("user/*/logout") { .userLogout }
-    /// }
-    /// ```
-    ///
-    static func registerURLs() -> URLMatcher.Group?
     
 }
 extension RouteType {
@@ -52,11 +31,6 @@ extension RouteType {
         return .inferred
     }
     
-    /// Register URLs default
-    static func registerURLs() -> URLMatcher.Group? {
-        return nil
-    }
-    
 }
 extension RouteType {
     
@@ -66,6 +40,5 @@ extension RouteType {
     public static func == (_ lhs: RouteType, _ rhs: RouteType) -> Bool {
         return lhs.name == rhs.name
     }
-    
     
 }

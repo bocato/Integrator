@@ -4,7 +4,7 @@
 //
 //  Created by Eduardo Bocato on 04/02/19.
 //  Copyright © 2019 Eduardo Bocato. All rights reserved.
-//  OBS: Based on XRouter
+//  NOTE: This is from XRouter
 //
 
 import UIKit

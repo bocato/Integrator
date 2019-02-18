@@ -22,17 +22,17 @@ public protocol IntegratorDelegate: AnyObject {
     /// Returns the child that just finished
     ///
     /// - Parameter child: the child that finished
-    func childDidFinish(_ child: Integrator)
+    func childDidFinish(_ child: IntegratorType)
     
 }
 
 /// Defines an integrator for Controllers, or Integrators
-public protocol Integrator: AnyObject, RouteResolver {
+public protocol IntegratorType: AnyObject {
     
     // MARK: - Properties
     
-    /// A Router to deal with navigation and URL parsing
-    var router: RouterProtocol { get set }
+//    /// A Router to deal with navigation and URL parsing
+//    var router: RouterType { get set }
     
     /// Delegate in order to implement the responder chain like communication
     var integratorDelegate: IntegratorDelegate? { get set }
@@ -40,10 +40,10 @@ public protocol Integrator: AnyObject, RouteResolver {
     /// The parent integrator, i.e., who started this one
     ///
     /// - Note: this guy should be weak
-    var parent: Integrator? { get set }
+    var parent: IntegratorType? { get set }
     
     /// The child integrators, i.e., the sub-flows of integration
-    var childs: [Integrator]? { get set }
+    var childs: [IntegratorType]? { get set }
     
     // MARK: - Methods
     
@@ -59,7 +59,7 @@ public protocol Integrator: AnyObject, RouteResolver {
     /// - Parameters:
     ///   - child: the child that has sent the output
     ///   - output: the output that was sent, it needs to conform with IntegratorOutput
-    func receiveOutput(from child: Integrator, output: IntegratorOutput)
+    func receiveOutput(from child: IntegratorType, output: IntegratorOutput)
     
     //
     // MARK: - Input Operations
@@ -71,23 +71,23 @@ public protocol Integrator: AnyObject, RouteResolver {
     ///   - input: the output that was sent, it needs to conform with IntegratorInput
     ///
     /// - Note: This needs to be overriden in order to intercept the inputs from the parent
-    func receiveInput(_ input: IntegratorInput)
+    func receiveInput(_ input: IntegratorType)
     
 }
-public extension Integrator {
+public extension IntegratorType {
 
     // MARK: - Methods
     
-    // Sets the initial route, and finishes when it is popped (when on a UINavigationController)
-    public func setInitialRoute(_ route: RouteType, animated: Bool = true) {
-        router.navigate(to: route, animated: true, presentationCompletion: { (optionalError) in
-            if optionalError != nil {
-                fatalError("Initial route was not configured... You need to implement it's resolver!")
-            }
-        }, dismissalCompletion: { _ in
-            self.finish()
-        })
-    }
+//    // Sets the initial route, and finishes when it is popped (when on a UINavigationController)
+//    public func setInitialRoute(_ route: RouteType, animated: Bool = true) {
+//        router.navigate(to: route, animated: true, presentationCompletion: { (optionalError) in
+//            if optionalError != nil {
+//                fatalError("Initial route was not configured... You need to implement it's resolver!")
+//            }
+//        }, dismissalCompletion: { _ in
+//            self.finish()
+//        })
+//    }
     
     /// Used to have a callback and clean up everything flow related
     public func finish() {
@@ -102,7 +102,7 @@ public extension Integrator {
     ///   - child: the child to be attached
     ///   - completion: the completion handler to be called after attaching it
     /// - Returns: Void
-    public func attachChild(_ child: Integrator, completion: (() -> ())? = nil) throws {
+    public func attachChild(_ child: IntegratorType, completion: (() -> ())? = nil) throws {
         if childs?.first(where: { $0.identifier == child.identifier }) != nil {
             throw IntegratorError.duplicatedChildFlow
         }
@@ -154,7 +154,7 @@ public extension Integrator {
     ///        }
     ///    }`
     ///
-    public func receiveOutput(from child: Integrator, output: IntegratorOutput) {
+    public func receiveOutput(from child: IntegratorType, output: IntegratorOutput) {
         parent?.receiveOutput(from: self, output: output)
     }
     
@@ -175,7 +175,7 @@ public extension Integrator {
     /// Broadcast a designated input to all integrator childs
     ///
     /// - Parameter input:
-    func broadcastInputToAllChilds(input: IntegratorInput) throws {
+    public func broadcastInputToAllChilds(input: IntegratorInput) throws {
         childs?.forEach { $0.receiveInput(input) }
     }
     
@@ -195,7 +195,7 @@ public extension Integrator {
     ///    }`
     ///
     public func receiveInput(_ input: IntegratorInput) {
-        debugPrint("\(input) was received from \(parent?.identifier ?? "nobody, 'cause this guy doesn't have a parent!")")
+        debugPrint("\(input) was received from \(parent?.identifier ?? "nobody")")
     }
         
     // MARK: - Helpers
@@ -206,10 +206,10 @@ public extension Integrator {
     
 }
 
-public protocol ApplicationIntegrator: Integrator { // This one doesn't have a parentFlow
+public protocol ApplicationIntegratorType: IntegratorType { // This one doesn't have a parentFlow
     /// - Note: Create the initialization omiting the parent, since there is
     ///         only one aplication integrator, being that, it won't have a parent.
 }
-public extension ApplicationIntegrator {
+public extension ApplicationIntegratorType {
     public func finish() { fatalError("Application never ends.") }
 }
