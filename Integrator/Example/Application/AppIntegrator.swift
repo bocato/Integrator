@@ -21,7 +21,7 @@ class AppIntegrator: ApplicationIntegrator {
     
     init(router: RouterProtocol) {
         self.router = router
-        router.registerResolver(forRouteType: AppRoutes.self, resolver: executeBeforeTransition)
+        router.register(resolver: executeBeforeTransition, forRouteType: AppRoutes.self)
     }
     
     // MARK: - Integrator Methods

@@ -37,10 +37,10 @@ public protocol RouterProtocol {
     /// Register Resolvers for the routes in this flow
     ///
     /// - Parameters:
-    ///   - route: The route you want to register a builder for the controller
     ///   - resolver: the delegate wich is going to resolve the route, i.e.,
     ///               configure it's controller before the transition
-    func registerResolver<Route: RouteType>(forRouteType type: Route.Type, resolver: @escaping RouteResolverClosure)
+    ///   - route: The route you want to register a builder for the controller
+    func register<Route: RouteType>(resolver: @escaping RouteResolverClosure, forRouteType type: Route.Type)
     
     /// Gets a configuerd controller for a defined route, if the said route is configured
     ///
@@ -180,10 +180,10 @@ public class Router<Route: RouteType>: NSObject, RouterProtocol, UINavigationCon
     /// Register Resolvers for the routes in this flow
     ///
     /// - Parameters:
-    ///   - route: The route you want to register a builder for the controller
     ///   - resolver: the delegate wich is going to resolve the route, i.e.,
     ///               configure it's controller before the transition
-    public func registerResolver<Route>(forRouteType type: Route.Type, resolver: @escaping RouteResolverClosure) where Route : RouteType {
+    ///   - route: The route you want to register a builder for the controller
+    public func register<Route: RouteType>(resolver: @escaping RouteResolverClosure, forRouteType type: Route.Type) {
         let routeTypeName = String(describing: type)
         routeResolvers[routeTypeName] = resolver
     }

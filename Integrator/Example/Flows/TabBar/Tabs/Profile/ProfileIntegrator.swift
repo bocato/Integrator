@@ -25,7 +25,7 @@ class ProfileIntegrator: Integrator {
     
     init(router: RouterProtocol) {
         self.router = router
-        router.registerResolver(forRouteType: AppRoutes.Tab.Profile.self, resolver: executeBeforeTransition)
+        router.register(resolver: executeBeforeTransition, forRouteType: AppRoutes.Tab.Profile.self)
     }
     
     // MARK: - Required Methods

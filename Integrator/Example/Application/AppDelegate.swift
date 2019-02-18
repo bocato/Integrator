@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Create a basic UIWindow and activate it
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = rootNavigationController
+        window?.rootViewController = mainRouter.navigationController
         window?.makeKeyAndVisible()
         
         // Start the Integrator

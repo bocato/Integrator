@@ -25,7 +25,7 @@ class HomeIntegrator: Integrator {
     
     init(router: RouterProtocol) {
         self.router = router
-        router.registerResolver(forRouteType: AppRoutes.Tab.Home.self, resolver: executeBeforeTransition)
+        router.register(resolver: executeBeforeTransition, forRouteType: AppRoutes.Tab.Home.self)
     }
     
     // MARK: - Required Methods

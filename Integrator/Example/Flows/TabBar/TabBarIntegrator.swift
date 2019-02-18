@@ -31,7 +31,7 @@ class TabBarIntegrator: NSObject, Integrator {
         self.selectedTab = selectedTab
         tabBarController = ExampleTabBarController()
         super.init()
-        router.registerResolver(forRouteType: AppRoutes.Tab.self, resolver: executeBeforeTransition)
+        router.register(resolver: executeBeforeTransition, forRouteType: AppRoutes.Tab.self)
     }
     
     // MARK: - Required Methods
