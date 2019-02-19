@@ -8,21 +8,21 @@
 
 import UIKit
 
-open class Integrator<Routes: RouteType>: IntegratorType {
+open class Integrator<Route: RouteType>: IntegratorType {
     
-
+    
     // MARK: - Properties
     
     public var integratorDelegate: IntegratorDelegate?
     public var parent: IntegratorType?
     public var childs: [IntegratorType]?
-    public let router: Router<Routes>
+    public let router: Router<Route>
     
     // MARK: - Initialization
     
-    required public init(router: Router<Routes>) {
+    required public init(router: Router<Route>) {
         self.router = router
-        router.register(builder: executeBeforeTransition, forRouteType: Routes.self)
+        router.register(builder: executeBeforeTransitionToRouteType, forRouteType: Route.self)
     }
     
     // MARK: - Methods
@@ -52,13 +52,26 @@ open class Integrator<Routes: RouteType>: IntegratorType {
         debugPrint("\(input) was received from \(parent?.identifier ?? "nobody")")
     }
     
+    /// This is executed in order to provide a controller before the transition
+    ///
+    /// - Parameter route:
+    /// - Returns: a configured controller
+    /// - Throws: an error if the route is not yet configured
+    private func executeBeforeTransitionToRouteType(_ route: RouteType) throws -> UIViewController {
+        guard let transitionRoute = route as? Route else {
+            throw RouterError.unableToCastRouteType
+        }
+        return try executeBeforeTransition(to: transitionRoute)
+    }
     
     /// This is executed in order to provide a controller before the transition
     ///
     /// - Parameter route:
     /// - Returns: a configured controller
     /// - Throws: an error if the route is not yet configured
-    public func executeBeforeTransition(to route: RouteType) throws -> UIViewController {
+    ///
+    /// - Note: Needs to be overriden.
+    public func executeBeforeTransition(to route: Route) throws -> UIViewController {
         fatalError("This method needs to be overriden, and the routes need to be configured.")
     }
     

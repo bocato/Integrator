@@ -70,9 +70,9 @@ open class Router<Route: RouteType> { // TODO: Extract protocol?
     /// Registers a url pattern in order to match with a RouteType
     ///
     /// - Parameters:
-    ///   - urlPattern: an URL pattern to match against a RouteType
+    ///   - pathPattern: an URL pattern to match against a RouteType
     ///   - route: a routeType to match against an URL pattern
-    public func associatePathPattern(_ pathPattern: PathPattern, toRouteResolver resolver: @escaping (MatchedURL) throws -> Route) {
+    public func map(_ pathPattern: PathPattern, toRouteResolver resolver: @escaping (MatchedURL) throws -> Route) {
         urlNavigator.associatePathPattern(pathPattern, toRouteResolver: resolver)
     }
     

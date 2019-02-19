@@ -4,6 +4,7 @@
 //
 //  Created by Eduardo Bocato on 18/02/19.
 //  Copyright © 2019 Eduardo Bocato. All rights reserved.
+//  Note: This is from XRouter
 //
 
 import Foundation
@@ -39,11 +40,8 @@ public enum RouterError {
     /// A represents an error when the builder is not configured
     case couldNotBuildViewControllerForRoute(named: String)
     
-    /// There is no possible route configured for this pattern
-    case couldNotFindRouteForPattern(String)
-    
-    /// There is no possible route configured for this MatchedURL
-//    case couldNotFindRouteForMatchedURL(MatchedURL)
+    /// Represents a Route type casting error
+    case unableToCastRouteType
     
 }
 
@@ -86,16 +84,10 @@ extension RouterError: LocalizedError {
             return """
             The view controller for "\(routeName)" could not be built."
             """
-        case .couldNotFindRouteForPattern(let pattern):
+        case .unableToCastRouteType:
             return """
-            There is no route configured for the pattern below:
-            \(pattern.debugDescription)
+            Unable to execute type casting on Route."
             """
-//        case .couldNotFindRouteForMatchedURL(let matchedURL):
-//            return """
-//            There is no route configured for the URL below:
-//            \(matchedURL.rawURL)
-//            """
         }
     }
     
@@ -132,17 +124,10 @@ extension RouterError: LocalizedError {
             The view controller for "\(routeName)" could not be built, please
             check if you have registered it's builder properly."
             """
-        case .couldNotFindRouteForPattern(let pattern):
+        case .unableToCastRouteType:
             return """
-            There is no route configured for the pattern below:
-            \(pattern)
-            Check its configuration.
+            Unable to execute type casting on Route."
             """
-//        case .couldNotFindRouteForMatchedURL(let matchedURL):
-//            return """
-//            There is no route configured for the URL below:
-//            \(matchedURL.rawURL)
-//            """
         }
     }
     
