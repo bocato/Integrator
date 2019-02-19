@@ -1,9 +1,4 @@
 
-
-# STILL IN DEVELOPMENT...
-
-
-
 # Integrator
 Flow integration, based on the concepts of FlowControllers, Coordinators and ResponderChain.
 
@@ -269,6 +264,10 @@ class MyParentIntegrator: Integrator {
 
 }
 ```
+
+## TODO
+
+Examples and more tests (unit included)!
 
 ## Thank you note
 Thanks to the guys from XRouter, URLNavigator, RouteComposer, CoreNavigation and Compass for the resources provided that helped me to create this tool. 
