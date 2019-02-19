@@ -61,26 +61,15 @@ This is the part where you implement the `integration` related stuff, such as:
 
 ##### Implementation
 ```swift
-class MyIntegrator: Integrator {
-   
-    let router: RouterProtocol
-    weak var integratorDelegate: IntegratorDelegate?
-    var parent: Integrator?
-    var childs: [Integrator]? = []
+class MyIntegrator: Integrator<MyRoute> {
     
-    func start() {
-    
-    	// Here goes the logic for the flow to start... First route, etc   
-        
-        // We need to register a resolver in order to have control over DI, and such on them
-        router.registerResolver(forRouteType: MyRoute.self, resolver: executeBeforeTransition)
-        
+    // This function needs to be `overriden`, otherwhise, it's gonna throw a `fatalError`
+    override func start() {
+        // Implement everithing that is related to the start of the flow...
+        // We we suggest to set the first / starting route here.
     }
     
-}
-extension AppIntegrator: RouteResolver {
-    
-    func executeBeforeTransition(to route: RouteType) throws -> UIViewController {
+    override func executeBeforeTransition(to route: RouteType) throws -> UIViewController {
        // Here goes the logic you need before each transition... 
        // Stuff like ViewController configurations and such.
     }
@@ -92,18 +81,16 @@ extension AppIntegrator: RouteResolver {
 
 ### URL Support
 ---
-You only need to do one thing to add URL support to your routes.
-Implement the static method `registerURLs`:
+You only need to do one thing to add URL support to your routes: 
+- register the mapping functions for the required path patterns.
 ```swift
-extension MyRoute {
+class MyIntegrator: Integrator<MyRoute> {
 
     /* ... */
 
-    static func registerURLs() -> URLMatcherGroup<Route>? {
-        return .group("integrator.example.com") {
-            $0.map("login") { MyRoute.login }
-            $0.map("home-tabbar/{tab}") { try MyRoute.homeTabBar(HomeTab($0.param("tab"))) }
-        }
+    func registerURLs() {
+        router.map("login") { _ in return .login }
+        router.map("home-tabbar/{tab}") { try MyRoute.homeTabBar(HomeTab($0.param("tab"))) }
     }
 
 }
